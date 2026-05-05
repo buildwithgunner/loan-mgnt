@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bw-gold: #c5a059;
+  --color-bw-gold-light: #e6c98a;
+  --color-bw-navy: #05101c;
+  
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', serif;
+}
+
+:root {
+  /* Premium Light Mode: Elegant, high-contrast, not blinding */
+  --bg-primary: #fdfaf6;
+  --bg-secondary: #f4f0e6;
+  --bg-surface: #ffffff;
+  --bg-paper: #f8fafc;
+  
+  --text-primary: #0f172a; /* Deep Slate/Navy for crisp reading */
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  
+  --border-color: rgba(197, 160, 89, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-card: rgba(255, 255, 255, 0.95);
+  --nav-bg: rgba(253, 250, 246, 0.95);
+  
+  --shadow-premium: 0 10px 40px rgba(0, 0, 0, 0.04);
+}
+
+.dark {
+  /* Premium Dark Mode: Deep, rich navy, elegant gold accents */
+  --bg-primary: #05101c;
+  --bg-secondary: #0a1b2e;
+  --bg-surface: #0a1b2e;
+  --bg-paper: #05101c;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  --border-color: rgba(197, 160, 89, 0.15);
+  --glass-bg: rgba(5, 16, 28, 0.7);
+  --glass-card: rgba(10, 27, 46, 0.85);
+  --nav-bg: rgba(5, 16, 28, 0.85);
+  
+  --shadow-premium: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.glass-card {
+  background: var(--glass-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: var(--color-bw-gold);
+  box-shadow: 0 10px 40px rgba(197, 160, 89, 0.08);
+  transform: translateY(-4px);
+}
+
+.dashboard-bg-image {
+  background-color: var(--bg-primary);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #e6c98a 0%, #c5a059 50%, #9e7f45 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.gold-border {
+  border-image: linear-gradient(135deg, #c5a059, #e6c98a, #c5a059) 1;
+}
+
+/* Button glow */
+.btn-glow {
+  position: relative;
+}
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, #c5a059, #e6c98a, #c5a059);
+  z-index: -1;
+  filter: blur(12px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+.btn-glow:hover::after {
+  opacity: 0.6;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(40px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.reveal {
+  animation: reveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Parallax */
+.parallax-bg {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 1024px) {
+  .parallax-bg {
+    background-attachment: scroll;
+  }
+}

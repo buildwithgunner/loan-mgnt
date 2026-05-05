@@ -1,0 +1,52 @@
+import React, { useState, useEffect } from 'react';
+import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+
+export default function TopBar() {
+  const [settings, setSettings] = useState({
+    support_phone: '5635710448',
+    support_email: 'info@blackwolvesacquisition.com'
+  });
+
+  useEffect(() => {
+    axios.get(`${API_URL}/settings`)
+      .then(res => {
+        if (res.data.settings) {
+          setSettings(prev => ({ ...prev, ...res.data.settings }));
+        }
+      })
+      .catch(err => console.error('Error fetching public settings:', err));
+  }, []);
+
+  return (
+    <div className="bg-[var(--bg-secondary)] text-[var(--text-secondary)] py-2.5 px-6 lg:px-10 border-b border-[var(--border-color)] hidden lg:block transition-colors duration-300">
+      <div className="mx-auto max-w-[1440px] flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.25em]">
+        <div className="flex items-center gap-8">
+          <a href={`tel:${settings.support_phone}`} className="flex items-center gap-2 hover:text-[#c5a059] transition-colors">
+            <Phone size={12} className="text-[#c5a059]" />
+            {settings.support_phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')}
+          </a>
+          <a href={`mailto:${settings.support_email}`} className="flex items-center gap-2 hover:text-[#c5a059] transition-colors lowercase tracking-wider">
+            <Mail size={12} className="text-[#c5a059]" />
+            {settings.support_email}
+          </a>
+          <span className="flex items-center gap-2">
+            <MapPin size={12} className="text-[#c5a059]" />
+            Global Funding
+          </span>
+        </div>
+        
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 border-r border-[var(--border-color)] pr-6 mr-2">
+            <Facebook size={14} className="hover:text-[#c5a059] cursor-pointer transition-colors" />
+            <Instagram size={14} className="hover:text-[#c5a059] cursor-pointer transition-colors" />
+            <Linkedin size={14} className="hover:text-[#c5a059] cursor-pointer transition-colors" />
+          </div>
+          <span className="text-[#c5a059] animate-pulse font-black tracking-[0.3em]">AVAILABLE 24/7 FOR FUNDING</span>
+        </div>
+      </div>
+    </div>
+  );
+}

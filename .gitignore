@@ -1,0 +1,25 @@
+# Root gitignore
+/backend/vendor
+/backend/node_modules
+/backend/public/storage
+/backend/storage/*.key
+/backend/.env
+/backend/.env.backup
+/backend/.env.production
+/backend/auth.json
+/backend/npm-debug.log
+/backend/yarn-error.log
+/backend/.phpunit.cache
+
+/frontend/node_modules
+/frontend/dist
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
