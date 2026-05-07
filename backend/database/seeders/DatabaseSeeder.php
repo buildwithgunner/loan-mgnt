@@ -12,10 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 10 users, each with 1-2 applications
-        \App\Models\User::factory(10)->create()->each(function ($user) {
-            \App\Models\Application::factory(rand(1, 2))->create([
+        // Create 20 users, each with varied applications
+        \App\Models\User::factory(20)->create()->each(function ($user) {
+            \App\Models\Application::factory(rand(1, 3))->create([
                 'user_id' => $user->id
+            ]);
+        });
+
+        // Create specific rejected applications for testing the rejected filter
+        \App\Models\User::factory(5)->create()->each(function ($user) {
+            \App\Models\Application::factory()->create([
+                'user_id' => $user->id,
+                'status' => 'rejected'
             ]);
         });
 
@@ -26,13 +34,24 @@ class DatabaseSeeder extends Seeder
             'password' => \Illuminate\Support\Facades\Hash::make('password123'),
         ]);
 
+        // Pending application for demo user
         \App\Models\Application::factory()->create([
             'user_id' => $testUser->id,
             'type' => 'Fix & Flip',
             'amount' => 350000,
+            'status' => 'pending',
+            'processing_stage' => 'Pending Review',
+            'processing_level' => 20,
+        ]);
+
+        // Another in-progress application for demo user
+        \App\Models\Application::factory()->create([
+            'user_id' => $testUser->id,
+            'type' => 'Commercial',
+            'amount' => 1250000,
             'status' => 'under_review',
-            'processing_stage' => 'Appraisal Ordered',
-            'processing_level' => 45,
+            'processing_stage' => 'Underwriting',
+            'processing_level' => 65,
         ]);
 
         // Create specified admins
@@ -46,6 +65,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'Luke Addy',
             'email' => 'Lukeaddyflooringcapital@gmail.com',
             'password' => \Illuminate\Support\Facades\Hash::make('123456AaMD'),
+        ]);
+
+        // Initial Site Settings
+        \Illuminate\Support\Facades\DB::table('site_settings')->insert([
+            'support_phone' => '563-571-0448',
+            'support_email' => 'support@blackwolvesacquisition.com',
+            'address' => '123 Finance Way, Wall St, NY',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }
