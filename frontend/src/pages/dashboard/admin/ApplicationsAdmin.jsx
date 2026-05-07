@@ -432,11 +432,11 @@ export default function ApplicationsAdmin({ filterProp = 'all' }) {
                           </div>
                           <div className="bg-white/5 p-3 rounded-xl border border-white/5">
                              <p className="text-slate-500 uppercase text-[9px] font-bold mb-1">Credit (Est.)</p>
-                             <p className="text-white">{selectedApp.form_data.estimatedFico || 'N/A'}</p>
+                             <p className="text-white">{selectedApp.form_data?.estimatedFico || 'N/A'}</p>
                           </div>
                           <div className="bg-white/5 p-3 rounded-xl border border-white/5">
                              <p className="text-slate-500 uppercase text-[9px] font-bold mb-1">Co-Borrower</p>
-                             <p className="text-white">{selectedApp.form_data.hasCoBorrower === 'yes' ? 'Yes' : 'No'}</p>
+                             <p className="text-white">{selectedApp.form_data?.hasCoBorrower === 'yes' ? 'Yes' : 'No'}</p>
                           </div>
                        </div>
                     </div>
