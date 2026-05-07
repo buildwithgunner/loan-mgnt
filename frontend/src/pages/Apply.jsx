@@ -3,6 +3,8 @@ import axios from 'axios';
 import { navigateTo } from '../App.jsx';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+
 
 const MySwal = withReactContent(Swal);
 const Toast = MySwal.mixin({
@@ -103,7 +105,7 @@ export default function Apply() {
 
     setLoading(true);
     try {
-      await axios.post('http://127.0.0.1:8000/api/dashboard/applications', {
+      await axios.post(`${API_URL}/dashboard/applications`, {
         type: formData.propertyType || formData.purpose,
         property: formData.propertyAddress || formData.address,
         amount: formData.loanAmount || '$0',
