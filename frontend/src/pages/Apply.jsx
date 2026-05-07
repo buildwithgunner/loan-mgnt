@@ -22,27 +22,20 @@ export default function Apply() {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    // Borrower Info (kept in state for sync but removed from UI)
+    // Borrower Info
     firstName: '',
     lastName: '',
     ssn: '',
-    dobMonth: 'MM',
-    dobDay: 'DD',
-    dobYear: 'YYYY',
+    dobMonth: '',
+    dobDay: '',
+    dobYear: '',
     phone: '',
     email: '',
     address: '',
     city: '',
     state: '',
     zipCode: '',
-    mailingSame: '',
-    maritalStatus: '',
-    workingWithConsultant: '',
-    referralSource: '',
-    coBorrowerCount: 0,
-    
-    declarations: Array(12).fill(''),
-    selfEmployed: '',
+    hasCoBorrower: 'no',
     occupation: '',
     estimatedFico: '',
     estimatedNetWorth: '',
@@ -138,7 +131,7 @@ export default function Apply() {
     }
   };
 
-  const progress = (currentStep / 2) * 100;
+  const progress = (currentStep / 3) * 100;
 
   return (
     <div className="w-full bg-white min-h-screen pb-24 font-sans text-slate-800">
@@ -156,7 +149,7 @@ export default function Apply() {
 
         {/* Progress Bar */}
         <div className="mb-10">
-          <p className="text-sm text-gray-400 mb-2 font-medium">Step {currentStep} of 2</p>
+          <p className="text-sm text-gray-400 mb-2 font-medium">Step {currentStep} of 3</p>
           <div className="w-full bg-gray-200 rounded-full h-8 flex overflow-hidden">
             <div 
                 className="bg-slate-900 h-full flex items-center justify-end px-3 text-white text-xs font-bold transition-all duration-500" 
@@ -272,8 +265,150 @@ export default function Apply() {
           </>
         )}
 
-        {/* STEP 2: REVIEW & SUBMIT */}
+        {/* STEP 2: BORROWER INFO */}
         {currentStep === 2 && (
+          <>
+            <div className="bg-slate-900 text-white px-5 py-3 font-bold text-xl mb-8">
+              Borrower Information
+            </div>
+
+            <div className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <label className="block text-sm font-bold text-gray-800 mb-2">Social Security Number <span className="text-red-500">*</span></label>
+                  <input 
+                    type="text" 
+                    value={formData.ssn}
+                    onChange={(e) => handleInputChange('ssn', e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" 
+                    placeholder="XXX-XX-XXXX"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-800 mb-2">Occupation <span className="text-red-500">*</span></label>
+                  <input 
+                    type="text" 
+                    value={formData.occupation}
+                    onChange={(e) => handleInputChange('occupation', e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" 
+                    placeholder="e.g. Software Engineer"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-800 mb-2">Date of Birth <span className="text-red-500">*</span></label>
+                <div className="flex gap-4">
+                  <input 
+                    type="text" maxLength="2" placeholder="MM"
+                    value={formData.dobMonth} onChange={(e) => handleInputChange('dobMonth', e.target.value)}
+                    className="w-20 border border-gray-300 p-2 rounded text-center focus:outline-none focus:border-blue-500"
+                  />
+                  <input 
+                    type="text" maxLength="2" placeholder="DD"
+                    value={formData.dobDay} onChange={(e) => handleInputChange('dobDay', e.target.value)}
+                    className="w-20 border border-gray-300 p-2 rounded text-center focus:outline-none focus:border-blue-500"
+                  />
+                  <input 
+                    type="text" maxLength="4" placeholder="YYYY"
+                    value={formData.dobYear} onChange={(e) => handleInputChange('dobYear', e.target.value)}
+                    className="w-32 border border-gray-300 p-2 rounded text-center focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <div className="md:col-span-2">
+                  <label className="block text-sm font-bold text-gray-800 mb-2">Residential Address <span className="text-red-500">*</span></label>
+                  <input 
+                    type="text" 
+                    value={formData.address}
+                    onChange={(e) => handleInputChange('address', e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" 
+                    placeholder="Street Address"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-800 mb-2">City <span className="text-red-500">*</span></label>
+                  <input 
+                    type="text" value={formData.city} onChange={(e) => handleInputChange('city', e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" 
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-bold text-gray-800 mb-2">State <span className="text-red-500">*</span></label>
+                    <input 
+                      type="text" value={formData.state} onChange={(e) => handleInputChange('state', e.target.value)}
+                      className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" 
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-gray-800 mb-2">ZIP Code <span className="text-red-500">*</span></label>
+                    <input 
+                      type="text" value={formData.zipCode} onChange={(e) => handleInputChange('zipCode', e.target.value)}
+                      className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" 
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <label className="block text-sm font-bold text-gray-800 mb-2">Estimated FICO Score <span className="text-red-500">*</span></label>
+                  <input 
+                    type="text" 
+                    value={formData.estimatedFico}
+                    onChange={(e) => handleInputChange('estimatedFico', e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" 
+                    placeholder="e.g. 720"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-800 mb-2">Estimated Net Worth <span className="text-red-500">*</span></label>
+                  <input 
+                    type="text" 
+                    value={formData.estimatedNetWorth}
+                    onChange={(e) => handleInputChange('estimatedNetWorth', e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500" 
+                    placeholder="e.g. $1,200,000"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-800 mb-2">Are you applying with a Co-Borrower?</label>
+                  <select 
+                    value={formData.hasCoBorrower}
+                    onChange={(e) => handleInputChange('hasCoBorrower', e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500"
+                  >
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="pt-8 flex justify-between">
+                <button 
+                  type="button" 
+                  onClick={prevStep}
+                  className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-8 rounded-full transition-all"
+                >
+                  Back
+                </button>
+                <button 
+                  type="button" 
+                  onClick={nextStep}
+                  className="bg-[#c5a059] hover:bg-[#b08d4a] text-white font-bold py-3 px-12 rounded-full shadow-lg transition-all transform hover:scale-105"
+                >
+                  Next Step
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* STEP 3: REVIEW & SUBMIT */}
+        {currentStep === 3 && (
           <>
             <div className="bg-slate-900 text-white px-5 py-3 font-bold text-xl mb-8">
               Review and Submit
@@ -286,6 +421,19 @@ export default function Apply() {
                   <span className="text-gray-500">Name:</span> <span>{formData.firstName} {formData.lastName}</span>
                   <span className="text-gray-500">Email:</span> <span>{formData.email}</span>
                   <span className="text-gray-500">Phone:</span> <span>{formData.phone}</span>
+                  <span className="text-gray-500">Occupation:</span> <span>{formData.occupation || 'N/A'}</span>
+                  <span className="text-gray-500">SSN:</span> <span>{formData.ssn || 'N/A'}</span>
+                  <span className="text-gray-500">DOB:</span> <span>{formData.dobMonth}/{formData.dobDay}/{formData.dobYear}</span>
+                  <span className="text-gray-500">Address:</span> <span>{formData.address}, {formData.city}, {formData.state} {formData.zipCode}</span>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-lg border border-gray-200">
+                <h3 className="font-bold text-lg mb-4 text-[#c5a059] border-b pb-2">Credit & Asset Summary</h3>
+                <div className="grid grid-cols-2 gap-y-2 text-sm">
+                  <span className="text-gray-500">Estimated FICO:</span> <span className="font-bold text-blue-700">{formData.estimatedFico || 'N/A'}</span>
+                  <span className="text-gray-500">Net Worth:</span> <span className="font-bold text-blue-700">{formData.estimatedNetWorth || 'N/A'}</span>
+                  <span className="text-gray-500">Co-Borrower:</span> <span>{formData.hasCoBorrower === 'yes' ? 'Yes' : 'No'}</span>
                 </div>
               </div>
 
