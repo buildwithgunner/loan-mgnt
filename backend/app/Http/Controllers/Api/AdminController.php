@@ -131,7 +131,7 @@ class AdminController extends Controller
                         'phone' => $app->user ? $app->user->phone : 'N/A',
                         'ssn' => $app->user ? $app->user->ssn : 'N/A',
                         'dob' => $app->user ? $app->user->dob : 'N/A',
-                        'address' => ($app->user->address ?? '') . ' ' . ($app->user->city ?? '') . ' ' . ($app->user->state ?? '') . ' ' . ($app->user->zip_code ?? ''),
+                        'address' => $app->user ? (($app->user->address ?? '') . ' ' . ($app->user->city ?? '') . ' ' . ($app->user->state ?? '') . ' ' . ($app->user->zip_code ?? '')) : 'N/A',
                         'occupation' => $app->user ? $app->user->occupation : 'N/A',
                         'fico' => $app->user ? $app->user->estimated_fico : 'N/A',
                         'net_worth' => $app->user ? $app->user->estimated_net_worth : 'N/A',
@@ -304,14 +304,47 @@ class AdminController extends Controller
     }
 
     /**
-     * Get all registered users.
+     * Get all registered users with application count and activation info.
      */
     public function getUsers()
     {
-        $users = User::orderBy('created_at', 'desc')->get();
+        $users = User::withCount('applications')->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             'users' => $users
+        ]);
+    }
+
+    /**
+     * Activate a user account.
+     */
+    public function activateUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_active = true;
+        $user->activation_requested = false;
+        $user->activated_at = now();
+        $user->save();
+
+        return response()->json([
+            'message' => 'User account has been activated successfully.',
+            'user'    => $user,
+        ]);
+    }
+
+    /**
+     * Deactivate a user account.
+     */
+    public function deactivateUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_active = false;
+        $user->activated_at = null;
+        $user->save();
+
+        return response()->json([
+            'message' => 'User account has been deactivated.',
+            'user'    => $user,
         ]);
     }
 
@@ -395,6 +428,33 @@ class AdminController extends Controller
 
         return response()->json([
             'message' => 'Lead created and code generated successfully',
+            'lead' => $lead
+        ]);
+    }
+
+    /**
+     * Publicly submit a lead from the contact form.
+     */
+    public function publicSubmitLead(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:255',
+            'purpose' => 'required|string',
+        ]);
+
+        $lead = \App\Models\Lead::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'purpose' => $request->purpose,
+            'interest_code' => 'LIT-' . strtoupper(bin2hex(random_bytes(3))),
+            'status' => 'new_inquiry',
+        ]);
+
+        return response()->json([
+            'message' => 'Your inquiry has been received. Our team will contact you shortly.',
             'lead' => $lead
         ]);
     }

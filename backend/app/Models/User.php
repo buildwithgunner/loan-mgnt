@@ -42,6 +42,10 @@ class User extends Authenticatable
         'available_balance',
         'withdrawn_amount',
         'avatar',
+        'is_active',
+        'activation_requested',
+        'activation_requested_at',
+        'activated_at',
     ];
 
     /**
@@ -60,8 +64,12 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'email_verified_at'        => 'datetime',
+        'activation_requested_at'  => 'datetime',
+        'activated_at'             => 'datetime',
+        'is_active'                => 'boolean',
+        'activation_requested'     => 'boolean',
+        'password'                 => 'hashed',
     ];
 
     /**

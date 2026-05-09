@@ -4,13 +4,14 @@ import { navigateTo } from '../../../App.jsx';
 import Logo from '../../../components/Logo.jsx';
 
 export default function Sidebar({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen }) {
-  const user = JSON.parse(localStorage.getItem('user') || '{"name": "Admin", "email": "admin@blackwolves.com"}');
+  const user = JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || '{"name": "Admin", "email": "admin@blackwolves.com"}');
   const sections = [
     {
       title: 'LOAN MANAGEMENT',
       items: [
         { id: 'overview', label: 'Dashboard', icon: LayoutDashboard },
         { id: 'applications', label: 'All Applications', icon: FileText },
+        { id: 'funding', label: 'Funding Phase', icon: ShieldCheck },
         { id: 'disapproved', label: 'Rejected Loans', icon: XCircle },
         { id: 'leads', label: 'Interested Loans', icon: UserPlus },
         { id: 'codes', label: 'Code Generator', icon: Key },
@@ -27,13 +28,13 @@ export default function Sidebar({ activeTab, setActiveTab, sidebarOpen, setSideb
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('user');
+    localStorage.clear();
+    sessionStorage.clear();
     navigateTo('/admin/login');
   };
 
   return (
-    <aside className={`fixed inset-y-0 left-0 z-50 w-72 glass-panel border-r border-white/5 flex flex-col transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:flex shadow-sm`}>
+    <aside className={`fixed inset-y-0 left-0 z-50 w-72 glass-panel border-r border-white/5 flex flex-col transition-all duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} lg:static shadow-sm bg-[var(--bg-surface)]`}>
       {/* Brand */}
       <div className="flex flex-col items-center pt-8 pb-10 px-6 border-b border-white/5 relative overflow-hidden group">
         <div className="absolute inset-0 bg-gradient-to-t from-[#c5a059]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />

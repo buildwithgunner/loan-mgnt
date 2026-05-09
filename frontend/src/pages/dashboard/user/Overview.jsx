@@ -12,11 +12,18 @@ import {
   X,
   CreditCard,
   Target,
-  ArrowRight
+  ArrowRight,
+  Home,
+  Shield,
+  Loader2,
+  BadgeCheck
 } from 'lucide-react';
+import { requestActivation } from '../../../api/user';
 
 export default function Overview({ user, data, setActiveTab }) {
   const [showWithdrawForm, setShowWithdrawForm] = useState(false);
+  const [activationLoading, setActivationLoading] = useState(false);
+  const [activationMsg, setActivationMsg]         = useState('');
   
   const stats = [
     { label: 'Total Loan Requested', value: data?.stats?.total_requested || '$0', icon: Wallet, subtitle: 'All Time' },
@@ -107,21 +114,108 @@ export default function Overview({ user, data, setActiveTab }) {
          </div>
       </div>
 
-      {/* Verification Banner */}
-      <div className="bg-white rounded-2xl p-6 border border-[#c5a059]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
-         <div className="flex items-center gap-4">
-           <div className="w-12 h-12 rounded-full bg-[#c5a059]/10 border border-[#c5a059]/20 flex items-center justify-center text-[#c5a059]">
-              <AlertCircle size={24} />
+      {/* ── Dynamic Activation Banner ── */}
+      {(() => {
+        if (user?.is_active) {
+          return (
+            <div className="bg-emerald-50 rounded-2xl p-6 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-600">
+                  <BadgeCheck size={24} />
+                </div>
+                <div>
+                  <p className="text-emerald-800 font-black uppercase text-xs tracking-widest">Account Activated</p>
+                  <p className="text-emerald-600 text-[11px] font-bold mt-0.5">
+                    Your account has full access. Activated on {user.activated_at ? new Date(user.activated_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'recently'}.
+                  </p>
+                </div>
+              </div>
+              <span className="px-6 py-2.5 bg-emerald-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-md">
+                ✓ Active
+              </span>
+            </div>
+          );
+        }
+
+        if (user?.activation_requested) {
+          return (
+            <div className="bg-amber-50 rounded-2xl p-6 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-600 animate-pulse">
+                  <Clock size={24} />
+                </div>
+                <div>
+                  <p className="text-amber-800 font-black uppercase text-xs tracking-widest">Activation Pending</p>
+                  <p className="text-amber-600 text-[11px] font-bold mt-0.5">Your request has been submitted. Awaiting admin approval.</p>
+                </div>
+              </div>
+              <span className="px-6 py-2.5 bg-amber-400 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-md">
+                Under Review
+              </span>
+            </div>
+          );
+        }
+
+        // Default: not requested
+        return (
+          <div className="bg-white rounded-2xl p-6 border border-[#c5a059]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#c5a059]/10 border border-[#c5a059]/20 flex items-center justify-center text-[#c5a059]">
+                <AlertCircle size={24} />
+              </div>
+              <div>
+                <p className="text-slate-900 font-black uppercase text-xs tracking-widest">Account Not Activated</p>
+                <p className="text-slate-500 text-[11px] font-bold mt-0.5">Activate your account to unlock full access to loan services.</p>
+                {activationMsg && (
+                  <p className="text-red-500 text-[10px] font-bold mt-1">{activationMsg}</p>
+                )}
+              </div>
+            </div>
+            <button
+              disabled={activationLoading}
+              onClick={async () => {
+                setActivationLoading(true);
+                setActivationMsg('');
+                try {
+                  await requestActivation();
+                  // Refresh page data by reloading
+                  window.location.reload();
+                } catch (err) {
+                  setActivationMsg(err?.message || err || 'Failed to submit. Please try again.');
+                } finally {
+                  setActivationLoading(false);
+                }
+              }}
+              className="flex items-center gap-2 px-8 py-3 bg-[#c5a059] text-[#05101c] rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-[#c5a059]/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {activationLoading ? <Loader2 size={14} className="animate-spin" /> : null}
+              {activationLoading ? 'Submitting...' : <>Request Activation <ChevronRight size={14} className="inline ml-1" /></>}
+            </button>
+          </div>
+        );
+      })()}
+
+      {/* Dynamic Stage 2 Funding Alert */}
+      {data?.applications?.some(app => ['approved', 'credited', 'disbursed'].includes(app.status)) && (
+        <div className="bg-[#c5a059] rounded-3xl p-8 border border-[#c5a059]/20 flex flex-col md:flex-row md:items-center justify-between gap-8 shadow-[0_20px_50px_rgba(197,160,89,0.2)] animate-in slide-in-from-bottom duration-700 relative overflow-hidden group">
+           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[100px] -mr-32 -mt-32 pointer-events-none group-hover:scale-150 transition-transform duration-1000" />
+           <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/10 border border-black/5 text-[#05101c] text-[10px] font-black uppercase tracking-widest mb-4">
+                 <Shield size={12} /> Priority Funding Protocol
+              </div>
+              <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter leading-none mb-2">Stage 2: Fund Acquisition</h3>
+              <p className="text-white/80 text-sm font-medium max-w-lg">
+                Congratulations! Your application has been verified. You have now entered the funding cycle. Please proceed to your applications to request release codes and finalize your disbursement parameters.
+              </p>
            </div>
-           <div>
-              <p className="text-slate-900 font-black uppercase text-xs tracking-widest">Account Not Verified</p>
-              <p className="text-slate-500 text-[11px] font-bold mt-0.5">Kindly verify your account to enjoy full access.</p>
-           </div>
-         </div>
-         <button className="px-8 py-3 bg-[#c5a059] text-[#05101c] rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-[#c5a059]/20 hover:scale-105 active:scale-95 transition-all">
-            Verify Account <ChevronRight size={14} className="inline ml-1" />
-         </button>
-      </div>
+           <button 
+             onClick={() => setActiveTab('applications')}
+             className="relative z-10 px-10 py-5 bg-white text-[#c5a059] rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+           >
+              Proceed to Stage 2 <ArrowRight size={18} />
+           </button>
+        </div>
+      )}
 
       {/* Stats Cards Grid */}
        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -149,44 +243,75 @@ export default function Overview({ user, data, setActiveTab }) {
 
       {/* Bottom Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Applications */}
-        <div className="lg:col-span-2 space-y-6">
-           <div className="flex items-center justify-between px-2">
-              <h3 className="text-lg font-black text-[var(--text-primary)] uppercase tracking-tight italic flex items-center gap-3">
-                 Recent Applications
-              </h3>
+        {/* Strategic Asset Inspection */}
+        <div className="lg:col-span-2 space-y-8">
+           <div className="flex items-center justify-between px-4">
+              <div className="flex items-center gap-4">
+                 <div className="w-10 h-10 bg-[#c5a059]/10 rounded-xl flex items-center justify-center text-[#c5a059]">
+                    <Target size={20} />
+                 </div>
+                 <div>
+                    <h3 className="text-xl font-black text-[var(--text-primary)] uppercase tracking-tight italic">
+                       Strategic Asset Inspection
+                    </h3>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-0.5">Live Surveillance of Active Allocations</p>
+                 </div>
+              </div>
               <button 
                 onClick={() => setActiveTab('applications')}
-                className="text-[10px] font-black text-[#c5a059] uppercase tracking-[0.2em] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1.5"
+                className="group flex items-center gap-2 px-6 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black text-slate-400 uppercase tracking-widest hover:border-[#c5a059] hover:text-[#c5a059] transition-all shadow-sm"
               >
-                 View All <ChevronRight size={14} />
+                 Open Portfolio <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </button>
            </div>
            
-           <div className="space-y-4">
+           <div className="grid grid-cols-1 gap-6">
               {(data?.recent_applications && data.recent_applications.length > 0) ? data.recent_applications.map((app, idx) => (
-                <div key={idx} className="bg-[var(--bg-surface)] rounded-2xl p-6 border border-[var(--border-color)] shadow-sm flex items-center justify-between group hover:border-[#c5a059]/30 hover:shadow-md transition-all cursor-pointer">
-                   <div className="flex items-center gap-5">
-                      <div className="w-12 h-12 rounded-xl bg-[var(--bg-secondary)] flex items-center justify-center text-[#c5a059] group-hover:bg-[#c5a059]/10 transition-all">
-                         <FileText size={20} />
+                <div key={idx} className="bg-[var(--bg-surface)] rounded-[2rem] p-8 border border-[var(--border-color)] shadow-xl flex flex-col sm:flex-row items-center justify-between group hover:border-[#c5a059]/40 hover:shadow-[#c5a059]/5 transition-all relative overflow-hidden">
+                   <div className="absolute top-0 right-0 w-32 h-32 bg-[#c5a059]/5 blur-[60px] -mr-16 -mt-16 pointer-events-none" />
+                   
+                   <div className="flex items-center gap-8 w-full sm:w-auto">
+                      <div className="w-16 h-16 rounded-2xl bg-[var(--bg-secondary)] flex items-center justify-center text-[#c5a059] group-hover:scale-110 transition-transform shadow-inner border border-white/5">
+                         <Briefcase size={28} />
                       </div>
-                      <div>
-                         <p className="text-sm font-black text-[var(--text-primary)] uppercase tracking-tight">Business Loan</p>
-                         <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest mt-0.5">#{app.application_number || 'BW-2024-0178'}</p>
+                      <div className="space-y-1">
+                         <div className="flex items-center gap-3">
+                            <p className="text-lg font-black text-[var(--text-primary)] uppercase tracking-tighter italic">{app.type} Allocation</p>
+                            <span className="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[9px] font-black uppercase tracking-widest">
+                               Phase {app.processing_level >= 75 ? '2' : '1'}
+                            </span>
+                         </div>
+                         <p className="text-sm font-medium text-slate-500 flex items-center gap-2 italic">
+                            <Home size={14} className="text-[#c5a059]" /> {app.property}
+                         </p>
                       </div>
                    </div>
-                   <div className="flex items-center gap-8">
-                      <div className="text-right hidden sm:block">
+
+                   <div className="flex items-center gap-10 mt-8 sm:mt-0 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 border-white/5 pt-6 sm:pt-0">
+                      <div className="space-y-2">
+                         <div className="flex justify-between items-center text-[9px] font-black text-slate-500 uppercase tracking-widest px-1">
+                            <span>SURVEILLANCE</span>
+                            <span className="text-[#c5a059]">{app.processing_level || 20}%</span>
+                         </div>
+                         <div className="w-32 bg-white/5 h-2 rounded-full overflow-hidden border border-white/5 p-px">
+                            <div className="bg-[#c5a059] h-full rounded-full shadow-[0_0_10px_rgba(197,160,89,0.3)]" style={{ width: `${app.processing_level || 20}%` }} />
+                         </div>
                       </div>
-                      <div className="px-4 py-2 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-500 text-[9px] font-black uppercase tracking-widest">
-                         {app.status || 'PENDING'}
-                      </div>
-                      <ChevronRight size={18} className="text-slate-400 group-hover:text-[#c5a059] transition-all transform group-hover:translate-x-1" />
+                      <button 
+                        onClick={() => setActiveTab('applications')}
+                        className="flex items-center gap-3 px-8 py-3.5 bg-[#c5a059] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#c5a059]/20"
+                      >
+                         PROCEED TO INTEL <ArrowRight size={16} />
+                      </button>
                    </div>
                 </div>
               )) : (
-                <div className="bg-white rounded-3xl border border-dashed border-gray-200 p-12 text-center">
-                   <p className="text-slate-500 text-sm font-medium italic uppercase tracking-widest text-[10px]">No recent activity found.</p>
+                <div className="bg-[var(--bg-surface)] rounded-[3rem] border border-dashed border-[var(--border-color)] p-20 text-center shadow-xl">
+                   <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-600">
+                      <FileText size={32} />
+                   </div>
+                   <h4 className="text-[#c5a059] font-black uppercase italic text-2xl tracking-tighter">No Active Surveillance</h4>
+                   <p className="text-slate-500 text-sm font-medium mt-2 uppercase tracking-widest">Initialize a loan request to begin asset tracking.</p>
                 </div>
               )}
            </div>

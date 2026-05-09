@@ -47,7 +47,7 @@ export default function UserDashboard() {
   }, []);
 
   const unread = dashboardData?.unread_count || 0;
-  const user = dashboardData?.user || JSON.parse(localStorage.getItem('user') || '{}');
+  const user = dashboardData?.user || JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || '{}');
 
   const renderContent = () => {
     if (isLoading && !dashboardData) {

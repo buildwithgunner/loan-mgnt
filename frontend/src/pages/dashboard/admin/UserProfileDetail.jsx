@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, User, Mail, Phone, Calendar, FileText, 
-  ChevronRight, ExternalLink, Download, Clock
+  ChevronRight, ExternalLink, Download, Clock, MapPin
 } from 'lucide-react';
 import { getAdminUserProfile } from '../../../api/admin';
 

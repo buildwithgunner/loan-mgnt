@@ -12,5 +12,11 @@ export default defineConfig({
     postcss: {
       plugins: []
     }
-  }
+  },
+  server: {
+    host: 'localhost',
+    hmr: {
+      host: 'localhost',
+    },
+  },
 })

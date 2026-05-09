@@ -20,6 +20,12 @@ export default function AdminLogin() {
     setError('');
 
     try {
+      // Clear any existing auth data to prevent session conflicts
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('user');
+
       const data = await adminLogin(formData);
       if (data && data.access_token) {
         const storage = formData.remember ? localStorage : sessionStorage;

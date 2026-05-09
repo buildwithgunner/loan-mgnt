@@ -18,6 +18,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/admin/register', [AuthController::class, 'adminRegister']);
 Route::post('/admin/login', [AuthController::class, 'adminLogin']);
 Route::get('/settings', [AdminController::class, 'getSettings']);
+Route::post('/leads/submit', [AdminController::class, 'publicSubmitLead']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -31,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard/summary', [DashboardController::class, 'summary']);
     Route::get('/dashboard/applications', [DashboardController::class, 'applications']);
     Route::post('/dashboard/applications', [DashboardController::class, 'submitApplication']);
-    Route::post('/dashboard/applications/{id}/documents', [DashboardController::class, 'uploadDocument'])->middleware('throttle:60,1');
+    Route::post('/dashboard/applications/upload-doc/{id}', [DashboardController::class, 'uploadDocument']);
     Route::get('/dashboard/documents', [DashboardController::class, 'documents']);
     Route::get('/dashboard/notifications', [DashboardController::class, 'notifications']);
     Route::post('/dashboard/notifications/{id}/read', [DashboardController::class, 'markNotificationRead']);
@@ -39,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/dashboard/applications/{id}/verify-codes', [DashboardController::class, 'verifyStageCodes']);
     Route::post('/dashboard/applications/{id}/request-codes', [DashboardController::class, 'requestCodes']);
     Route::post('/dashboard/applications/{id}/bank-details', [DashboardController::class, 'updateBankDetails']);
+    Route::post('/dashboard/request-activation', [DashboardController::class, 'requestActivation']);
 
     // Admin routes
     Route::middleware('admin')->prefix('admin')->group(function () {
@@ -58,5 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/leads', [AdminController::class, 'createLead']);
         Route::get('/settings', [AdminController::class, 'getSettings']);
         Route::put('/settings', [AdminController::class, 'updateSettings']);
+        Route::post('/users/{id}/activate', [AdminController::class, 'activateUser']);
+        Route::post('/users/{id}/deactivate', [AdminController::class, 'deactivateUser']);
     });
 });

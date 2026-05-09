@@ -214,7 +214,12 @@ export default function ApplicationsAdmin({ filterProp = 'all' }) {
     const id = (a.id || '').toString();
     const term = search.toLowerCase();
     const matchesSearch = user.includes(term) || id.includes(term);
-    const matchesFilter = filter === 'all' || a.status === filter;
+    
+    let matchesFilter = filter === 'all' || a.status === filter;
+    if (filter === 'funding') {
+      matchesFilter = ['approved', 'credited'].includes(a.status);
+    }
+    
     return matchesSearch && matchesFilter;
   });
 
@@ -223,7 +228,7 @@ export default function ApplicationsAdmin({ filterProp = 'all' }) {
       <div className="flex justify-between items-end">
         <div>
           <h2 className="text-3xl font-black text-[#c5a059] uppercase italic tracking-tighter">
-            {filter === 'rejected' ? 'Rejected Loans' : 'Loan Management'}
+            {filter === 'rejected' ? 'Rejected Loans' : filter === 'funding' ? 'Funding Phase (Stage 2)' : 'Loan Management'}
           </h2>
           <p className="text-slate-500 text-sm font-medium">Review and process loan applications</p>
         </div>
@@ -271,19 +276,37 @@ export default function ApplicationsAdmin({ filterProp = 'all' }) {
                     <td className="px-4 py-5">{app.date}</td>
                       <td className="px-4 py-5">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-                          ['approved', 'disbursed'].includes(app.status) ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
+                          app.status === 'approved' && app.processing_level >= 100 ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 
+                          ['approved', 'under_review'].includes(app.status) ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
                           app.status === 'credited' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
                           app.status === 'pending' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 
-                          app.status === 'under_review' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
+                          app.status === 'disbursed' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
                           'bg-red-500/10 text-red-500 border-red-500/20'
                         }`}>
-                           {app.status}
+                           {app.status === 'approved' && app.processing_level < 100 ? 'PROCESSING' : 
+                            app.status === 'under_review' ? 'PROCESSING' : app.status}
                         </span>
                         <div className="mt-1 text-[9px] font-black text-slate-500 uppercase tracking-tighter">
                           {app.processing_level >= 75 ? 'Phase 2: Funding' : 'Phase 1: Diligence'}
                         </div>
                       </td>
-                    <td className="px-4 py-5">{app.processing_level}%</td>
+                      <td className="px-4 py-5">
+                        <div className="flex flex-col gap-1.5 min-w-[120px]">
+                          <div className="flex justify-between items-center text-[10px] font-black">
+                            <span className="text-[#c5a059] italic uppercase">{app.processing_level}%</span>
+                            <span className="text-slate-500 uppercase tracking-tighter">COMPLETE</span>
+                          </div>
+                          <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden border border-white/5">
+                            <div 
+                              className="bg-gradient-to-r from-[#c5a059] to-amber-300 h-full transition-all duration-1000 shadow-[0_0_10px_rgba(197,160,89,0.3)]"
+                              style={{ width: `${app.processing_level}%` }}
+                            />
+                          </div>
+                          <div className="text-[9px] font-bold text-slate-500 uppercase tracking-tighter">
+                            {app.processing_stage || 'PENDING'}
+                          </div>
+                        </div>
+                      </td>
                     <td className="px-4 py-5 text-right">
                        {app.codes_requested && !app.approval_code && !app.tracking_code && (
                          <span className="inline-block mr-3 px-2 py-1 rounded bg-amber-500/20 text-amber-500 text-[9px] font-black uppercase tracking-widest border border-amber-500/30 animate-pulse">
@@ -629,32 +652,54 @@ export default function ApplicationsAdmin({ filterProp = 'all' }) {
                    )}
 
                    {selectedApp.status === 'under_review' && (
-                     <button 
-                       onClick={async () => {
-                         // Automatically set progress to Withdrawal 95% when moving to withdrawal stage
-                         try {
-                           const token = localStorage.getItem('access_token');
-                           await axios.post(`http://127.0.0.1:8000/api/admin/applications/${selectedApp.id}/progress`, {
-                             processing_stage: 'Withdrawal',
-                             processing_level: 95
-                           }, { headers: { Authorization: `Bearer ${token}` } });
-                           handleStatusUpdate(selectedApp.id, 'approved');
-                         } catch (err) {
-                           console.error('Failed to auto-update progress:', err);
-                           handleStatusUpdate(selectedApp.id, 'approved');
-                         }
-                       }} 
-                       className="bg-[#c5a059] text-[#05101c] font-black px-10 py-3 rounded-full text-[11px] uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_15px_rgba(197,160,89,0.3)]"
-                     >
-                       READY FOR WITHDRAWAL
-                     </button>
+                     <div className="flex flex-col gap-2">
+                       <button 
+                         onClick={async () => {
+                           // Automatically set progress to Withdrawal 95% when moving to withdrawal stage
+                           try {
+                             const token = localStorage.getItem('access_token');
+                             await axios.post(`http://127.0.0.1:8000/api/admin/applications/${selectedApp.id}/progress`, {
+                               processing_stage: 'Withdrawal',
+                               processing_level: 95
+                             }, { headers: { Authorization: `Bearer ${token}` } });
+                             handleStatusUpdate(selectedApp.id, 'approved');
+                           } catch (err) {
+                             console.error('Failed to auto-update progress:', err);
+                             handleStatusUpdate(selectedApp.id, 'approved');
+                           }
+                         }} 
+                         className="bg-[#c5a059] text-[#05101c] font-black px-10 py-4 rounded-full text-[11px] uppercase tracking-[0.2em] hover:scale-105 transition-all shadow-[0_0_25px_rgba(197,160,89,0.4)] border-2 border-white/20"
+                       >
+                         INITIATE STAGE 2: READY FOR FUNDING
+                       </button>
+                       <p className="text-[9px] font-black text-center text-slate-500 uppercase tracking-widest italic">
+                         Moves application to withdrawal phase and alerts client
+                       </p>
+                     </div>
                    )}
 
                    {['approved', 'credited', 'disbursed'].includes(selectedApp.status) && (
                      <>
+                       {selectedApp.codes_requested && !selectedApp.approval_code && !selectedApp.tracking_code && (
+                         <button 
+                           onClick={() => handleGenerateBothCodes(selectedApp.id)}
+                           className="bg-amber-500 text-[#05101c] font-black px-10 py-3 rounded-full text-[11px] uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(245,158,11,0.4)] animate-pulse"
+                         >
+                           GENERATE BOTH RELEASE CODES
+                         </button>
+                       )}
                        <button onClick={() => handleStatusUpdate(selectedApp.id, 'credited')} className="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-black px-6 py-3 rounded-full text-[11px] uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition-all">MARK CREDITED</button>
                        <button onClick={() => handleStatusUpdate(selectedApp.id, 'disbursed')} className="bg-emerald-500 text-white font-black px-6 py-3 rounded-full text-[11px] uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">MARK DISBURSED</button>
                      </>
+                   )}
+
+                   {selectedApp.status === 'rejected' && (
+                     <button 
+                       onClick={() => handleStatusUpdate(selectedApp.id, 'pending')} 
+                       className="bg-[#c5a059] text-[#05101c] font-black px-10 py-3 rounded-full text-[11px] uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_15px_rgba(197,160,89,0.3)]"
+                     >
+                       RE-OPEN APPLICATION (PENDING)
+                     </button>
                    )}
 
                    <button onClick={() => handleStatusUpdate(selectedApp.id, 'rejected')} className="bg-red-500/10 text-red-400 border border-red-500/20 font-black px-6 py-3 rounded-full text-[11px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all">REJECT LOAN</button>

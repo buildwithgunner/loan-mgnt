@@ -71,6 +71,7 @@ export default function AdminDashboard() {
       case 'overview':     return <Overview setActiveTab={setActiveTab} />;
       case 'users':        return <UserManagement />;
       case 'applications': return <ApplicationsAdmin />;
+      case 'funding':      return <ApplicationsAdmin filterProp="funding" />;
       case 'disapproved':  return <ApplicationsAdmin filterProp="rejected" />;
       case 'leads':        return <Leads />;
       case 'codes':        return <CodeGenerator />;
@@ -88,7 +89,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] flex font-sans text-[var(--text-primary)] transition-colors duration-300">
+    <div className="h-screen bg-[var(--bg-primary)] flex font-sans text-[var(--text-primary)] transition-colors duration-300 overflow-hidden">
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -98,14 +99,14 @@ export default function AdminDashboard() {
 
       {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
         <Topbar
           setSidebarOpen={setSidebarOpen}
           activeTab={activeTab}
           navItems={NAV_ITEMS}
         />
 
-        <main className="flex-1 p-6 lg:p-8 overflow-auto">
+        <main className="flex-1 p-6 lg:p-8 overflow-y-auto">
           {renderContent()}
         </main>
       </div>

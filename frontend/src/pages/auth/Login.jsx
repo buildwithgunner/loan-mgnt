@@ -20,6 +20,12 @@ export default function Login() {
     setError('');
 
     try {
+      // Clear any existing auth data to prevent session conflicts
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('user');
+
       const data = await apiClient('/login', {
         method: 'POST',
         body: formData,

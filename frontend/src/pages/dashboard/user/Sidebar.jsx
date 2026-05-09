@@ -80,7 +80,7 @@ export default function Sidebar({ activeTab, setActiveTab, unread, sidebarOpen, 
       {/* Lower Menu */}
       <div className="p-6 border-t border-gray-100">
         <button
-          onClick={() => { localStorage.clear(); navigateTo('/'); }}
+          onClick={() => { localStorage.clear(); sessionStorage.clear(); navigateTo('/'); }}
           className="w-full flex items-center gap-4 px-6 py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
         >
           <LogOut size={16} /> Log Out

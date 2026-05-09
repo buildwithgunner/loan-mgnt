@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
  * Automatically adds the Bearer token from localStorage.
  */
 export async function apiClient(endpoint, { method = 'GET', body = null } = {}) {
-  const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+  const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
   
   const headers = {
     'Accept': 'application/json',

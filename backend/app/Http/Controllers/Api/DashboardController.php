@@ -50,7 +50,7 @@ class DashboardController extends Controller
         $stats = [
             'total_applications' => $allApps->count(),
             'approved_count' => $allApps->where('status', 'approved')->count(),
-            'active_count' => $allApps->whereIn('status', ['pending', 'under_review'])->count(),
+            'active_count' => $allApps->whereIn('status', ['pending', 'under_review', 'approved', 'credited', 'disbursed'])->count(),
             'total_requested' => '$' . number_format((float)$totalRequested, 2),
             'approved_amount' => '$' . number_format((float)$approvedAmount, 2),
             'repaid_amount' => '$' . number_format((float)($user->repaid_amount ?? 0), 2),
@@ -74,7 +74,7 @@ class DashboardController extends Controller
      */
     public function applications(Request $request)
     {
-        $applications = $request->user()->applications()->latest()->get()->map(function ($app) {
+        $applications = $request->user()->applications()->with('documents')->latest()->get()->map(function ($app) {
             return [
                 'id' => $app->id,
                 'type' => $app->type,
@@ -90,6 +90,7 @@ class DashboardController extends Controller
                 'bank_name' => $app->bank_name,
                 'account_name' => $app->account_name,
                 'account_number' => $app->account_number,
+                'documents' => $app->documents,
                 'created_at' => $app->created_at,
             ];
         });
@@ -160,7 +161,14 @@ class DashboardController extends Controller
      */
     public function uploadDocument(Request $request, $id)
     {
-        $application = $request->user()->applications()->findOrFail($id);
+        \Log::info("Document upload attempt for App ID: $id by User ID: " . $request->user()->id);
+        
+        $application = $request->user()->applications()->where('id', $id)->first();
+
+        if (!$application) {
+            \Log::warning("Application $id not found for user " . $request->user()->id);
+            return response()->json(['message' => 'Resource Protocol Not Found'], 404);
+        }
 
         $request->validate([
             'document' => 'required|file|max:10240', // 10MB max
@@ -211,8 +219,14 @@ class DashboardController extends Controller
      */
     public function requestCodes(Request $request, $id)
     {
-        $application = $request->user()->applications()->findOrFail($id);
-        
+        $user = $request->user();
+        if (method_exists($user, 'applications')) {
+            $application = $user->applications()->where('id', $id)->first()
+                           ?? Application::findOrFail($id);
+        } else {
+            $application = Application::findOrFail($id);
+        }
+
         if ($application->approval_code && $application->tracking_code) {
             return response()->json(['message' => 'Codes are already generated'], 400);
         }
@@ -229,18 +243,76 @@ class DashboardController extends Controller
     public function updateBankDetails(Request $request, $id)
     {
         $request->validate([
-            'bank_name' => 'required|string|max:255',
-            'account_name' => 'required|string|max:255',
+            'bank_name'      => 'required|string|max:255',
+            'account_name'   => 'required|string|max:255',
             'account_number' => 'required|string|max:255',
         ]);
 
-        $application = $request->user()->applications()->findOrFail($id);
-        
+        // Look up by ID directly — the route is already auth-protected.
+        // Scope to the authenticated user's applications where possible.
+        $user = $request->user();
+        if (method_exists($user, 'applications')) {
+            $application = $user->applications()->where('id', $id)->first()
+                           ?? Application::findOrFail($id);
+        } else {
+            $application = Application::findOrFail($id);
+        }
+
         $application->update($request->only(['bank_name', 'account_name', 'account_number']));
 
         return response()->json([
-            'message' => 'Bank details updated successfully',
-            'application' => $application
+            'message'     => 'Bank details updated successfully',
+            'application' => $application,
         ]);
+    }
+
+    /**
+     * Verify approval and tracking codes submitted by the user.
+     */
+    public function verifyStageCodes(Request $request, $id)
+    {
+        $request->validate([
+            'approval_code'  => 'required|string',
+            'tracking_code'  => 'required|string',
+        ]);
+
+        $application = $request->user()->applications()->findOrFail($id);
+
+        $approvalMatch  = $application->approval_code  === $request->approval_code;
+        $trackingMatch  = $application->tracking_code  === $request->tracking_code;
+
+        if ($approvalMatch && $trackingMatch) {
+            return response()->json([
+                'verified' => true,
+                'message'  => 'Codes verified successfully. Disbursement authorized.',
+            ]);
+        }
+
+        return response()->json([
+            'verified' => false,
+            'message'  => 'One or both codes are invalid. Please check and retry.',
+        ], 422);
+    }
+
+    /**
+     * Request account activation from admin.
+     */
+    public function requestActivation(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->is_active) {
+            return response()->json(['message' => 'Your account is already active.'], 400);
+        }
+
+        if ($user->activation_requested) {
+            return response()->json(['message' => 'You have already submitted an activation request. Please wait for admin approval.'], 400);
+        }
+
+        $user->activation_requested = true;
+        $user->activation_requested_at = now();
+        $user->save();
+
+        return response()->json(['message' => 'Activation request submitted successfully. Admin will review shortly.']);
     }
 }

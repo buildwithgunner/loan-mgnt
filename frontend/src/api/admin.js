@@ -107,3 +107,13 @@ export const adminRegister = async (data) => {
   }
   return response.data;
 };
+
+export const activateUser = async (id) => {
+  const response = await axios.post(`${API_URL}/admin/users/${id}/activate`, {}, { headers: getAuthHeader() });
+  return response.data;
+};
+
+export const deactivateUser = async (id) => {
+  const response = await axios.post(`${API_URL}/admin/users/${id}/deactivate`, {}, { headers: getAuthHeader() });
+  return response.data;
+};
