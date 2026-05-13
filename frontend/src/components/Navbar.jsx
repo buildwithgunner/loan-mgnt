@@ -77,7 +77,7 @@ export default function Navbar() {
             <div key={item.name} className="relative group px-3 py-2">
               <button
                 onClick={() => !item.dropdown && handleNav(item.href)}
-                className={`flex items-center gap-1.5 text-[12px] uppercase tracking-[0.15em] font-bold transition-all ${scrolled ? 'text-[var(--text-primary)]' : 'text-white'} hover:text-[#c5a059]`}
+                className={`flex items-center gap-1.5 text-[12px] uppercase tracking-[0.15em] font-bold transition-all ${scrolled || theme === 'light' ? 'text-[var(--text-primary)]' : 'text-white'} hover:text-[#c5a059]`}
               >
                 {item.name}
                 {item.dropdown && <ChevronDown size={14} className="opacity-50 group-hover:rotate-180 transition-transform duration-300" />}
@@ -106,13 +106,13 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="hidden lg:flex items-center gap-5">
-          <button onClick={toggleTheme} className={`p-2 rounded-full transition-colors ${scrolled ? 'text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]' : 'text-white hover:bg-white/10'}`}>
+          <button onClick={toggleTheme} className={`p-2 rounded-full transition-colors ${scrolled || theme === 'light' ? 'text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]' : 'text-white hover:bg-white/10'}`}>
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
           
-          <div className={`h-6 w-px ${scrolled ? 'bg-[var(--border-color)]' : 'bg-white/20'}`}></div>
+          <div className={`h-6 w-px ${scrolled || theme === 'light' ? 'bg-[var(--border-color)]' : 'bg-white/20'}`}></div>
 
-          <button onClick={() => handleNav('/login')} className={`text-[12px] font-bold uppercase tracking-[0.15em] transition-colors ${scrolled ? 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]' : 'text-white/80 hover:text-white'}`}>
+          <button onClick={() => handleNav('/login')} className={`text-[12px] font-bold uppercase tracking-[0.15em] transition-colors ${scrolled || theme === 'light' ? 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]' : 'text-white/80 hover:text-white'}`}>
             Login
           </button>
           <button 
@@ -125,12 +125,12 @@ export default function Navbar() {
 
         {/* Mobile Trigger */}
         <div className="lg:hidden flex items-center gap-4">
-          <button onClick={toggleTheme} className={`p-2 rounded-full ${scrolled ? 'text-[var(--text-primary)]' : 'text-white'}`}>
+          <button onClick={toggleTheme} className={`p-2 rounded-full ${scrolled || theme === 'light' ? 'text-[var(--text-primary)]' : 'text-white'}`}>
              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           <button 
             onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className={`relative z-[70] w-10 h-10 flex items-center justify-center ${scrolled || isMobileOpen ? 'text-[#c5a059]' : 'text-white'}`}
+            className={`relative z-[70] w-10 h-10 flex items-center justify-center ${scrolled || isMobileOpen || theme === 'light' ? 'text-[#c5a059]' : 'text-white'}`}
           >
             {isMobileOpen ? <X size={30} /> : <Menu size={30} />}
           </button>
