@@ -15,7 +15,7 @@ const Toast = MySwal.mixin({
   },
   buttonsStyling: false
 });
-import UserProfileDetail from './UserProfileDetail.jsx';
+import UserProfileDetail from './user-profile-detail.jsx';
 import davidImg from '../../../assets/team/david.jpg';
 import sarahImg from '../../../assets/team/sarah.jpg';
 import michaelImg from '../../../assets/team/michael.jpg';
