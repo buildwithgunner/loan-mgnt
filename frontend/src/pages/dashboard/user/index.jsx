@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, FileText, Upload, Bell, User, Settings, PlusCircle, LogOut, Star, Users } from 'lucide-react';
 import { apiClient } from '../../../api/client.js';
-import Overview      from './Overview.jsx';
-import Applications  from './Applications.jsx';
-import Documents     from './Documents.jsx';
-import Notifications from './Notifications.jsx';
-import Profile       from './Profile.jsx';
-import Sidebar       from './Sidebar.jsx';
-import Topbar        from './Topbar.jsx';
-import LoanRequest   from './LoanRequest.jsx';
-import Reviews       from './Reviews.jsx';
-import Referrals     from './Referrals.jsx';
+import Overview      from './overview.jsx';
+import Applications  from './applications.jsx';
+import Documents     from './documents.jsx';
+import Notifications from './notifications.jsx';
+import Profile       from './profile.jsx';
+import Sidebar       from './sidebar.jsx';
+import Topbar        from './topbar.jsx';
+import LoanRequest   from './loan-request.jsx';
+import Reviews       from './reviews.jsx';
+import Referrals     from './referrals.jsx';
 
 const NAV_ITEMS = [
   { id: 'overview',       label: 'Overview',          icon: LayoutDashboard },

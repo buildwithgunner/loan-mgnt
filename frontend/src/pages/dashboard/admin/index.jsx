@@ -3,16 +3,16 @@ import {
   LayoutDashboard, Users, FileText, Edit2, BarChart2, MessageSquare, Settings, UserPlus, Key
 } from 'lucide-react';
 import { navigateTo } from '../../../App.jsx';
-import Overview from './Overview.jsx';
-import UserManagement from './UserManagement.jsx';
-import ApplicationsAdmin from './ApplicationsAdmin.jsx';
-import BlogAdmin from './BlogAdmin.jsx';
-import Leads from './Leads.jsx';
-import CodeGenerator from './CodeGenerator.jsx';
-import Analytics from './Analytics.jsx';
-import AdminSettings from './AdminSettings.jsx';
-import Sidebar from './Sidebar.jsx';
-import Topbar from './Topbar.jsx';
+import Overview from './overview.jsx';
+import UserManagement from './user-management.jsx';
+import ApplicationsAdmin from './applications-admin.jsx';
+import BlogAdmin from './blog-admin.jsx';
+import Leads from './leads.jsx';
+import CodeGenerator from './code-generator.jsx';
+import Analytics from './analytics.jsx';
+import AdminSettings from './admin-settings.jsx';
+import Sidebar from './sidebar.jsx';
+import Topbar from './topbar.jsx';
 
 const NAV_ITEMS = [
   { id: 'overview',     label: 'Overview',          icon: LayoutDashboard },
