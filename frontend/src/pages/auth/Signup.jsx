@@ -35,8 +35,48 @@ export default function Signup() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [otp, setOtp] = useState('');
 
   const set = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
+
+  const handleSendOtp = async (e) => {
+    e.preventDefault();
+    if (!formData.email) return setError('Please enter your email');
+    setError('');
+    setIsLoading(true);
+    try {
+      await apiClient('/otp/send', {
+        method: 'POST',
+        body: { email: formData.email }
+      });
+      setIsOtpSent(true);
+    } catch (err) {
+      setError(err || 'Failed to send OTP. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    if (!otp) return setError('Please enter the verification code');
+    setError('');
+    setIsLoading(true);
+    try {
+      await apiClient('/otp/verify', {
+        method: 'POST',
+        body: { email: formData.email, code: otp }
+      });
+      setIsOtpVerified(true);
+      setStep(2);
+    } catch (err) {
+      setError(err || 'Invalid or expired code.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -49,7 +89,7 @@ export default function Signup() {
       setError("Please agree to the Terms of Service");
       return;
     }
-    setStep(2);
+    setStep(3);
   };
 
   const handleSubmit = async (e) => {
@@ -108,7 +148,7 @@ export default function Signup() {
       }
     } catch (err) {
       setError(err || 'Registration failed. Please try again.');
-      setStep(1);
+      setStep(2);
     } finally {
       setIsLoading(false);
     }
@@ -131,16 +171,16 @@ export default function Signup() {
         <div className="text-center flex flex-col items-center">
           <Logo className="h-24 mb-6" />
           <h2 className="mt-6 text-3xl font-extrabold text-slate-900 tracking-tight">
-            {step === 1 ? 'Create Account' : 'Borrower Information'}
+            {step === 1 ? 'Verify Email' : step === 2 ? 'Create Account' : 'Borrower Information'}
           </h2>
           <p className="mt-2 text-sm text-slate-600">
-            {step === 1 ? 'Join Black Wolves Acquisition LLC' : 'Complete your borrower profile'}
+            {step === 1 ? 'Step 1: Security Verification' : step === 2 ? 'Step 2: Join Black Wolves' : 'Step 3: Complete Profile'}
           </p>
         </div>
 
         {/* Step Indicators */}
         <div className="flex items-center justify-center gap-3">
-          {[1, 2].map(s => (
+          {[1, 2, 3].map(s => (
             <div key={s} className="flex items-center gap-3">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
                 s === step ? 'bg-[#c5a059] border-[#c5a059] text-white' :
@@ -149,7 +189,7 @@ export default function Signup() {
               }`}>
                 {s < step ? <CheckCircle2 size={14} /> : s}
               </div>
-              {s < 2 && <div className={`w-16 h-0.5 ${s < step ? 'bg-[#c5a059]' : 'bg-gray-200'}`} />}
+              {s < 3 && <div className={`w-16 h-0.5 ${s < step ? 'bg-[#c5a059]' : 'bg-gray-200'}`} />}
             </div>
           ))}
         </div>
@@ -161,8 +201,58 @@ export default function Signup() {
             </div>
           )}
 
-          {/* ── STEP 1: Account Details ── */}
+          {/* ── STEP 1: OTP Verification ── */}
           {step === 1 && (
+            <form className="space-y-6" onSubmit={isOtpSent ? handleVerifyOtp : handleSendOtp}>
+              <div>
+                <label className={labelClass}>Email Address</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#c5a059] transition-colors">
+                    <Mail size={18} />
+                  </div>
+                  <input type="email" required disabled={isOtpSent} className={inputClass} placeholder="name@gmail.com"
+                    value={formData.email} onChange={e => set('email', e.target.value)} />
+                </div>
+                {isOtpSent && (
+                  <button type="button" onClick={() => setIsOtpSent(false)} className="mt-2 text-xs text-[#c5a059] font-bold hover:underline">
+                    Change Email
+                  </button>
+                )}
+              </div>
+
+              {isOtpSent && (
+                <div className="animate-fade-in">
+                  <label className={labelClass}>Verification Code</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#c5a059] transition-colors">
+                      <Lock size={18} />
+                    </div>
+                    <input type="text" required maxLength={6} className={inputClass} placeholder="Enter 6-digit code"
+                      value={otp} onChange={e => setOtp(e.target.value)} />
+                  </div>
+                  <p className="mt-2 text-xs text-slate-500">We've sent a code to your email. It expires in 10 minutes.</p>
+                </div>
+              )}
+
+              <button type="submit" disabled={isLoading}
+                className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl text-sm font-bold text-white bg-[#c5a059] hover:bg-[#b08d4a] transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#c5a059]/20 disabled:opacity-50">
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Processing...
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    {isOtpSent ? 'Verify Code' : 'Send Verification Code'}
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                )}
+              </button>
+            </form>
+          )}
+
+          {/* ── STEP 2: Account Details ── */}
+          {step === 2 && (
             <form className="space-y-6" onSubmit={handleNext}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
@@ -176,18 +266,17 @@ export default function Signup() {
                   </div>
                 </div>
 
-                <div>
-                  <label className={labelClass}>Email Address</label>
+                <div className="md:col-span-2 opacity-60">
+                  <label className={labelClass}>Verified Email</label>
                   <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#c5a059] transition-colors">
-                      <Mail size={18} />
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#c5a059] transition-colors">
+                      <CheckCircle2 size={18} />
                     </div>
-                    <input type="email" required className={inputClass} placeholder="name@gmail.com"
-                      value={formData.email} onChange={e => set('email', e.target.value)} />
+                    <input type="email" disabled className={inputClass} value={formData.email} />
                   </div>
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className={labelClass}>Phone Number</label>
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#c5a059] transition-colors">
@@ -240,18 +329,24 @@ export default function Signup() {
                 </div>
               </div>
 
-              <button type="submit"
-                className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl text-sm font-bold text-white bg-[#c5a059] hover:bg-[#b08d4a] transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#c5a059]/20">
-                <div className="flex items-center gap-2">
-                  Next: Borrower Info
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </div>
-              </button>
+              <div className="flex gap-4">
+                 <button type="button" onClick={() => setStep(1)}
+                  className="flex items-center gap-2 px-6 py-3 border border-gray-200 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-gray-50 transition-all text-sm font-semibold">
+                  <ChevronLeft size={16} /> Back
+                </button>
+                <button type="submit"
+                  className="group relative flex-1 flex justify-center py-3.5 px-4 border border-transparent rounded-xl text-sm font-bold text-white bg-[#c5a059] hover:bg-[#b08d4a] transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#c5a059]/20">
+                  <div className="flex items-center gap-2">
+                    Next: Borrower Info
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </button>
+              </div>
             </form>
           )}
 
-          {/* ── STEP 2: Borrower Information ── */}
-          {step === 2 && (
+          {/* ── STEP 3: Borrower Information ── */}
+          {step === 3 && (
             <form className="space-y-6" onSubmit={handleSubmit}>
 
               {/* Address */}
@@ -406,7 +501,7 @@ export default function Signup() {
               </div>
 
               <div className="flex gap-4 pt-2">
-                <button type="button" onClick={() => setStep(1)}
+                <button type="button" onClick={() => setStep(2)}
                   className="flex items-center gap-2 px-6 py-3 border border-gray-200 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-gray-50 transition-all text-sm font-semibold">
                   <ChevronLeft size={16} /> Back
                 </button>
