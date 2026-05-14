@@ -5,6 +5,7 @@ import { adminRegister } from '../../api/admin.js';
 
 export default function AdminSignup() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -116,25 +117,43 @@ export default function AdminSignup() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold text-slate-600 mb-1 uppercase tracking-wider">Password</label>
-                  <input
-                    type="password"
-                    required
-                    className="block w-full px-4 py-3 bg-slate-50 border border-gray-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#c5a059] transition-all text-sm"
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      className="block w-full pl-4 pr-10 py-3 bg-slate-50 border border-gray-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#c5a059] transition-all text-sm"
+                      placeholder="••••••••"
+                      value={formData.password}
+                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-slate-600 mb-1 uppercase tracking-wider">Confirm</label>
-                  <input
-                    type="password"
-                    required
-                    className="block w-full px-4 py-3 bg-slate-50 border border-gray-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#c5a059] transition-all text-sm"
-                    placeholder="••••••••"
-                    value={formData.password_confirmation}
-                    onChange={(e) => setFormData({ ...formData, password_confirmation: e.target.value })}
-                  />
+                  <div className="relative">
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      required
+                      className="block w-full pl-4 pr-10 py-3 bg-slate-50 border border-gray-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#c5a059] transition-all text-sm"
+                      placeholder="••••••••"
+                      value={formData.password_confirmation}
+                      onChange={(e) => setFormData({ ...formData, password_confirmation: e.target.value })}
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
                 </div>
               </div>
 

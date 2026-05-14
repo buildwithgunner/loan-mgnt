@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, Phone, ArrowRight, CheckCircle2, AlertCircle, MapPin, ChevronLeft, Briefcase, CreditCard } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, Phone, ArrowRight, CheckCircle2, AlertCircle, MapPin, ChevronLeft, Briefcase, CreditCard } from 'lucide-react';
 import { navigateTo } from '../../App.jsx';
 import { apiClient } from '../../api/client.js';
 import Logo from '../../components/Logo.jsx';
 
 export default function Signup() {
   const [step, setStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     // Account fields
     fullName: '',
@@ -293,8 +295,20 @@ export default function Signup() {
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#c5a059] transition-colors">
                       <Lock size={18} />
                     </div>
-                    <input type="password" required className={inputClass} placeholder="••••••••"
-                      value={formData.password} onChange={e => set('password', e.target.value)} />
+                    <input 
+                      type={showPassword ? 'text' : 'password'} 
+                      required 
+                      className="block w-full pl-11 pr-12 py-3 bg-white border border-gray-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#c5a059]/50 focus:border-[#c5a059] transition-all" 
+                      placeholder="••••••••"
+                      value={formData.password} onChange={e => set('password', e.target.value)} 
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
                   </div>
                 </div>
 
@@ -304,8 +318,20 @@ export default function Signup() {
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#c5a059] transition-colors">
                       <Lock size={18} />
                     </div>
-                    <input type="password" required className={inputClass} placeholder="••••••••"
-                      value={formData.confirmPassword} onChange={e => set('confirmPassword', e.target.value)} />
+                    <input 
+                      type={showConfirmPassword ? 'text' : 'password'} 
+                      required 
+                      className="block w-full pl-11 pr-12 py-3 bg-white border border-gray-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#c5a059]/50 focus:border-[#c5a059] transition-all" 
+                      placeholder="••••••••"
+                      value={formData.confirmPassword} onChange={e => set('confirmPassword', e.target.value)} 
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
                   </div>
                 </div>
               </div>
