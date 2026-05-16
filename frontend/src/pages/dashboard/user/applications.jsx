@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, Clock, AlertCircle, XCircle, Eye, Home, Search, Filter, ArrowUpRight, DollarSign, X, Upload, FileText } from 'lucide-react';
-import { apiClient } from '../../../api/client.js';
+import { apiClient, BASE_URL } from '../../../api/client.js';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -60,19 +60,12 @@ export default function Applications() {
     formData.append('category', 'Application Document');
 
     try {
-      const token = sessionStorage.getItem('access_token') || localStorage.getItem('access_token');
-      if (!token) throw new Error('No auth token found');
-
-      const response = await fetch(`http://127.0.0.1:8000/api/dashboard/applications/upload-doc/${selectedApp.id}`, {
+      const response = await apiClient(`/dashboard/applications/upload-doc/${selectedApp.id}`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json'
-        },
         body: formData
       });
       
-      if (response.ok) {
+      if (response) {
         fetchApps();
         await MySwal.fire({
           html: `
@@ -154,15 +147,10 @@ export default function Applications() {
 
   const handleRequestCodes = async (appId) => {
     try {
-      const token = localStorage.getItem('access_token');
-      const response = await fetch(`http://127.0.0.1:8000/api/dashboard/applications/${appId}/request-codes`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json'
-        }
+      const response = await apiClient(`/dashboard/applications/${appId}/request-codes`, {
+        method: 'POST'
       });
-      if (response.ok) {
+      if (response) {
         Toast.fire({
           title: 'PROTOCOL INITIATED',
           text: 'Authorization code request has been broadcast to administration.',
@@ -195,18 +183,12 @@ export default function Applications() {
     if (!selectedApp) return;
     setIsSavingBank(true);
     try {
-      const token = localStorage.getItem('access_token');
-      const response = await fetch(`http://127.0.0.1:8000/api/dashboard/applications/${selectedApp.id}/bank-details`, {
+      const response = await apiClient(`/dashboard/applications/${selectedApp.id}/bank-details`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(bankData)
+        body: bankData
       });
 
-      if (response.ok) {
+      if (response) {
         Toast.fire({
           title: 'BANK DETAILS SAVED',
           text: 'Account information has been securely updated.',
@@ -562,7 +544,7 @@ export default function Applications() {
                                         </div>
                                      </div>
                                      <a 
-                                       href={`http://127.0.0.1:8000/storage/${doc.path}`} 
+                                       href={`${BASE_URL.replace('/api', '')}/storage/${doc.path}`} 
                                        target="_blank" 
                                        rel="noreferrer" 
                                        className="bg-[#c5a059] text-white text-[10px] font-black px-6 py-2 rounded-xl uppercase tracking-widest hover:scale-105 transition-all shadow-lg"

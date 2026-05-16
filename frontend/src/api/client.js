@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+export const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 /**
  * Simple authenticated API client.
@@ -15,14 +15,15 @@ export async function apiClient(endpoint, { method = 'GET', body = null } = {}) 
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  if (body) {
+  // If body is NOT FormData, set Content-Type to application/json
+  if (body && !(body instanceof FormData)) {
     headers['Content-Type'] = 'application/json';
   }
 
   const config = {
     method,
     headers,
-    body: body ? JSON.stringify(body) : null,
+    body: body instanceof FormData ? body : (body ? JSON.stringify(body) : null),
   };
 
   try {

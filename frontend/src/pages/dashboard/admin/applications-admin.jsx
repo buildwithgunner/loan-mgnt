@@ -14,6 +14,7 @@ import {
 } from '../../../api/admin';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { BASE_URL } from '../../../api/client.js';
 
 const MySwal = withReactContent(Swal);
 
@@ -537,7 +538,7 @@ export default function ApplicationsAdmin({ filterProp = 'all' }) {
                         {selectedApp.documents.map(doc => (
                           <div key={doc.id} className="flex justify-between items-center bg-[var(--bg-surface)] p-3 rounded-lg border border-[var(--border-color)] shadow-sm">
                             <span className="text-xs text-[var(--text-primary)] font-medium truncate max-w-[200px]">{doc.name}</span>
-                            <a href={`http://127.0.0.1:8000/storage/${doc.path}`} target="_blank" rel="noreferrer" className="text-[10px] bg-[#c5a059] text-black px-4 py-1.5 rounded-lg font-black hover:scale-105 transition-all shadow-sm">VIEW ASSET</a>
+                             <a href={`${BASE_URL.replace('/api', '')}/storage/${doc.path}`} target="_blank" rel="noreferrer" className="text-[10px] bg-[#c5a059] text-black px-4 py-1.5 rounded-lg font-black hover:scale-105 transition-all shadow-sm">VIEW ASSET</a>
                           </div>
                         ))}
                       </div>
@@ -655,13 +656,11 @@ export default function ApplicationsAdmin({ filterProp = 'all' }) {
                      <div className="flex flex-col gap-2">
                        <button 
                          onClick={async () => {
-                           // Automatically set progress to Withdrawal 95% when moving to withdrawal stage
                            try {
-                             const token = localStorage.getItem('access_token');
-                             await axios.post(`http://127.0.0.1:8000/api/admin/applications/${selectedApp.id}/progress`, {
+                             await updateApplicationProgress(selectedApp.id, {
                                processing_stage: 'Withdrawal',
                                processing_level: 95
-                             }, { headers: { Authorization: `Bearer ${token}` } });
+                             });
                              handleStatusUpdate(selectedApp.id, 'approved');
                            } catch (err) {
                              console.error('Failed to auto-update progress:', err);

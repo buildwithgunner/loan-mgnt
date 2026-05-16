@@ -11,12 +11,14 @@ import Topbar        from './topbar.jsx';
 import LoanRequest   from './loan-request.jsx';
 import Reviews       from './reviews.jsx';
 import Referrals     from './referrals.jsx';
+import Withdrawals   from './withdrawals.jsx';
 
 const NAV_ITEMS = [
   { id: 'overview',       label: 'Overview',          icon: LayoutDashboard },
   { id: 'loan-request',    label: 'Request Loan',      icon: PlusCircle },
   { id: 'applications',   label: 'My Applications',   icon: FileText },
   { id: 'documents',      label: 'Documents',         icon: Upload },
+  { id: 'withdrawals',    label: 'Withdrawals',       icon: LayoutDashboard }, // Will be replaced by Landmark in Sidebar, icon here doesn't matter much as it's not used for icon display in Topbar/Sidebar the same way
   { id: 'reviews',       label: 'Reviews',           icon: Star },
   { id: 'referrals',     label: 'Referrals',         icon: Users },
   { id: 'notifications',  label: 'Notifications',     icon: Bell },
@@ -79,6 +81,7 @@ export default function UserDashboard() {
       case 'loan-request':  return <LoanRequest onSuccess={fetchDashboardData} />;
       case 'applications':  return <Applications />;
       case 'documents':     return <Documents />;
+      case 'withdrawals':   return <Withdrawals />;
       case 'notifications': return <Notifications />;
       case 'reviews':       return <Reviews user={user} />;
       case 'referrals':     return <Referrals user={user} />;

@@ -1,5 +1,4 @@
-import React from 'react';
-import { LayoutDashboard, FileText, Upload, Bell, User, Settings, LogOut, X, PlusCircle, Star, Users } from 'lucide-react';
+import { LayoutDashboard, FileText, Upload, Bell, User, Settings, LogOut, X, PlusCircle, Star, Users, Landmark } from 'lucide-react';
 import { navigateTo } from '../../../App.jsx';
 import Logo from '../../../components/Logo.jsx';
 
@@ -17,6 +16,7 @@ export default function Sidebar({ activeTab, setActiveTab, unread, sidebarOpen, 
     { id: 'loan-request', label: 'Request Loan', icon: PlusCircle },
     { id: 'applications', label: 'My Applications', icon: FileText },
     { id: 'documents', label: 'Documents', icon: Upload },
+    { id: 'withdrawals', label: 'Withdrawals', icon: Landmark },
     { id: 'reviews', label: 'Reviews', icon: Star },
     { id: 'referrals', label: 'Referrals', icon: Users },
     { id: 'notifications', label: 'Notifications', icon: Bell },
