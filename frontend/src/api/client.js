@@ -1,3 +1,5 @@
+import { notify } from '../utils/notifications';
+
 export const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 /**
@@ -42,13 +44,16 @@ export async function apiClient(endpoint, { method = 'GET', body = null } = {}) 
     const data = await response.json();
     
     if (!response.ok) {
-      const error = (data && data.message) || response.statusText;
-      return Promise.reject(error);
+      const errorMsg = (data && data.message) || response.statusText || 'System Synchronization Failure';
+      notify.error('PROTOCOL REJECTED', errorMsg);
+      return Promise.reject(errorMsg);
     }
 
     return data;
   } catch (error) {
     console.error('API Error:', error);
-    return Promise.reject(error.message || 'Network error');
+    const friendlyMsg = 'Infrastructure link failure. Please check your network connection.';
+    notify.error('NETWORK TIMEOUT', friendlyMsg);
+    return Promise.reject(friendlyMsg);
   }
 }

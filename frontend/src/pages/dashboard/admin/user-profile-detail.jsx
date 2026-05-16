@@ -168,6 +168,31 @@ export default function UserProfileDetail({ userId, onClose }) {
               </div>
            </div>
 
+           {/* Global Assets/Documents */}
+           <div className="space-y-4">
+              <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-gray-100 pb-2">Global Client Assets (ID Cards)</h4>
+              <div className="space-y-3">
+                 {user.documents?.length > 0 ? user.documents.map((doc) => (
+                   <div key={doc.id} className="group bg-gray-50 p-4 rounded-2xl border border-gray-200 hover:border-[#c5a059]/30 transition-all flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                         <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center">
+                            <FileText size={20} />
+                         </div>
+                         <div>
+                            <p className="font-bold text-slate-900 text-sm truncate max-w-[200px]">{doc.name}</p>
+                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{doc.category} &bull; {doc.size}</p>
+                         </div>
+                      </div>
+                      <a href={`${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://127.0.0.1:8000'}/storage/${doc.path}`} target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c5a059]/10 text-[#c5a059] hover:bg-[#c5a059] hover:text-white transition-all">
+                         <Download size={16} />
+                      </a>
+                   </div>
+                 )) : (
+                   <p className="text-slate-500 text-xs text-center py-6">No global assets synchronized.</p>
+                 )}
+              </div>
+           </div>
+
            {/* Timeline/History */}
            <div className="space-y-4">
               <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-gray-100 pb-2">Lifecycle Interactions</h4>

@@ -28,15 +28,34 @@ export default function Documents() {
     fetchDocs();
   }, []);
 
-  const handleIdUpload = () => {
+  const handleIdUpload = async () => {
      if(!idFront || !idBack) return;
      setIsUploading(true);
-     // Simulate upload
-     setTimeout(() => {
-        setIsUploading(false);
-        setUploadSuccess(true);
-        setTimeout(() => setUploadSuccess(false), 3000);
-     }, 2000);
+     try {
+         const formDataFront = new FormData();
+         formDataFront.append('document', idFront);
+         formDataFront.append('category', 'ID Card - Front');
+         
+         const formDataBack = new FormData();
+         formDataBack.append('document', idBack);
+         formDataBack.append('category', 'ID Card - Back');
+
+         await apiClient('/dashboard/documents/upload-id', { method: 'POST', body: formDataFront });
+         await apiClient('/dashboard/documents/upload-id', { method: 'POST', body: formDataBack });
+         
+         setUploadSuccess(true);
+         setTimeout(() => {
+             setUploadSuccess(false);
+             setIdFront(null);
+             setIdBack(null);
+             // reload docs
+             apiClient('/dashboard/documents').then(data => setDocuments(data || []));
+         }, 3000);
+     } catch (err) {
+         console.error('Failed to upload ID');
+     } finally {
+         setIsUploading(false);
+     }
   };
 
   const categories = ['All', 'Underwriting', 'Closing', 'Legal', 'Personal'];
@@ -191,9 +210,9 @@ export default function Documents() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-slate-400 hover:bg-[#c5a059] hover:text-white transition-all">
+                <a href={`${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://127.0.0.1:8000'}/storage/${doc.path}`} target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-slate-400 hover:bg-[#c5a059] hover:text-white transition-all">
                   <Download size={16} />
-                </button>
+                </a>
                 <button className="flex h-10 w-10 items-center justify-center rounded-full text-slate-400 hover:text-slate-900 transition-colors">
                   <MoreVertical size={16} />
                 </button>
