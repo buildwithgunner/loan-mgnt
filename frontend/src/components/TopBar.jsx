@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Instagram } from 'lucide-react';
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
@@ -40,9 +40,12 @@ export default function TopBar() {
         
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-4 border-r border-[var(--border-color)] pr-6 mr-2">
-            <Facebook size={14} className="hover:text-[#c5a059] cursor-pointer transition-colors" />
-            <Instagram size={14} className="hover:text-[#c5a059] cursor-pointer transition-colors" />
-            <Linkedin size={14} className="hover:text-[#c5a059] cursor-pointer transition-colors" />
+            <a href="https://www.facebook.com/profile.php?id=61589778456588&mibextid=wwXIfr" target="_blank" rel="noreferrer" className="flex items-center">
+              <Facebook size={14} className="hover:text-[#c5a059] cursor-pointer transition-colors" />
+            </a>
+            <a href="https://www.instagram.com/blackwolvesllc_?igsh=MWVpenZieXYzamZoZA%3D%3D&utm_source=qr" target="_blank" rel="noreferrer" className="flex items-center">
+              <Instagram size={14} className="hover:text-[#c5a059] cursor-pointer transition-colors" />
+            </a>
           </div>
           <span className="text-[#c5a059] animate-pulse font-black tracking-[0.3em]">AVAILABLE 24/7 FOR FUNDING</span>
         </div>
