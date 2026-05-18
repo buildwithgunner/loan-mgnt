@@ -21,6 +21,7 @@ export default function Sidebar({ activeTab, setActiveTab, sidebarOpen, setSideb
       title: 'USER MANAGEMENT',
       items: [
         { id: 'users', label: 'All Users', icon: Users },
+        { id: 'documents', label: 'User Documents', icon: FileText },
         { id: 'messages', label: 'Messages', icon: MessageSquare },
         { id: 'settings', label: 'Admin Settings', icon: Settings },
       ]

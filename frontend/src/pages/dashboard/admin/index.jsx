@@ -5,6 +5,7 @@ import {
 import { navigateTo } from '../../../App.jsx';
 import Overview from './overview.jsx';
 import UserManagement from './user-management.jsx';
+import DocumentsAdmin from './documents-admin.jsx';
 import ApplicationsAdmin from './applications-admin.jsx';
 import BlogAdmin from './blog-admin.jsx';
 import Leads from './leads.jsx';
@@ -17,6 +18,7 @@ import Topbar from './topbar.jsx';
 const NAV_ITEMS = [
   { id: 'overview',     label: 'Overview',          icon: LayoutDashboard },
   { id: 'users',        label: 'User Management',   icon: Users },
+  { id: 'documents',    label: 'User Documents',    icon: FileText },
   { id: 'applications', label: 'Applications',      icon: FileText },
   { id: 'disapproved',  label: 'Rejected Loans',    icon: FileText },
   { id: 'leads',        label: 'Interested Loans',  icon: UserPlus },
@@ -70,6 +72,7 @@ export default function AdminDashboard() {
     switch (activeTab) {
       case 'overview':     return <Overview setActiveTab={setActiveTab} />;
       case 'users':        return <UserManagement />;
+      case 'documents':    return <DocumentsAdmin />;
       case 'applications': return <ApplicationsAdmin />;
       case 'funding':      return <ApplicationsAdmin filterProp="funding" />;
       case 'disapproved':  return <ApplicationsAdmin filterProp="rejected" />;
