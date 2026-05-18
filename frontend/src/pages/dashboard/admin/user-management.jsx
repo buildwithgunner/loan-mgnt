@@ -305,7 +305,7 @@ export default function UserManagement() {
                     </td>
                     <td className="px-6 py-5 text-slate-500 text-[11px] font-black uppercase tracking-widest whitespace-nowrap">{u.joined}</td>
                     <td className="px-6 py-5 text-right">
-                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center justify-end gap-2 transition-opacity">
                         <button
                           onClick={() => setSelectedProfileId(u.id)}
                           className="p-2 rounded-xl bg-gray-100 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 transition-all"
