@@ -183,7 +183,7 @@ export default function UserProfileDetail({ userId, onClose }) {
                             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{doc.category} &bull; {doc.size}</p>
                          </div>
                       </div>
-                      <a href={`${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://127.0.0.1:8000'}/storage/${doc.path}`} target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c5a059]/10 text-[#c5a059] hover:bg-[#c5a059] hover:text-white transition-all">
+                      <a href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'}/admin/documents/${doc.id}/view?token=${localStorage.getItem('access_token') || sessionStorage.getItem('access_token')}`} target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c5a059]/10 text-[#c5a059] hover:bg-[#c5a059] hover:text-white transition-all">
                          <Download size={16} />
                       </a>
                    </div>

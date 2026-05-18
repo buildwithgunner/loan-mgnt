@@ -544,7 +544,7 @@ export default function Applications() {
                                         </div>
                                      </div>
                                      <a 
-                                       href={`${BASE_URL.replace('/api', '')}/storage/${doc.path}`} 
+                                       href={`${BASE_URL}/admin/documents/${doc.id}/view?token=${localStorage.getItem('access_token') || sessionStorage.getItem('access_token')}`} 
                                        target="_blank" 
                                        rel="noreferrer" 
                                        className="bg-[#c5a059] text-white text-[10px] font-black px-6 py-2 rounded-xl uppercase tracking-widest hover:scale-105 transition-all shadow-lg"

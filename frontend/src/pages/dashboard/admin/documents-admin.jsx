@@ -98,7 +98,7 @@ export default function DocumentsAdmin() {
                     </td>
                     <td className="px-6 py-5 text-right">
                        <a 
-                         href={`${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://127.0.0.1:8000'}/storage/${doc.path}`} 
+                         href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'}/admin/documents/${doc.id}/view?token=${localStorage.getItem('access_token') || sessionStorage.getItem('access_token')}`} 
                          target="_blank" 
                          rel="noreferrer" 
                          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#c5a059] hover:text-white transition-all"

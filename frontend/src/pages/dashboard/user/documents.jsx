@@ -210,7 +210,7 @@ export default function Documents() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <a href={`${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://127.0.0.1:8000'}/storage/${doc.path}`} target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-slate-400 hover:bg-[#c5a059] hover:text-white transition-all">
+                <a href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api'}/admin/documents/${doc.id}/view?token=${localStorage.getItem('access_token') || sessionStorage.getItem('access_token')}`} target="_blank" rel="noreferrer" className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-slate-400 hover:bg-[#c5a059] hover:text-white transition-all">
                   <Download size={16} />
                 </a>
                 <button className="flex h-10 w-10 items-center justify-center rounded-full text-slate-400 hover:text-slate-900 transition-colors">
