@@ -458,6 +458,38 @@ class AdminController extends Controller
             'lead' => $lead
         ]);
     }
+
+    /**
+     * Update the status of an existing lead.
+     */
+    public function updateLeadStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|string|in:interested,contacted,converted,new_inquiry'
+        ]);
+
+        $lead = \App\Models\Lead::findOrFail($id);
+        $lead->status = $request->status;
+        $lead->save();
+
+        return response()->json([
+            'message' => 'Lead status updated successfully',
+            'lead' => $lead
+        ]);
+    }
+
+    /**
+     * Delete an existing lead.
+     */
+    public function deleteLead($id)
+    {
+        $lead = \App\Models\Lead::findOrFail($id);
+        $lead->delete();
+
+        return response()->json([
+            'message' => 'Lead deleted successfully'
+        ]);
+    }
     /**
      * Get all uploaded documents.
      */
@@ -480,5 +512,31 @@ class AdminController extends Controller
                 ];
             })
         ]);
+    }
+
+    /**
+     * Securely view/download a document bypassing symlink issues.
+     */
+    public function viewDocument(Request $request, $id)
+    {
+        $token = $request->query('token');
+        
+        if ($token) {
+            $tokenInstance = \Laravel\Sanctum\PersonalAccessToken::findToken($token);
+            if ($tokenInstance && $tokenInstance->tokenable) {
+                $user = $tokenInstance->tokenable;
+                $doc = \App\Models\Document::findOrFail($id);
+                
+                // Allow if user is admin OR if user is the owner of the document
+                if ($user->role === 'admin' || $doc->user_id === $user->id) {
+                    $filePath = storage_path('app/public/' . $doc->path);
+                    if (file_exists($filePath)) {
+                        return response()->file($filePath);
+                    }
+                }
+            }
+        }
+        
+        return abort(403, 'Unauthorized secure asset protocol access denied.');
     }
 }

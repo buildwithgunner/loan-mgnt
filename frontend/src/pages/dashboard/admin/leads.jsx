@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { UserPlus, Search, Filter, Mail, Phone, Calendar, CheckCircle, Copy, Plus } from 'lucide-react';
-import { getAdminLeads, createAdminLead } from '../../../api/admin';
+import { getAdminLeads, createAdminLead, updateLeadStatus } from '../../../api/admin';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -73,6 +73,26 @@ export default function Leads() {
       timer: 1500,
       showConfirmButton: false
     });
+  };
+
+  const handleMarkContacted = async (id) => {
+    try {
+      await updateLeadStatus(id, 'contacted');
+      Toast.fire({
+        title: 'STATUS UPDATED',
+        text: 'Prospect marked as contacted.',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false
+      });
+      fetchLeads();
+    } catch (err) {
+      Toast.fire({
+        title: 'PROTOCOL ERROR',
+        text: 'Failed to update lead status.',
+        icon: 'error'
+      });
+    }
   };
 
   const filteredLeads = leads.filter(l => 
@@ -166,7 +186,18 @@ export default function Leads() {
                       </div>
                     </td>
                     <td className="px-8 py-6 text-right">
-                       <button className="text-[10px] font-black text-slate-500 hover:text-slate-900 uppercase tracking-widest transition-colors">MARK CONTACTED</button>
+                      {lead.status !== 'contacted' ? (
+                        <button 
+                          onClick={() => handleMarkContacted(lead.id)}
+                          className="text-[10px] font-black text-[#c5a059] hover:text-[#b08d4a] uppercase tracking-widest transition-colors"
+                        >
+                          MARK CONTACTED
+                        </button>
+                      ) : (
+                        <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">
+                          CONTACTED
+                        </span>
+                      )}
                     </td>
                   </tr>
                 ))}

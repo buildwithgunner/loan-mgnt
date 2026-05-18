@@ -12,6 +12,7 @@ import Leads from './leads.jsx';
 import CodeGenerator from './code-generator.jsx';
 import Analytics from './analytics.jsx';
 import AdminSettings from './admin-settings.jsx';
+import Messages from './messages.jsx';
 import Sidebar from './sidebar.jsx';
 import Topbar from './topbar.jsx';
 
@@ -81,12 +82,7 @@ export default function AdminDashboard() {
       case 'blog':         return <BlogAdmin />;
       case 'analytics':    return <Analytics />;
       case 'settings':     return <AdminSettings />;
-      case 'messages':     return (
-        <div className="text-center py-24 text-white">
-          <MessageSquare size={48} className="mx-auto mb-4 opacity-30" />
-          <p className="text-lg font-semibold">Messages coming soon</p>
-        </div>
-      );
+      case 'messages':     return <Messages />;
       default: return <Overview />;
     }
   };

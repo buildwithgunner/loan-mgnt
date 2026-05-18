@@ -75,6 +75,16 @@ export const createAdminLead = async (data) => {
   return response.data;
 };
 
+export const updateLeadStatus = async (id, status) => {
+  const response = await axios.put(`${API_URL}/admin/leads/${id}/status`, { status }, { headers: getAuthHeader() });
+  return response.data;
+};
+
+export const deleteLead = async (id) => {
+  const response = await axios.delete(`${API_URL}/admin/leads/${id}`, { headers: getAuthHeader() });
+  return response.data;
+};
+
 export const getAdminUserProfile = async (id) => {
   const response = await axios.get(`${API_URL}/admin/users/${id}/profile`, { headers: getAuthHeader() });
   return response.data;
