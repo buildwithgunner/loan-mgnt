@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Landmark, CheckCircle, ArrowRight, DollarSign, Wallet, AlertCircle, Loader2 } from 'lucide-react';
+import { Landmark, CheckCircle, ArrowRight, DollarSign, Wallet, AlertCircle, Loader2, Hash } from 'lucide-react';
 import { apiClient } from '../../../api/client.js';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -23,7 +23,8 @@ export default function Withdrawals() {
   const [bankData, setBankData] = useState({
     bank_name: '',
     account_name: '',
-    account_number: ''
+    account_number: '',
+    routing_number: ''
   });
   const [isSaving, setIsSaving] = useState(false);
 
@@ -50,7 +51,7 @@ export default function Withdrawals() {
     e.preventDefault();
     if (!selectedApp) return;
 
-    if (!bankData.bank_name || !bankData.account_name || !bankData.account_number) {
+    if (!bankData.bank_name || !bankData.account_name || !bankData.account_number || !bankData.routing_number) {
         Toast.fire({
             title: 'INCOMPLETE DATA',
             text: 'Please fill in all settlement parameters.',
@@ -139,7 +140,8 @@ export default function Withdrawals() {
                     setBankData({
                         bank_name: app.bank_name || '',
                         account_name: app.account_name || '',
-                        account_number: app.account_number || ''
+                        account_number: app.account_number || '',
+                        routing_number: app.routing_number || ''
                     });
                 }}
                 className={`w-full text-left p-6 rounded-[2rem] border transition-all duration-300 group relative overflow-hidden ${
@@ -236,19 +238,36 @@ export default function Withdrawals() {
                         </div>
                       </div>
 
-                      <div className="space-y-4">
-                         <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block px-2">Account Identification Number</label>
-                         <div className="relative group">
-                            <Wallet className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-[#c5a059] transition-colors" size={20} />
-                            <input 
-                              type="text"
-                              placeholder="Account Number"
-                              required
-                              className="w-full bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl pl-16 pr-6 py-5 text-white font-mono placeholder-slate-600 focus:outline-none focus:border-[#c5a059] transition-all"
-                              value={bankData.account_number}
-                              onChange={(e) => setBankData({...bankData, account_number: e.target.value})}
-                            />
-                         </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-4">
+                           <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block px-2">Account Identification Number</label>
+                           <div className="relative group">
+                              <Wallet className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-[#c5a059] transition-colors" size={20} />
+                              <input 
+                                type="text"
+                                placeholder="Account Number"
+                                required
+                                className="w-full bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl pl-16 pr-6 py-5 text-white font-mono placeholder-slate-600 focus:outline-none focus:border-[#c5a059] transition-all"
+                                value={bankData.account_number}
+                                onChange={(e) => setBankData({...bankData, account_number: e.target.value})}
+                              />
+                           </div>
+                        </div>
+
+                        <div className="space-y-4">
+                           <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block px-2">Routing Transit Number</label>
+                           <div className="relative group">
+                              <Hash className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-[#c5a059] transition-colors" size={20} />
+                              <input 
+                                type="text"
+                                placeholder="Routing Number"
+                                required
+                                className="w-full bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl pl-16 pr-6 py-5 text-white font-mono placeholder-slate-600 focus:outline-none focus:border-[#c5a059] transition-all"
+                                value={bankData.routing_number}
+                                onChange={(e) => setBankData({...bankData, routing_number: e.target.value})}
+                              />
+                           </div>
+                        </div>
                       </div>
                    </div>
 

@@ -5,10 +5,10 @@ import { FaLinkedinIn, FaTwitter, FaEnvelope } from 'react-icons/fa';
 const teamMembers = [
   {
     id: 1,
-    name: "Anthony Deceglie",
+    name: "Zach Willams",
     role: "Chief Executive Officer",
     image: "/ceo_anthony.jpg",
-    bio: "Anthony brings over 25 years of exceptional leadership and strategic vision to Black Wolves Acquisition LLC. As CEO, he has pioneered innovative lending solutions that have revolutionized the hard money market, ensuring our clients receive the most agile and reliable capital for their real estate ventures.",
+    bio: "Zach brings over 25 years of exceptional leadership and strategic vision to Black Wolves Acquisition LLC. As CEO, he has pioneered innovative lending solutions that have revolutionized the hard money market, ensuring our clients receive the most agile and reliable capital for their real estate ventures.",
     linkedin: "#",
     twitter: "#",
     email: "#",

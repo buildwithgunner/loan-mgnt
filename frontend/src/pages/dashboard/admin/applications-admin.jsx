@@ -514,7 +514,8 @@ export default function ApplicationsAdmin({ filterProp = 'all' }) {
                       <div className="grid grid-cols-2 gap-4 text-xs font-medium text-[var(--text-muted)]">
                         <div><p className="text-[var(--text-muted)] mb-1">Bank Name</p><p className="font-bold text-[var(--text-primary)]">{selectedApp.bank_details.bank_name}</p></div>
                         <div><p className="text-[var(--text-muted)] mb-1">Account Name</p><p className="font-bold text-[var(--text-primary)]">{selectedApp.bank_details.account_name}</p></div>
-                        <div className="col-span-2"><p className="text-[var(--text-muted)] mb-1">Account Number</p><p className="font-bold text-[var(--text-primary)] text-sm font-mono">{selectedApp.bank_details.account_number}</p></div>
+                        <div><p className="text-[var(--text-muted)] mb-1">Account Number</p><p className="font-bold text-[var(--text-primary)] text-sm font-mono">{selectedApp.bank_details.account_number}</p></div>
+                        <div><p className="text-[var(--text-muted)] mb-1">Routing Number</p><p className="font-bold text-[var(--text-primary)] text-sm font-mono">{selectedApp.bank_details.routing_number || 'N/A'}</p></div>
                       </div>
                     </div>
                   )}

@@ -160,6 +160,7 @@ class AdminController extends Controller
                         'bank_name' => $app->bank_name,
                         'account_name' => $app->account_name,
                         'account_number' => $app->account_number,
+                        'routing_number' => $app->routing_number,
                     ],
                     'form_data' => $app->form_data,
                 ];

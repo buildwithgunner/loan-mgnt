@@ -15,7 +15,7 @@ export default function ChatWidget() {
           <div className="h-full w-full rounded-full border-2 border-[#c5a059] overflow-hidden">
             <img 
               src="/ceo_anthony.jpg" 
-              alt="Anthony Deceglie - Chief Executive Officer" 
+              alt="Zach Willams - Chief Executive Officer" 
               className="h-full w-full object-cover"
             />
           </div>
