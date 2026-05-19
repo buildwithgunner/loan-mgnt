@@ -22,7 +22,7 @@ export default function CEOStatement() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60" />
               
               <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 border-l-[#c5a059] border-l-4">
-                 <p className="text-white font-black text-2xl tracking-tighter uppercase italic mb-1">Zach Willams</p>
+                 <p className="text-white font-black text-2xl tracking-tighter uppercase italic mb-1">Anthony Deceglie</p>
                  <p className="text-[#c5a059] text-[10px] font-black uppercase tracking-[0.3em]">Chief Executive Officer</p>
               </div>
             </div>

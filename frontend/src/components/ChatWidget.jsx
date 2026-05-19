@@ -15,7 +15,7 @@ export default function ChatWidget() {
           <div className="h-full w-full rounded-full border-2 border-[#c5a059] overflow-hidden">
             <img 
               src="/ceo_anthony.jpg" 
-              alt="Zach Willams - Chief Executive Officer" 
+              alt="Zach Willams - Loan Processor" 
               className="h-full w-full object-cover"
             />
           </div>
@@ -25,9 +25,9 @@ export default function ChatWidget() {
         {/* Message Content */}
         <div className="flex-1 pr-6">
           <p className="text-[15px] font-bold text-[var(--text-primary)] leading-tight tracking-tight">
-            Welcome to Black Wolves Acquisition!
+            Zach Willams
           </p>
-          <p className="text-[13px] text-[var(--text-muted)] font-bold uppercase tracking-widest mt-0.5">
+          <p className="text-[13px] text-[#c5a059] font-bold uppercase tracking-widest mt-0.5">
             Loan Processor Online
           </p>
         </div>

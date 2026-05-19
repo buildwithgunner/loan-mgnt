@@ -7,21 +7,21 @@ const reviews = [
     profile_photo_url: "M",
     avatar_color: "bg-indigo-500",
     time_description: "2 months ago",
-    text: "Thank you Black Wolves! Zach Willams was a pleasure to work with. I was in a very difficult situation trying to repair my credit and get...",
+    text: "Thank you Black Wolves! Anthony Deceglie was a pleasure to work with. I was in a very difficult situation trying to repair my credit and get...",
   },
   {
     author_name: "Annalisa Valdivia",
     profile_photo_url: "A",
     avatar_color: "bg-amber-700",
     time_description: "3 months ago",
-    text: "Zach Willams at Black Wolves Acquisition LLC was wonderful to work with! He was responsive, transparent, and took the time to explain...",
+    text: "Anthony Deceglie at Black Wolves Acquisition LLC was wonderful to work with! He was responsive, transparent, and took the time to explain...",
   },
   {
     author_name: "Jesanna Williams",
     profile_photo_url: "J",
     avatar_color: "bg-blue-600",
     time_description: "3 months ago",
-    text: "I had an excellent experience with Black Wolves Acquisition LLC LLC, thanks to Zach Willams. He was patient, thorough, and genuinely cared...",
+    text: "I had an excellent experience with Black Wolves Acquisition LLC LLC, thanks to Anthony Deceglie. He was patient, thorough, and genuinely cared...",
   }
 ];
 
