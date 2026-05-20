@@ -51,6 +51,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isMobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isMobileOpen]);
+
   const handleNav = (path) => {
     setIsMobileOpen(false);
     setOpenSection(null);
@@ -136,32 +142,59 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+    </nav>
 
-      {/* Mobile Drawer */}
-      <div className={`fixed inset-0 z-[65] bg-[var(--bg-primary)] transform transition-transform duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
-        isMobileOpen ? 'translate-x-0' : 'translate-x-full'
-      }`}>
-        <div className="flex flex-col h-full pt-32 px-8 overflow-y-auto pb-10">
+      {/* Mobile Drawer — sibling of nav, outside its stacking context */}
+      <div
+        className={`fixed inset-0 z-[65] transform transition-transform duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] overflow-y-auto ${
+          isMobileOpen ? 'translate-x-0' : 'translate-x-full'
+        } ${theme === 'dark' ? 'bg-[#05101c]' : 'bg-[#fdfaf6]'}`}
+      >
+        <div className="flex flex-col min-h-full pt-28 px-8 pb-10">
           <div className="flex-1 space-y-2">
             {NAVIGATION_SCHEMA.map((item, i) => (
-              <div key={item.name} className="py-2" style={{ transitionDelay: `${i * 50}ms` }}>
-                <button 
-                  onClick={() => item.dropdown ? setOpenSection(openSection === item.name ? null : item.name) : handleNav(item.href)}
-                  className="flex items-center justify-between w-full text-3xl font-serif font-bold text-[var(--text-primary)] tracking-tight"
+              <div
+                key={item.name}
+                className="py-3 border-b border-[#c5a059]/10"
+                style={{ animationDelay: `${i * 60}ms` }}
+              >
+                <button
+                  onClick={() =>
+                    item.dropdown
+                      ? setOpenSection(openSection === item.name ? null : item.name)
+                      : handleNav(item.href)
+                  }
+                  className={`flex items-center justify-between w-full text-3xl font-serif font-bold tracking-tight ${
+                    theme === 'dark' ? 'text-white' : 'text-slate-900'
+                  }`}
                 >
                   {item.name}
-                  {item.dropdown && <ChevronDown className={`transition-transform duration-300 text-[#c5a059] ${openSection === item.name ? 'rotate-180' : ''}`} />}
+                  {item.dropdown && (
+                    <ChevronDown
+                      className={`transition-transform duration-300 text-[#c5a059] ${
+                        openSection === item.name ? 'rotate-180' : ''
+                      }`}
+                    />
+                  )}
                 </button>
-                
+
                 {item.dropdown && (
-                  <div className={`grid transition-all duration-300 ${openSection === item.name ? 'grid-rows-[1fr] mt-6 opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                  <div
+                    className={`grid transition-all duration-300 ${
+                      openSection === item.name
+                        ? 'grid-rows-[1fr] mt-5 opacity-100'
+                        : 'grid-rows-[0fr] opacity-0'
+                    }`}
+                  >
                     <div className="overflow-hidden">
-                      <div className="grid gap-5 pl-4 border-l-2 border-[#c5a059]/20 ml-2">
+                      <div className="grid gap-4 pl-4 border-l-2 border-[#c5a059]/30 ml-2">
                         {item.dropdown.map((sub) => (
                           <button
                             key={sub.label}
                             onClick={() => handleNav(sub.href)}
-                            className="text-left text-[var(--text-secondary)] font-medium text-sm hover:text-[#c5a059] transition-colors"
+                            className={`text-left font-medium text-sm hover:text-[#c5a059] transition-colors ${
+                              theme === 'dark' ? 'text-slate-300' : 'text-slate-600'
+                            }`}
                           >
                             {sub.label}
                           </button>
@@ -174,22 +207,38 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="pt-10 mt-auto space-y-4 border-t border-[var(--border-color)]">
-            <button onClick={() => handleNav('/apply')} className="w-full py-4 bg-[#c5a059] text-white font-black uppercase tracking-[0.2em] rounded-xl text-sm shadow-lg shadow-[#c5a059]/20">
+          <div className="pt-8 mt-10 space-y-4 border-t border-[#c5a059]/20">
+            <button
+              onClick={() => handleNav('/apply')}
+              className="w-full py-4 bg-[#c5a059] text-white font-black uppercase tracking-[0.2em] rounded-xl text-sm shadow-lg shadow-[#c5a059]/20"
+            >
               Apply Now
             </button>
             <div className="grid grid-cols-2 gap-4">
-              <button onClick={() => handleNav('/login')} className="py-4 glass-panel text-[var(--text-primary)] font-bold uppercase text-xs tracking-widest rounded-xl">
+              <button
+                onClick={() => handleNav('/login')}
+                className={`py-4 font-bold uppercase text-xs tracking-widest rounded-xl border ${
+                  theme === 'dark'
+                    ? 'border-white/10 text-white'
+                    : 'border-slate-200 text-slate-900'
+                }`}
+              >
                 Log In
               </button>
-              <button onClick={() => handleNav('/signup')} className="py-4 bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold uppercase text-xs tracking-widest rounded-xl">
+              <button
+                onClick={() => handleNav('/signup')}
+                className={`py-4 font-bold uppercase text-xs tracking-widest rounded-xl ${
+                  theme === 'dark'
+                    ? 'bg-white text-slate-900'
+                    : 'bg-slate-900 text-white'
+                }`}
+              >
                 Sign Up
               </button>
             </div>
           </div>
         </div>
       </div>
-    </nav>
     </header>
   );
 }
