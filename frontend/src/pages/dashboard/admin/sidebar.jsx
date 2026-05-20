@@ -3,7 +3,10 @@ import { LayoutDashboard, Users, FileText, Edit2, BarChart2, MessageSquare, Sett
 import { navigateTo } from '../../../App.jsx';
 import Logo from '../../../components/Logo.jsx';
 
+import { useTheme } from '../../../context/ThemeContext.jsx';
+
 export default function Sidebar({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen }) {
+  const { theme } = useTheme();
   const user = JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || '{"name": "Admin", "email": "admin@blackwolves.com"}');
   const sections = [
     {
@@ -35,23 +38,22 @@ export default function Sidebar({ activeTab, setActiveTab, sidebarOpen, setSideb
   };
 
   return (
-    <aside className={`fixed inset-y-0 left-0 z-50 w-72 glass-panel border-r border-white/5 flex flex-col transition-all duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} lg:static shadow-sm bg-[var(--bg-surface)]`}>
+    <aside className={`fixed inset-y-0 left-0 z-[100] w-72 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} lg:static shadow-2xl border-r border-[#c5a059]/20 ${theme === 'dark' ? 'bg-[#05101c]' : 'bg-[#fdfaf6]'}`}>
       {/* Brand */}
-      <div className="flex flex-col items-center pt-8 pb-10 px-6 border-b border-white/5 relative overflow-hidden group">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#c5a059]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      <div className="flex flex-col items-center pt-8 pb-8 px-6 border-b border-[#c5a059]/10 relative group shrink-0">
         <a href="/" onClick={(e) => { e.preventDefault(); navigateTo('/'); }} className="relative z-10 transition-transform hover:scale-105">
-          <Logo className="h-20" />
+          <Logo className="h-16 mt-2" />
         </a>
-        <div className="mt-4 flex items-center gap-2 px-3 py-1 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-full text-[9px] font-black text-[var(--text-muted)] uppercase tracking-widest">
+        <div className="mt-4 flex items-center gap-2 px-3 py-1 bg-[var(--bg-secondary)] border border-[#c5a059]/30 rounded-full text-[9px] font-black text-[#c5a059] uppercase tracking-widest shadow-sm">
            <Shield size={10} className="text-[#c5a059]" /> System Overseer
         </div>
-        <button onClick={() => setSidebarOpen(false)} className="absolute top-4 right-4 text-[var(--text-muted)] hover:text-[#c5a059] lg:hidden">
-          <X size={18} />
+        <button onClick={() => setSidebarOpen(false)} className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-[#c5a059]/10 text-[#c5a059] hover:bg-[#c5a059]/20 transition-colors lg:hidden z-50">
+          <X size={24} />
         </button>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-6 space-y-8 overflow-y-auto scrollbar-hide">
+      <nav className="flex-1 px-3 py-6 space-y-8 overflow-y-auto overflow-x-hidden">
         {sections.map((section, idx) => (
           <div key={idx} className="space-y-2">
             <h4 className="px-4 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">
