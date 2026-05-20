@@ -124,7 +124,7 @@ export default function ReferralProgram() {
         <div className="md:w-1/2 space-y-6">
           <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-slate-900">The Black Wolves Advantage in Hard Money Lending</h2>
           <p className="text-gray-600 leading-relaxed text-[15px]">
-            Black Wolves Acquisition LLC is a <span className="text-[#c5a059] font-medium">proven leader globally's real estate lending market</span>. Our extensive experience has solidified our reputation as a trusted partner for investors seeking reliable financing solutions globally and select cities across the country. Our closing track record is exceptional, demonstrating our proficiency in navigating real estate transactions but also our unwavering commitment to ensuring deals are executed seamlessly. When you refer clients to Black Wolves, you're endorsing a name synonymous with excellence and reliability in the competitive world of real estate lending.
+            Black Wolves Acquisition LLC is a <span className="text-[#c5a059] font-medium">proven leader globally's real estate lending market</span>. Our extensive experience has solidified our reputation as a trusted partner for investors seeking reliable financing solutions globally and in markets worldwide. Our closing track record is exceptional, demonstrating our proficiency in navigating real estate transactions but also our unwavering commitment to ensuring deals are executed seamlessly. When you refer clients to Black Wolves, you're endorsing a name synonymous with excellence and reliability in the competitive world of real estate lending.
           </p>
           <div className="pt-4">
             <DarkButton text="Contact Us Today" onClick={() => navigateTo('/contact')} />

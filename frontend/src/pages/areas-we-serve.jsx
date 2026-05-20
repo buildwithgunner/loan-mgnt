@@ -115,7 +115,7 @@ export default function AreasWeServe() {
       <section className="bg-slate-50 py-16 px-6 border-y border-gray-100">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-slate-600 text-[15px] leading-[1.9] max-w-3xl mx-auto">
-            Black Wolves Acquisition LLC provides <span className="text-[#c5a059] font-semibold">hard money loans</span> to real estate investors globally and in select cities across the world.
+            Black Wolves Acquisition LLC provides <span className="text-[#c5a059] font-semibold">hard money loans</span> to real estate investors worldwide.
             We fund fix-and-flip projects, new construction, cash-out refinancing, and more — with fast approvals and flexible terms tailored to each market.
           </p>
         </div>

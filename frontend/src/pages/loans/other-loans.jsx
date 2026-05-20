@@ -22,7 +22,7 @@ function LoanPage({ title, subtitle, image, bullets }) {
             <div>
               <h2 className="text-3xl font-bold text-slate-900 mb-4">{title}</h2>
               <div className="h-[3px] w-16 bg-[#c5a059] mb-6 rounded" />
-              <p className="text-[16px] leading-relaxed">Black Wolves Acquisition LLC provides flexible hard money {title.toLowerCase()} throughout Global and select markets. We offer fast approvals, competitive rates, and personalized service for real estate investors.</p>
+              <p className="text-[16px] leading-relaxed">Black Wolves Acquisition LLC provides flexible hard money {title.toLowerCase()} in markets worldwide. We offer fast approvals, competitive rates, and personalized service for real estate investors.</p>
             </div>
             <div>
               <h3 className="text-2xl font-bold text-slate-900 mb-4">Loan Highlights</h3>

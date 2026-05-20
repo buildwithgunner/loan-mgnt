@@ -184,7 +184,7 @@ export default function AsSeenInNews() {
           
           <div className="space-y-6 text-slate-600 text-[15px] leading-relaxed font-light px-4 md:px-12">
             <p>
-              If you are in need of hard money lending for a real estate investment globally or other select cities in the United States, look no further than Black Wolves Acquisition LLC. <span className="text-[#c5a059] font-semibold">Our team</span> specializes in providing financing options for individuals and businesses looking to invest in the real estate market.
+              If you are in need of hard money lending for a real estate investment anywhere in the world, look no further than Black Wolves Acquisition LLC. <span className="text-[#c5a059] font-semibold">Our team</span> specializes in providing financing options for individuals and businesses looking to invest in the real estate market.
             </p>
             <p>
               With our extensive experience and knowledge in the industry, Black Wolves Acquisition LLC understands the unique challenges and opportunities that come with real estate investments. That's why we offer customized financing solutions for your specific needs and goals.

@@ -14,7 +14,7 @@ export default function ChatWidget() {
         <div className="relative h-14 w-14 flex-shrink-0">
           <div className="h-full w-full rounded-full border-2 border-[#c5a059] overflow-hidden">
             <img 
-              src="/ceo_anthony.jpg" 
+              src="/daniel.jpg" 
               alt="Zach Willams - Loan Processor" 
               className="h-full w-full object-cover"
             />

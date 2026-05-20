@@ -15,10 +15,10 @@ const teamMembers = [
   },
   {
     id: 2,
-    name: "A. Daniel",
-    role: "Chief Loan Officer",
+    name: "Zach Willams",
+    role: "Loan Processor",
     image: "/daniel.jpg",
-    bio: "Daniel orchestrates our core lending strategies with precision. With deep roots in the Global real estate market, he ensures that every loan structure is perfectly aligned with our clients' investment goals and timelines.",
+    bio: "Zach coordinates and processes our core loan files with absolute precision. With deep experience in real estate transactions, he ensures that every client application moves swiftly through underwriting to a successful closing.",
     linkedin: "#",
     twitter: "#",
     email: "#",

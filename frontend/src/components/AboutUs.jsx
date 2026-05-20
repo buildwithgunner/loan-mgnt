@@ -19,7 +19,7 @@ export default function AboutUs() {
         
         <div className="space-y-8 text-lg leading-8 text-slate-600 font-medium">
           <p>
-            Black Wolves Acquisition LLC offers hard money lending services to real estate investors globally and select markets across the country. 
+            Black Wolves Acquisition LLC offers hard money lending services to real estate investors globally and in markets worldwide. 
             We provide borrowers with personalized <span className="text-[#c5a059] font-bold">loan consultation</span> services and funding. 
             Black Wolves is direct to lender which allows us to match the borrowers' hard money loan needs with the best funding for their deal. 
             Our real estate development experience allows us to offer our borrowers a unique partnership on every loan. 

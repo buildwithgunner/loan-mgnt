@@ -16,7 +16,7 @@ const posts = [
     id: 2,
     image: danielImg,
     type: 'image',
-    title: 'Daniel orchestrates core lending strategies for BWA'
+    title: 'Zach coordinates and processes core loan files for BWA'
   },
   {
     id: 3,

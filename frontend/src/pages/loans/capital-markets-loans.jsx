@@ -35,7 +35,7 @@ const CapitalMarketsLoans = () => {
       {/* --- INTRO STRIP --- */}
       <div className="bg-slate-900 py-16 px-6 md:px-24">
         <p className="max-w-6xl mx-auto text-gray-300 leading-relaxed text-[17px] text-center">
-          Welcome to <span className="text-[#c5a059] font-bold">Black Wolves</span>, your trusted partner in the world of capital markets. We specialize in providing tailored financing solutions to meet the unique needs of businesses and individuals. With our extensive experience and expertise, we are serving clients globally and select markets across the country. Let us help you navigate the complex landscape of capital market funding and financing, ensuring your financial goals are achieved with precision.
+          Welcome to <span className="text-[#c5a059] font-bold">Black Wolves</span>, your trusted partner in the world of capital markets. We specialize in providing tailored financing solutions to meet the unique needs of businesses and individuals. With our extensive experience and expertise, we are serving clients globally and in markets worldwide. Let us help you navigate the complex landscape of capital market funding and financing, ensuring your financial goals are achieved with precision.
         </p>
       </div>
 
@@ -90,7 +90,7 @@ const CapitalMarketsLoans = () => {
                 <div className="h-2 w-2 rounded-full bg-[#c5a059] mt-2.5 flex-shrink-0" />
                 <div>
                   <strong className="text-[#c5a059] block text-xl mb-1">Market Focus:</strong>
-                  <span className="text-gray-400 text-lg">With a primary focus on Global and select markets across the country, we have in-depth knowledge of the local market dynamics. We leverage this regional expertise to provide insights and opportunities specific to your target locations.</span>
+                  <span className="text-gray-400 text-lg">With a primary focus on global markets worldwide, we have in-depth knowledge of local and international market dynamics. We leverage this expertise to provide insights and opportunities specific to your target locations.</span>
                 </div>
               </li>
             </ul>

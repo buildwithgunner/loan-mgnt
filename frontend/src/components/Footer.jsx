@@ -7,9 +7,9 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 const locations = [
-  "New York", "London", "Dubai", "Sydney", "Tokyo", 
-  "Paris", "Los Angeles", "Toronto", "Miami", "Singapore", 
-  "Berlin", "Hong Kong"
+  "United States", "United Kingdom", "Canada", "Australia", 
+  "Germany", "France", "Japan", "United Arab Emirates", 
+  "Singapore", "Switzerland", "Worldwide"
 ];
 
 export default function Footer() {
@@ -55,7 +55,7 @@ export default function Footer() {
                 </div>
             </div>
             <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
-              Black Wolves Acquisition LLC offers hard money lending services to real estate investors globally and in select cities across the world. We provide borrowers with personalized loan consultation services and funding. Black Wolves Acquisition LLC also offers loan servicing for mortgage investors.
+              Black Wolves Acquisition LLC offers hard money lending services to real estate investors worldwide. We provide borrowers with personalized loan consultation services and funding. Black Wolves Acquisition LLC also offers loan servicing for mortgage investors.
             </p>
           </div>
 
@@ -114,7 +114,7 @@ export default function Footer() {
       {/* Bottom section */}
       <div className="bg-[var(--bg-secondary)] py-10 border-t border-[var(--border-color)]">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="text-[var(--text-primary)] mb-6 font-bold text-sm tracking-widest uppercase">Black Wolves Lends Hard Money in:</p>
+          <p className="text-[var(--text-primary)] mb-6 font-bold text-sm tracking-widest uppercase">Black Wolves Lends Hard Money Worldwide:</p>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-10">
             {locations.map((loc, idx) => (
               <div key={idx} className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[#c5a059] cursor-pointer transition-colors font-medium">
