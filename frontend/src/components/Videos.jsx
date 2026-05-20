@@ -33,7 +33,7 @@ export default function Videos() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-serif font-bold text-slate-900 mb-4">
-            Videos/Podcasts
+            Videos/<span className="text-shimmer">Podcasts</span>
           </h2>
           <div className="flex items-center justify-center gap-4">
             <div className="h-[1px] w-8 bg-[#c5a059]" />
@@ -45,13 +45,14 @@ export default function Videos() {
         {/* Video Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {videos.map((vid, idx) => (
-            <div key={idx} className="bg-white border border-slate-200 rounded-sm shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col cursor-pointer group hover:shadow-xl transition-shadow duration-300">
+            <div key={idx} className="bg-white border border-slate-200 rounded-sm shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col cursor-pointer group hover:shadow-xl transition-all duration-500 animate-fade-in opacity-0" style={{ animationDelay: `${idx * 0.15}s` }}>
               
               {/* Thumbnail Container */}
               <div className="relative w-full aspect-video bg-slate-900 overflow-hidden">
                 <img 
                   src={vid.thumbnail} 
                   alt={vid.shortTitle} 
+                  loading="lazy"
                   className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" 
                 />
                 

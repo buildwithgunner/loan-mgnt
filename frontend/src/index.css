@@ -135,6 +135,65 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   animation: reveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
+/* Premium Alive Animations */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #9e7f45 0%,
+    #c5a059 25%,
+    #e6c98a 50%,
+    #c5a059 75%,
+    #9e7f45 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes gradientBg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-bg {
+  background-size: 200% 200%;
+  animation: gradientBg 15s ease infinite;
+}
+
+/* Interactive Card & Text Effects */
+.interactive-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.interactive-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(197, 160, 89, 0.15);
+  border-color: var(--color-bw-gold);
+}
+
+.live-glow {
+  text-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+}
+
 /* Parallax */
 .parallax-bg {
   background-attachment: fixed;
@@ -145,6 +204,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 
 @media (max-width: 1024px) {
   .parallax-bg {
-    background-attachment: scroll;
+     background-attachment: scroll;
   }
 }
+

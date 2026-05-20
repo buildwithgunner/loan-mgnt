@@ -53,7 +53,8 @@ export default function Consultation() {
                <img 
                  src="/money_house.png" 
                  alt="Personalized Funding" 
-                 className="relative z-10 w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+                 loading="lazy"
+                 className="relative z-10 w-full h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 animate-float"
                />
             </div>
           </div>

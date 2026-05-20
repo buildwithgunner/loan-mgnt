@@ -28,7 +28,7 @@ export default function RecentBlogs() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-serif font-bold text-slate-900 mb-4">
-            Recent Blogs
+            Recent <span className="text-shimmer">Blogs</span>
           </h2>
           <div className="flex items-center justify-center gap-4">
             <div className="h-[1px] w-8 bg-[#c5a059]" />
@@ -40,13 +40,14 @@ export default function RecentBlogs() {
         {/* Blog Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {blogs.map((blog, idx) => (
-            <div key={idx} className="bg-white border border-slate-100 rounded-sm shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex flex-col cursor-pointer group hover:shadow-xl transition-all duration-300 overflow-hidden">
+            <div key={idx} className="bg-white border border-slate-100 rounded-sm shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex flex-col cursor-pointer group hover:shadow-xl transition-all duration-500 overflow-hidden interactive-hover animate-fade-in opacity-0" style={{ animationDelay: `${idx * 0.12}s` }}>
               
               {/* Image Container */}
               <div className="relative w-full h-48 overflow-hidden bg-slate-900 border-b-4 border-slate-900">
                 <img 
                   src={blog.image} 
                   alt={blog.title} 
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                 />
                 

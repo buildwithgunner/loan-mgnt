@@ -53,7 +53,7 @@ export default function Hero() {
           className="text-5xl sm:text-7xl lg:text-[6rem] leading-tight font-serif font-black tracking-tight mb-6 drop-shadow-2xl animate-fade-in opacity-0"
           style={{ animationDelay: '0.1s' }}
         >
-          <span className="gold-gradient-text">Black Wolves</span><br />
+          <span className="text-shimmer">Black Wolves</span><br />
           Acquisition LLC
         </h1>
         <p 

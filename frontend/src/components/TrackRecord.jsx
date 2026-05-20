@@ -23,6 +23,7 @@ export default function TrackRecord() {
               <img 
                 src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800" 
                 alt="Proven Track Record" 
+                loading="lazy"
                 className="w-full h-auto object-cover"
               />
             </div>
@@ -34,9 +35,9 @@ export default function TrackRecord() {
           <div className="space-y-10">
             <div className="space-y-6">
               <h2 className="text-4xl font-serif font-bold tracking-tight text-slate-900 sm:text-5xl leading-tight">
-                Proven Track Record and Direct Funding Sources
+                Proven <span className="text-shimmer">Track Record</span> and Direct Funding Sources
               </h2>
-              <div className="h-1 w-20 bg-[#c5a059]" />
+              <div className="h-1 w-20 bg-[#c5a059] animate-gradient-bg" />
             </div>
 
             <div className="space-y-8 text-lg leading-8 text-slate-600 font-medium">

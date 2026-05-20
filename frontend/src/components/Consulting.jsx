@@ -20,7 +20,7 @@ export default function Consulting() {
           <div className="space-y-10 order-2 lg:order-1">
             <div className="space-y-6">
               <h2 className="text-4xl font-serif font-bold tracking-tight text-slate-900 sm:text-5xl leading-tight">
-                Individual Consulting for Tailored Solutions
+                Individual Consulting for <span className="text-shimmer">Tailored Solutions</span>
               </h2>
               <div className="h-1 w-20 bg-[#c5a059]" />
             </div>
@@ -58,6 +58,7 @@ export default function Consulting() {
               <img 
                 src="/consultant.jpg" 
                 alt="Individual Consulting" 
+                loading="lazy"
                 className="w-full h-auto object-cover"
               />
             </div>

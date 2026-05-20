@@ -14,7 +14,7 @@ export default function AboutUs() {
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
         <h2 className="text-4xl font-serif font-bold tracking-tight text-slate-900 sm:text-5xl mb-12">
-          About <span className="text-[#c5a059]">Us</span>
+          About <span className="text-shimmer">Us</span>
         </h2>
         
         <div className="space-y-8 text-lg leading-8 text-slate-600 font-medium">

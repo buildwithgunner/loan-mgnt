@@ -109,7 +109,7 @@ export default function LoanProducts() {
         
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">
-            Loan Products
+            <span className="text-shimmer">Loan</span> Products
           </h2>
           <div className="mx-auto h-[1.5px] w-28 bg-[#c5a059]" />
         </div>
@@ -119,7 +119,8 @@ export default function LoanProducts() {
             <div 
               key={index} 
               onClick={() => product.href && navigateTo(product.href)}
-              className="group relative bg-white flex flex-col items-center justify-center p-6 md:p-8 aspect-square shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-2xl transition-all duration-300 cursor-pointer"
+              className="group relative bg-white flex flex-col items-center justify-center p-6 md:p-8 aspect-square shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-2xl transition-all duration-500 cursor-pointer interactive-hover animate-fade-in opacity-0"
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Top Right Navy Accent */}
               <div 
@@ -127,11 +128,11 @@ export default function LoanProducts() {
                 style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }}
               />
               
-              <div className="text-slate-900 mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="text-slate-900 mb-6 group-hover:scale-110 group-hover:text-[#c5a059] transition-all duration-300">
                 {product.icon}
               </div>
               
-              <h3 className="text-slate-900 font-bold text-center text-[13px] md:text-[15px] leading-tight px-1 uppercase tracking-wider">
+              <h3 className="text-slate-900 font-bold text-center text-[13px] md:text-[15px] leading-tight px-1 uppercase tracking-wider group-hover:text-[#c5a059] transition-colors duration-300">
                 {product.title}
               </h3>
             </div>

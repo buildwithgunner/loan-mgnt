@@ -40,7 +40,7 @@ export default function InstagramFeed() {
           <div className="w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center text-white shadow-lg">
             <Instagram size={32} />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight">blackwolvesacquisition</h2>
+          <h2 className="text-2xl font-bold tracking-tight"><span className="text-shimmer">blackwolvesacquisition</span></h2>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -53,6 +53,7 @@ export default function InstagramFeed() {
               <img 
                 src={post.image} 
                 alt={post.title}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-slate-900/30 group-hover:bg-slate-900/40 transition-colors" />

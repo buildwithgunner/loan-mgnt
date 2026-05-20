@@ -11,7 +11,7 @@ export default function Newsletter() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-4">
-            Stay Informed
+            Stay <span className="text-shimmer">Informed</span>
           </h2>
           <div className="mx-auto h-[2px] w-20 bg-[#c5a059]" />
           <p className="text-slate-500 mt-6 text-lg font-medium">Join our network for weekly market insights and funding alerts.</p>
@@ -25,6 +25,7 @@ export default function Newsletter() {
             <img 
               src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
               alt="House at twilight" 
+              loading="lazy"
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />

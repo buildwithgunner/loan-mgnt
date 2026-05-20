@@ -17,6 +17,7 @@ export default function CEOStatement() {
               <img 
                 src="/ceo_anthony.jpg" 
                 alt="CEO & Founder" 
+                loading="lazy"
                 className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700 hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60" />
@@ -38,7 +39,7 @@ export default function CEOStatement() {
             <div className="relative">
               <Quote className="absolute -top-10 -left-10 w-20 h-20 text-[#c5a059] opacity-10" />
               <h2 className="text-4xl sm:text-5xl font-serif font-bold text-slate-900 leading-tight">
-                "Our mission is to turn real estate <span className="text-[#c5a059]">ambition</span> into tangible <span className="italic">wealth</span>."
+                "Our mission is to turn real estate <span className="text-shimmer">ambition</span> into tangible <span className="italic">wealth</span>."
               </h2>
             </div>
 

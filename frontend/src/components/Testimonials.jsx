@@ -33,7 +33,7 @@ export default function Testimonials() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-4">
-            Testimonials
+            <span className="text-shimmer">Testimonials</span>
           </h2>
           <div className="mx-auto h-[1.5px] w-24 bg-[#c5a059]" />
         </div>
@@ -69,7 +69,7 @@ export default function Testimonials() {
               {reviews.map((review, idx) => (
                 <div 
                   key={idx} 
-                  className="min-w-[280px] md:min-w-[320px] bg-white border border-slate-200 rounded-xl p-6 shadow-sm snap-start"
+                  className="min-w-[280px] md:min-w-[320px] bg-white border border-slate-200 rounded-xl p-6 shadow-sm snap-start interactive-hover"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-3">

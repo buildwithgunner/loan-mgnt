@@ -24,7 +24,8 @@ export default function Expertise() {
               <img 
                 src="/expertise_house.png" 
                 alt="Real Estate Development" 
-                className="w-full h-auto object-cover"
+                loading="lazy"
+                className="w-full h-auto object-cover animate-float"
               />
             </div>
             
