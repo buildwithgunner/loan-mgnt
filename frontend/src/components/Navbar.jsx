@@ -146,11 +146,24 @@ export default function Navbar() {
 
       {/* Mobile Drawer — sibling of nav, outside its stacking context */}
       <div
-        className={`fixed inset-0 z-[65] transform transition-transform duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] overflow-y-auto ${
+        className={`fixed inset-0 z-[75] transform transition-transform duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] overflow-y-auto ${
           isMobileOpen ? 'translate-x-0' : 'translate-x-full'
         } ${theme === 'dark' ? 'bg-[#05101c]' : 'bg-[#fdfaf6]'}`}
       >
-        <div className="flex flex-col min-h-full pt-28 px-8 pb-10">
+        {/* Close button + Logo row */}
+        <div className="flex items-center justify-between px-6 pt-6">
+          <button onClick={() => handleNav('/')} className="outline-none">
+            <Logo className="h-14 transition-transform hover:scale-105" />
+          </button>
+          <button
+            onClick={() => setIsMobileOpen(false)}
+            className="w-12 h-12 flex items-center justify-center text-[#c5a059] rounded-full hover:bg-[#c5a059]/10 transition-colors"
+          >
+            <X size={32} />
+          </button>
+        </div>
+
+        <div className="flex flex-col min-h-[calc(100vh-100px)] pt-8 px-8 pb-10">
           <div className="flex-1 space-y-2">
             {NAVIGATION_SCHEMA.map((item, i) => (
               <div

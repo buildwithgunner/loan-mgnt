@@ -12,6 +12,11 @@ export const getAdminStats = async () => {
   return response.data;
 };
 
+export const getAdminNotifications = async () => {
+  const response = await axios.get(`${API_URL}/admin/notifications`, { headers: getAuthHeader() });
+  return response.data;
+};
+
 export const getAdminApplications = async () => {
   const response = await axios.get(`${API_URL}/admin/applications`, { headers: getAuthHeader() });
   return response.data;

@@ -49,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin routes
     Route::middleware('admin')->prefix('admin')->group(function () {
         Route::get('/stats', [AdminController::class, 'getStats']);
+        Route::get('/notifications', [AdminController::class, 'getNotifications']);
         Route::get('/applications', [AdminController::class, 'getApplications']);
         Route::post('/applications/{id}/status', [AdminController::class, 'updateApplicationStatus']);
         Route::post('/applications/{id}/progress', [AdminController::class, 'updateApplicationProgress']);

@@ -17,7 +17,9 @@ class AdminController extends Controller
      */
     public function getSettings()
     {
-        $settings = SiteSetting::all()->pluck('value', 'key');
+        $settings = \Illuminate\Support\Facades\Cache::remember('site_settings', 86400, function () {
+            return SiteSetting::all()->pluck('value', 'key');
+        });
         return response()->json([
             'settings' => $settings
         ]);
@@ -33,6 +35,8 @@ class AdminController extends Controller
         foreach ($settings as $key => $value) {
             SiteSetting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
+
+        \Illuminate\Support\Facades\Cache::forget('site_settings');
 
         return response()->json([
             'message' => 'Settings updated successfully'
@@ -110,6 +114,39 @@ class AdminController extends Controller
                 'type'    => $isConnectionError ? 'connection_error' : 'general_error'
             ], 500);
         }
+    }
+
+    /**
+     * Get dynamic admin notifications based on recent activity.
+     */
+    public function getNotifications()
+    {
+        $recentUsers = User::orderBy('created_at', 'desc')->take(10)->get()->map(function($u) {
+            return [
+                'id' => 'u_'.$u->id,
+                'message' => "New user registered: {$u->name}",
+                'created_at' => $u->created_at,
+                'type' => 'info',
+                'is_user' => true
+            ];
+        });
+
+        $recentApps = Application::with('user')->orderBy('created_at', 'desc')->take(10)->get()->map(function($a) {
+            $name = $a->user ? $a->user->name : 'Unknown User';
+            return [
+                'id' => 'a_'.$a->id,
+                'message' => "New loan application submitted by {$name} for " . ($a->amount ? '$'.number_format((float)preg_replace('/[^0-9.]/', '', $a->amount)) : 'N/A'),
+                'created_at' => $a->created_at,
+                'type' => 'success',
+                'is_app' => true
+            ];
+        });
+
+        $notifications = collect($recentUsers)->merge($recentApps)->sortByDesc('created_at')->values()->take(15);
+
+        return response()->json([
+            'notifications' => $notifications
+        ]);
     }
 
     /**
@@ -454,30 +491,11 @@ class AdminController extends Controller
             'status' => 'new_inquiry',
         ]);
 
+        // Dispatch background job for sending email notification to admin asynchronously
         try {
-            $adminEmail = 'infoblackwolvesacc@blackwolvesacquisitionllc.com';
-            $html = "
-                <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #c5a059; border-radius: 15px;'>
-                    <h2 style='color: #05101c; border-bottom: 2px solid #c5a059; padding-bottom: 10px;'>New Contact Inquiry Received</h2>
-                    <p style='margin: 10px 0;'><strong>Name:</strong> {$lead->name}</p>
-                    <p style='margin: 10px 0;'><strong>Email:</strong> {$lead->email}</p>
-                    <p style='margin: 10px 0;'><strong>Phone:</strong> " . ($lead->phone ?? 'N/A') . "</p>
-                    <p style='margin: 20px 0 5px 0;'><strong>Inquiry Details:</strong></p>
-                    <div style='background: #f9f7f2; padding: 15px; border-left: 4px solid #c5a059; border-radius: 5px; color: #333;'>
-                        " . nl2br(e($lead->purpose)) . "
-                    </div>
-                    <p style='font-size: 11px; color: #888; margin-top: 30px; border-top: 1px solid #eee; padding-top: 10px;'>
-                        Sent from Black Wolves Acquisition LLC System Protocol.
-                    </p>
-                </div>
-            ";
-            
-            \Illuminate\Support\Facades\Mail::html($html, function ($message) use ($lead, $adminEmail) {
-                $message->to($adminEmail)
-                    ->subject("New Inquiry: {$lead->name} - Black Wolves Acquisition");
-            });
+            \App\Jobs\SendLeadInquiryEmail::dispatch($lead);
         } catch (\Exception $e) {
-            \Log::error('Failed to send lead email notification: ' . $e->getMessage());
+            \Log::error('Failed to dispatch lead email job: ' . $e->getMessage());
         }
 
         return response()->json([
