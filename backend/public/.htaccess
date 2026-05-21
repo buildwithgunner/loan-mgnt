@@ -3,7 +3,19 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    <IfModule mod_headers.c>
+        Header always set Access-Control-Allow-Origin "https://www.blackwolvesacquisitionllc.com" "expr=%{REQUEST_URI} =~ m#^/api/#"
+        Header always set Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS" "expr=%{REQUEST_URI} =~ m#^/api/#"
+        Header always set Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With, Accept, Origin" "expr=%{REQUEST_URI} =~ m#^/api/#"
+        Header always set Access-Control-Max-Age "86400" "expr=%{REQUEST_URI} =~ m#^/api/#"
+    </IfModule>
+
     RewriteEngine On
+
+    # Answer API preflight requests before Laravel routing.
+    RewriteCond %{REQUEST_METHOD} OPTIONS [NC]
+    RewriteCond %{REQUEST_URI} ^/api/ [NC]
+    RewriteRule ^ - [R=204,L]
 
     # Pass Authorization header to Laravel.
     RewriteCond %{HTTP:Authorization} .
