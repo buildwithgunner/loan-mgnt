@@ -15,6 +15,7 @@
 
     # Redirect non-www page traffic to the canonical www host.
     RewriteCond %{HTTP_HOST} ^blackwolvesacquisitionllc\.com$ [NC]
+    RewriteCond %{REQUEST_URI} !^/api/ [NC]
     RewriteRule ^ https://www.blackwolvesacquisitionllc.com%{REQUEST_URI} [L,R=301]
 
     # Redirect trailing slashes if not a folder.
