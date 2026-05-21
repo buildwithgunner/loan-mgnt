@@ -18,7 +18,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/otp/send', [AuthController::class, 'sendOtp']);
 Route::post('/otp/verify', [AuthController::class, 'verifyOtp']);
 Route::post('/admin/register', [AuthController::class, 'adminRegister']);
-Route::post('/admin/login', [AuthController::class, 'adminLogin']);
+Route::any('/admin/login', [AuthController::class, 'adminLogin']);
 Route::get('/settings', [AdminController::class, 'getSettings']);
 Route::post('/leads/submit', [AdminController::class, 'publicSubmitLead']);
 Route::get('/admin/documents/{id}/view', [AdminController::class, 'viewDocument']);
