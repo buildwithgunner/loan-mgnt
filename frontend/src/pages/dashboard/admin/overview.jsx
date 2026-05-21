@@ -23,9 +23,10 @@ export default function Overview({ setActiveTab }) {
         getAdminStats(),
         getAdminApplications()
       ]);
-      setStats(statsRes.stats);
-      setCharts(statsRes.charts || { monthly: [], types: [] });
-      setApplications(appsRes.applications);
+      setStats(statsRes?.stats || (Array.isArray(statsRes) ? statsRes : []));
+      setCharts(statsRes?.charts || { monthly: [], types: [] });
+      const appsList = Array.isArray(appsRes) ? appsRes : (appsRes?.applications || []);
+      setApplications(appsList);
     } catch (error) {
       console.error('Error fetching admin data:', error);
       if (error.response?.data?.type === 'connection_error') {

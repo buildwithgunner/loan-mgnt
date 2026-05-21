@@ -36,10 +36,11 @@ export default function UserManagement() {
     try {
       setLoading(true);
       const res = await getAdminUsers();
-      setUsers(res.users.map((u, i) => ({
+      const usersList = Array.isArray(res) ? res : (res?.users || []);
+      setUsers(usersList.map((u, i) => ({
           ...u,
           avatar: TEAM_PHOTOS[i % 3],
-          joined: new Date(u.created_at).toLocaleDateString(),
+          joined: u.created_at ? new Date(u.created_at).toLocaleDateString() : 'N/A',
           apps: u.applications_count || 0,
       })));
     } catch (error) {

@@ -62,7 +62,8 @@ export default function ApplicationsAdmin({ filterProp = 'all' }) {
     try {
       setLoading(true);
       const res = await getAdminApplications();
-      setApplications(res.applications || []);
+      const appsList = Array.isArray(res) ? res : (res?.applications || []);
+      setApplications(appsList);
     } catch (error) {
       console.error('Error fetching applications:', error);
     } finally {
