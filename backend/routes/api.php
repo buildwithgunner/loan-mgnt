@@ -24,6 +24,8 @@ Route::post('/leads/submit', [AdminController::class, 'publicSubmitLead']);
 Route::get('/admin/documents/{id}/view', [AdminController::class, 'viewDocument']);
 
 // Protected routes
+
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
