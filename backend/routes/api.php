@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,7 +52,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin routes
     Route::middleware('admin')->prefix('admin')->group(function () {
         Route::get('/stats', [AdminController::class, 'getStats']);
-        Route::get('/notifications', [AdminController::class, 'getNotifications']);
+        Route::get('/notifications', [NotificationController::class, 'adminIndex']);
+        Route::post('/notifications/{id}/read', [NotificationController::class, 'markAdminRead']);
         Route::get('/applications', [AdminController::class, 'getApplications']);
         Route::post('/applications/{id}/status', [AdminController::class, 'updateApplicationStatus']);
         Route::post('/applications/{id}/progress', [AdminController::class, 'updateApplicationProgress']);

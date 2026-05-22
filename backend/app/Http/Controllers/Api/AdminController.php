@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Application;
 use App\Models\LoanDisbursement;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\NotificationController;
 
 use App\Models\SiteSetting;
 
@@ -233,6 +234,14 @@ class AdminController extends Controller
 
         $application->save();
 
+        if ($application->user) {
+            NotificationController::alertUser(
+                $application->user,
+                "Your application #{$application->id} status is now {$application->status}.",
+                in_array($application->status, ['approved', 'credited', 'disbursed'], true) ? 'success' : 'info'
+            );
+        }
+
         return response()->json([
             'message' => 'Application status updated successfully',
             'application' => $application
@@ -254,6 +263,14 @@ class AdminController extends Controller
         $application->processing_level = $request->processing_level;
         $application->save();
 
+        if ($application->user) {
+            NotificationController::alertUser(
+                $application->user,
+                "Your application #{$application->id} moved to {$application->processing_stage}.",
+                'info'
+            );
+        }
+
         return response()->json([
             'message' => 'Progress updated successfully',
             'application' => $application
@@ -269,6 +286,10 @@ class AdminController extends Controller
         $application->approval_code = 'BWA-' . strtoupper(bin2hex(random_bytes(3)));
         $application->save();
 
+        if ($application->user) {
+            NotificationController::alertUser($application->user, "An approval code was generated for application #{$application->id}.", 'success');
+        }
+
         return response()->json([
             'message' => 'Approval code generated',
             'code' => $application->approval_code
@@ -283,6 +304,10 @@ class AdminController extends Controller
         $application = Application::findOrFail($id);
         $application->tracking_code = 'PAY-' . strtoupper(bin2hex(random_bytes(4)));
         $application->save();
+
+        if ($application->user) {
+            NotificationController::alertUser($application->user, "A tracking code was generated for application #{$application->id}.", 'success');
+        }
 
         return response()->json([
             'message' => 'Tracking code generated',
@@ -307,6 +332,10 @@ class AdminController extends Controller
         
         $application->codes_requested = false;
         $application->save();
+
+        if ($application->user) {
+            NotificationController::alertUser($application->user, "Approval and tracking codes are ready for application #{$application->id}.", 'success');
+        }
 
         return response()->json([
             'message' => 'Both codes generated successfully',
@@ -364,6 +393,8 @@ class AdminController extends Controller
         $user->activated_at = now();
         $user->save();
 
+        NotificationController::alertUser($user, 'Your account has been activated.', 'success');
+
         return response()->json([
             'message' => 'User account has been activated successfully.',
             'user'    => $user,
@@ -379,6 +410,8 @@ class AdminController extends Controller
         $user->is_active = false;
         $user->activated_at = null;
         $user->save();
+
+        NotificationController::alertUser($user, 'Your account has been deactivated.', 'warning');
 
         return response()->json([
             'message' => 'User account has been deactivated.',
@@ -464,6 +497,8 @@ class AdminController extends Controller
             'status' => 'interested',
         ]);
 
+        NotificationController::alertAdmins("New lead created: {$lead->name}", 'lead');
+
         return response()->json([
             'message' => 'Lead created and code generated successfully',
             'lead' => $lead
@@ -497,6 +532,8 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             \Log::error('Failed to dispatch lead email job: ' . $e->getMessage());
         }
+
+        NotificationController::alertAdmins("New public inquiry from {$lead->name} ({$lead->email})", 'lead');
 
         return response()->json([
             'message' => 'Your inquiry has been received. Our team will contact you shortly.',

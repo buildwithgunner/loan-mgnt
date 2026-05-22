@@ -48,7 +48,7 @@ class Admin extends Authenticatable
      */
     public function applications() { return $this->hasMany(Application::class, 'user_id', 'id')->whereRaw('1 = 0'); }
     public function documents() { return $this->hasMany(Document::class, 'user_id', 'id')->whereRaw('1 = 0'); }
-    public function notifications() { return $this->hasMany(Notification::class, 'user_id', 'id')->whereRaw('1 = 0'); }
+    public function notifications() { return $this->hasMany(Notification::class, 'admin_id'); }
     public function referrals() { return $this->hasMany(Referral::class, 'user_id', 'id')->whereRaw('1 = 0'); }
 
     public function getRepaidAmountAttribute() { return 0; }

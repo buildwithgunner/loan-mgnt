@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\Document;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\NotificationController;
 
 class DashboardController extends Controller
 {
@@ -154,6 +155,11 @@ class DashboardController extends Controller
             'form_data' => $request->form_data,
         ]);
 
+        NotificationController::alertAdmins(
+            "New loan request from {$request->user()->name}: {$application->type} for {$application->amount}",
+            'application'
+        );
+
         return response()->json($application);
     }
 
@@ -190,6 +196,11 @@ class DashboardController extends Controller
             'size' => round($file->getSize() / 1024 / 1024, 2) . ' MB',
         ]);
 
+        NotificationController::alertAdmins(
+            "{$request->user()->name} uploaded {$document->name} for application #{$application->id}",
+            'document'
+        );
+
         return response()->json($document);
     }
 
@@ -215,6 +226,11 @@ class DashboardController extends Controller
             'type' => $file->getClientOriginalExtension(),
             'size' => round($file->getSize() / 1024 / 1024, 2) . ' MB',
         ]);
+
+        NotificationController::alertAdmins(
+            "{$request->user()->name} uploaded {$document->name}",
+            'document'
+        );
 
         return response()->json($document);
     }
@@ -261,6 +277,9 @@ class DashboardController extends Controller
         $application->codes_requested = true;
         $application->save();
 
+        $name = $application->user ? $application->user->name : 'A user';
+        NotificationController::alertAdmins("{$name} requested approval and tracking codes for application #{$application->id}", 'warning');
+
         return response()->json(['message' => 'Codes requested successfully']);
     }
 
@@ -287,6 +306,9 @@ class DashboardController extends Controller
         }
 
         $application->update($request->only(['bank_name', 'account_name', 'account_number', 'routing_number']));
+
+        $name = $application->user ? $application->user->name : 'A user';
+        NotificationController::alertAdmins("{$name} updated bank details for application #{$application->id}", 'warning');
 
         return response()->json([
             'message'     => 'Bank details updated successfully',
@@ -340,6 +362,8 @@ class DashboardController extends Controller
         $user->activation_requested = true;
         $user->activation_requested_at = now();
         $user->save();
+
+        NotificationController::alertAdmins("{$user->name} requested account activation", 'activation');
 
         return response()->json(['message' => 'Activation request submitted successfully. Admin will review shortly.']);
     }

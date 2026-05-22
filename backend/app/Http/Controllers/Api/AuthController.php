@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use App\Models\VerificationCode;
+use App\Http\Controllers\Api\NotificationController;
 
 class AuthController extends Controller
 {
@@ -89,6 +90,8 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
+
+        NotificationController::alertAdmins("New user registered: {$user->name} ({$user->email})", 'user');
 
         return response()->json([
             'access_token' => $token,
