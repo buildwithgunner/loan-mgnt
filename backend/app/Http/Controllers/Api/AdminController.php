@@ -472,7 +472,13 @@ class AdminController extends Controller
     public function getLeads()
     {
         return response()->json([
-            'leads' => \App\Models\Lead::orderBy('created_at', 'desc')->get()
+            'leads' => \App\Models\Lead::orderBy('created_at', 'desc')->get()->map(function ($lead) {
+                return array_merge($lead->toArray(), [
+                    'subject' => $this->extractLeadSubject($lead->purpose),
+                    'message_body' => $this->extractLeadMessage($lead->purpose),
+                    'address' => $this->extractLeadAddress($lead->purpose),
+                ]);
+            })
         ]);
     }
 
@@ -620,5 +626,44 @@ class AdminController extends Controller
         }
         
         return abort(403, 'Unauthorized secure asset protocol access denied.');
+    }
+
+    private function extractLeadSubject(?string $purpose): string
+    {
+        if (!$purpose) {
+            return 'Contact Inquiry';
+        }
+
+        if (preg_match('/Subject:\s*([^\n]+)/i', $purpose, $matches)) {
+            return trim($matches[1]);
+        }
+
+        return 'Contact Inquiry';
+    }
+
+    private function extractLeadMessage(?string $purpose): string
+    {
+        if (!$purpose) {
+            return 'No message content.';
+        }
+
+        if (preg_match('/Message:\s*([\s\S]+?)(?=\nAddress:|$)/i', $purpose, $matches)) {
+            return trim($matches[1]) ?: 'No message content.';
+        }
+
+        return trim($purpose) ?: 'No message content.';
+    }
+
+    private function extractLeadAddress(?string $purpose): string
+    {
+        if (!$purpose) {
+            return '';
+        }
+
+        if (preg_match('/Address:\s*([\s\S]+)/i', $purpose, $matches)) {
+            return trim($matches[1]);
+        }
+
+        return '';
     }
 }

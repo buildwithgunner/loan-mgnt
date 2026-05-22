@@ -115,9 +115,18 @@ export default function Messages() {
   };
 
   // Parser helper to extract fields from packed purpose string
-  const parsePurpose = (purpose = '') => {
-    const result = { subject: 'Contact Inquiry', message: 'No message content.', address: '' };
-    if (!purpose) return result;
+  const parsePurpose = (lead = {}) => {
+    const purpose = lead.purpose || '';
+    const result = {
+      subject: lead.subject || lead.loan_type || 'Contact Inquiry',
+      message: lead.message_body || '',
+      address: lead.address || ''
+    };
+
+    if (!purpose) {
+      result.message = result.message || 'No message content.';
+      return result;
+    }
 
     const subjectMatch = purpose.match(/Subject:\s*([^\n]+)/i);
     const messageMatch = purpose.match(/Message:\s*([\s\S]+?)(?=\nAddress:|$)/i);
@@ -128,9 +137,11 @@ export default function Messages() {
     if (addressMatch) result.address = addressMatch[1].trim();
 
     // Fallback if structure is raw
-    if (!subjectMatch && !messageMatch && !addressMatch) {
+    if (!result.message && !subjectMatch && !messageMatch && !addressMatch) {
       result.message = purpose;
     }
+
+    result.message = result.message || 'No message content.';
     return result;
   };
 
@@ -140,10 +151,10 @@ export default function Messages() {
       ? true 
       : msg.status === statusFilter;
       
-    const parsed = parsePurpose(msg.purpose);
+    const parsed = parsePurpose(msg);
     const matchesSearch = 
-      msg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      msg.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (msg.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (msg.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       parsed.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
       parsed.message.toLowerCase().includes(searchTerm.toLowerCase());
       
@@ -229,7 +240,7 @@ export default function Messages() {
                   </div>
                 ) : (
                   filteredMessages.map(msg => {
-                    const parsed = parsePurpose(msg.purpose);
+                    const parsed = parsePurpose(msg);
                     const isSelected = selectedMessage && selectedMessage.id === msg.id;
                     const isNew = msg.status === 'new_inquiry';
                     const dateObj = new Date(msg.created_at);
@@ -291,7 +302,7 @@ export default function Messages() {
             <div className="lg:col-span-7 bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden flex flex-col h-[600px]">
               {selectedMessage ? (
                 (() => {
-                  const parsed = parsePurpose(selectedMessage.purpose);
+                  const parsed = parsePurpose(selectedMessage);
                   const isNew = selectedMessage.status === 'new_inquiry';
                   const dateObj = new Date(selectedMessage.created_at);
 
