@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Users, FileText, Edit2, BarChart2, MessageSquare, Settings, LogOut, X, Shield, ArrowRight, XCircle, ShieldCheck, Key, UserPlus } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, MessageSquare, Settings, LogOut, X, Shield, ArrowRight, XCircle, ShieldCheck, Key, UserPlus, Bell } from 'lucide-react';
 import { navigateTo } from '../../../App.jsx';
 import Logo from '../../../components/Logo.jsx';
 
@@ -26,6 +26,7 @@ export default function Sidebar({ activeTab, setActiveTab, sidebarOpen, setSideb
         { id: 'users', label: 'All Users', icon: Users },
         { id: 'documents', label: 'User Documents', icon: FileText },
         { id: 'messages', label: 'Messages', icon: MessageSquare },
+        { id: 'notifications', label: 'Notifications', icon: Bell },
         { id: 'settings', label: 'Admin Settings', icon: Settings },
       ]
     }

@@ -125,7 +125,7 @@ export default function Messages() {
     };
 
     if (!purpose) {
-      result.message = result.message || 'No message content.';
+      result.message = result.message || 'No saved message content for this inquiry. Only the sender contact details were stored.';
       return result;
     }
 
@@ -142,7 +142,7 @@ export default function Messages() {
       result.message = purpose;
     }
 
-    result.message = result.message || 'No message content.';
+    result.message = result.message || 'No saved message content for this inquiry. Only the sender contact details were stored.';
     return result;
   };
 

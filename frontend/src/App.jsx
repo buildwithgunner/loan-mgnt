@@ -43,7 +43,7 @@ export function navigateTo(url) {
   window.scrollTo(0, 0);
 }
 
-const STANDALONE_ROUTES = ['/dashboard', '/admin', '/admin/applications', '/admin/funding', '/admin/disapproved', '/admin/users', '/admin/documents', '/admin/leads', '/admin/codes', '/admin/blog', '/admin/analytics', '/admin/messages', '/admin/settings', '/login', '/signup', '/apply', '/admin/login', '/admin/signup'];
+const STANDALONE_ROUTES = ['/dashboard', '/admin', '/admin/applications', '/admin/funding', '/admin/disapproved', '/admin/users', '/admin/documents', '/admin/leads', '/admin/codes', '/admin/blog', '/admin/analytics', '/admin/messages', '/admin/notifications', '/admin/settings', '/login', '/signup', '/apply', '/admin/login', '/admin/signup'];
 
 const routes = {
   '/': <Home />,
@@ -84,6 +84,7 @@ const routes = {
   '/admin/blog': <AdminDashboard />,
   '/admin/analytics': <AdminDashboard />,
   '/admin/messages': <AdminDashboard />,
+  '/admin/notifications': <AdminDashboard />,
   '/admin/settings': <AdminDashboard />,
   '/login': <Login />,
   '/signup': <Signup />,

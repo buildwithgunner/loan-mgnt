@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  LayoutDashboard, Users, FileText, Edit2, BarChart2, MessageSquare, Settings, UserPlus, Key
+  LayoutDashboard, Users, FileText, Edit2, BarChart2, MessageSquare, Settings, UserPlus, Key, Bell
 } from 'lucide-react';
 import { navigateTo } from '../../../App.jsx';
 import Overview from './overview.jsx';
@@ -13,6 +13,7 @@ import CodeGenerator from './code-generator.jsx';
 import Analytics from './analytics.jsx';
 import AdminSettings from './admin-settings.jsx';
 import Messages from './messages.jsx';
+import Notifications from './notifications.jsx';
 import Sidebar from './sidebar.jsx';
 import Topbar from './topbar.jsx';
 
@@ -27,6 +28,7 @@ const NAV_ITEMS = [
   { id: 'blog',         label: 'Blog & Posts',      icon: Edit2 },
   { id: 'analytics',    label: 'Analytics',         icon: BarChart2 },
   { id: 'messages',     label: 'Messages',          icon: MessageSquare },
+  { id: 'notifications', label: 'Notifications',     icon: Bell },
   { id: 'settings',     label: 'Settings',          icon: Settings },
 ];
 
@@ -83,6 +85,7 @@ export default function AdminDashboard() {
       case 'analytics':    return <Analytics />;
       case 'settings':     return <AdminSettings />;
       case 'messages':     return <Messages />;
+      case 'notifications': return <Notifications />;
       default: return <Overview />;
     }
   };
