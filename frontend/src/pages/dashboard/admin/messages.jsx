@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, Search, Trash2, Check, Mail, Phone, Calendar, MapPin, Inbox, CheckCircle, RefreshCw } from 'lucide-react';
+import { MessageSquare, Search, Trash2, Check, Mail, Phone, Calendar, MapPin, Inbox, CheckCircle, RefreshCw, Eye } from 'lucide-react';
 import { getAdminLeads, updateLeadStatus, deleteLead } from '../../../api/admin';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -70,9 +70,10 @@ export default function Messages() {
       });
       fetchMessages();
     } catch (err) {
+      console.error('Failed to update inquiry status:', err);
       Toast.fire({
         title: 'PROTOCOL ERROR',
-        text: 'Failed to update inquiry status.',
+        text: err.response?.data?.message || err.message || 'Failed to update inquiry status.',
         icon: 'error'
       });
     }
@@ -143,6 +144,48 @@ export default function Messages() {
 
     result.message = result.message || 'No message content.';
     return result;
+  };
+
+  const escapeHtml = (value = '') => String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+  const handleViewInquiry = (msg) => {
+    const parsed = parsePurpose(msg);
+    const dateObj = new Date(msg.created_at);
+
+    MySwal.fire({
+      title: `<span style="font-family: Georgia, serif; color: #0f172a;">${escapeHtml(msg.name || 'Inquiry')}</span>`,
+      html: `
+        <div style="text-align:left; display:grid; gap:14px; color:#334155;">
+          <div style="display:grid; gap:6px; font-size:13px;">
+            <div><strong>Email:</strong> ${escapeHtml(msg.email || 'N/A')}</div>
+            <div><strong>Phone:</strong> ${escapeHtml(msg.phone || 'N/A')}</div>
+            <div><strong>Date:</strong> ${escapeHtml(dateObj.toLocaleString())}</div>
+            <div><strong>Status:</strong> ${escapeHtml(msg.status || 'N/A')}</div>
+          </div>
+          <div>
+            <div style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.18em; color:#94a3b8; margin-bottom:6px;">Subject</div>
+            <div style="font-weight:800; color:#0f172a;">${escapeHtml(parsed.subject)}</div>
+          </div>
+          <div>
+            <div style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.18em; color:#94a3b8; margin-bottom:6px;">Message</div>
+            <div style="white-space:pre-wrap; line-height:1.6; background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:14px;">${escapeHtml(parsed.message)}</div>
+          </div>
+          ${parsed.address ? `
+            <div>
+              <div style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.18em; color:#94a3b8; margin-bottom:6px;">Address</div>
+              <div>${escapeHtml(parsed.address)}</div>
+            </div>
+          ` : ''}
+        </div>
+      `,
+      confirmButtonText: 'CLOSE',
+      width: 640
+    });
   };
 
   // Filter messages based on tab/status and search query
@@ -285,6 +328,17 @@ export default function Messages() {
                           }`}>
                             {isNew ? 'New Inquiry' : 'Contacted'}
                           </span>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleViewInquiry(msg);
+                            }}
+                            className="inline-flex items-center gap-1 text-[9px] text-slate-400 hover:text-[#c5a059] font-black uppercase tracking-wider transition-colors"
+                            title="View inquiry details"
+                          >
+                            <Eye size={12} /> View
+                          </button>
                           {msg.phone && (
                             <span className="text-[9px] text-slate-400 flex items-center gap-1 font-mono">
                               <Phone size={10} /> {msg.phone}
@@ -319,6 +373,12 @@ export default function Messages() {
                           </h3>
                         </div>
                         <div className="flex gap-2">
+                          <button
+                            onClick={() => handleViewInquiry(selectedMessage)}
+                            className="flex items-center gap-1.5 border border-slate-200 hover:bg-slate-50 text-slate-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all"
+                          >
+                            <Eye size={14} /> VIEW DETAILS
+                          </button>
                           {isNew && (
                             <button
                               onClick={() => handleMarkContacted(selectedMessage.id)}

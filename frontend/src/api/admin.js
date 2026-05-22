@@ -81,7 +81,7 @@ export const createAdminLead = async (data) => {
 };
 
 export const updateLeadStatus = async (id, status) => {
-  const response = await axios.put(`${API_URL}/admin/leads/${id}/status`, { status }, { headers: getAuthHeader() });
+  const response = await axios.post(`${API_URL}/admin/leads/${id}/status`, { status }, { headers: getAuthHeader() });
   return response.data;
 };
 
