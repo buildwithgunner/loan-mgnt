@@ -14,6 +14,10 @@ export const getAdminStats = async () => {
 
 export const getAdminNotifications = async () => {
   const response = await axios.get(`${API_URL}/admin/notifications`, { headers: getAuthHeader() });
+  // If the API returns an array, wrap it to match the frontend expectation
+  if (Array.isArray(response.data)) {
+    return { notifications: response.data };
+  }
   return response.data;
 };
 
