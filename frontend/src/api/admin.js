@@ -106,7 +106,8 @@ export const updateAdminSettings = async (settings) => {
 };
 
 export const adminLogin = async (credentials) => {
-  const response = await axios.post(`${API_URL}/admin/login`, credentials);
+   console.log('Calling admin login:', `${API_URL}/admin/login`, credentials);
+   const response = await axios.post(`${API_URL}/admin/login`, credentials);
   if (response.data.access_token) {
     localStorage.setItem('access_token', response.data.access_token);
     localStorage.setItem('user', JSON.stringify(response.data.user));
