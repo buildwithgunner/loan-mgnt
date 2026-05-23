@@ -25,15 +25,25 @@ export default function Profile({ user: initialUser, initialTab = 'general' }) {
   };
 
   const handleSave = async () => {
+    if (activeTab === 'security' && formData.password && formData.password !== formData.password_confirmation) {
+      setError('Passwords do not match');
+      return;
+    }
+
     setIsSaving(true);
     setError(null);
     try {
       const result = await apiClient('/user/profile', {
         method: 'PUT',
-        body: JSON.stringify(formData)
+        body: formData
       });
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);
+      setFormData(prev => ({
+        ...prev,
+        password: '',
+        password_confirmation: '',
+      }));
       
       // Update local storage if user info changed
       if (result.user) {
@@ -177,12 +187,23 @@ export default function Profile({ user: initialUser, initialTab = 'general' }) {
                     <input 
                       type="password" 
                       name={l.name}
+                      value={formData[l.name]}
                       onChange={handleInputChange}
                       placeholder={l.placeholder}
                       className="w-full bg-white border border-gray-200 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 focus:outline-none focus:border-[#c5a059] transition-all placeholder:text-slate-400 shadow-sm" 
                     />
                   </div>
                 ))}
+
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  disabled={isSaving || !formData.password || !formData.password_confirmation}
+                  className="inline-flex items-center justify-center gap-3 bg-[#c5a059] text-[#05101c] font-black px-8 py-4 rounded-2xl text-xs transition-all shadow-xl shadow-[#c5a059]/20 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-[0.2em]"
+                >
+                  {isSaving ? <div className="w-4 h-4 border-2 border-[#05101c]/30 border-t-[#05101c] rounded-full animate-spin" /> : <Save size={18} />}
+                  {isSaving ? 'SAVING...' : 'SAVE PASSWORD'}
+                </button>
               </div>
 
               <div className="p-8 rounded-3xl bg-amber-50 border border-amber-200 flex items-start gap-6 shadow-sm">
