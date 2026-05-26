@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { ChevronDown, Menu, X, Linkedin, Facebook, Instagram, Sun, Moon } from 'lucide-react';
+import { ChevronDown, Menu, X, Facebook, Instagram, Sun, Moon } from 'lucide-react';
 import { navigateTo } from '../App.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
 import Logo from './Logo.jsx';
@@ -221,6 +221,46 @@ export default function Navbar() {
           </div>
 
           <div className="pt-8 mt-10 space-y-4 border-t border-[#c5a059]/20">
+            <div className="flex items-center justify-between rounded-2xl border border-[#c5a059]/15 bg-[#c5a059]/5 px-5 py-4">
+              <div>
+                <p className={`text-[10px] font-black uppercase tracking-[0.25em] ${
+                  theme === 'dark' ? 'text-slate-400' : 'text-slate-500'
+                }`}>
+                  Follow Us
+                </p>
+                <p className={`mt-1 text-sm font-semibold ${
+                  theme === 'dark' ? 'text-white' : 'text-slate-900'
+                }`}>
+                  Stay connected on social media
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://www.facebook.com/profile.php?id=61589778456588&mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`flex h-11 w-11 items-center justify-center rounded-full border transition-colors ${
+                    theme === 'dark'
+                      ? 'border-white/10 text-white hover:border-[#c5a059] hover:text-[#c5a059]'
+                      : 'border-slate-200 text-slate-900 hover:border-[#c5a059] hover:text-[#c5a059]'
+                  }`}
+                >
+                  <Facebook size={18} />
+                </a>
+                <a
+                  href="https://www.instagram.com/blackwolvesllc_?igsh=MWVpenZieXYzamZoZA%3D%3D&utm_source=qr"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`flex h-11 w-11 items-center justify-center rounded-full border transition-colors ${
+                    theme === 'dark'
+                      ? 'border-white/10 text-white hover:border-[#c5a059] hover:text-[#c5a059]'
+                      : 'border-slate-200 text-slate-900 hover:border-[#c5a059] hover:text-[#c5a059]'
+                  }`}
+                >
+                  <Instagram size={18} />
+                </a>
+              </div>
+            </div>
             <button
               onClick={() => handleNav('/apply')}
               className="w-full py-4 bg-[#c5a059] text-white font-black uppercase tracking-[0.2em] rounded-xl text-sm shadow-lg shadow-[#c5a059]/20"
