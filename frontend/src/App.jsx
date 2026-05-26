@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
+import ChatWidget from './components/ChatWidget.jsx';
 import Maintenance from './components/Maintenance.jsx';
 import { MAINTENANCE_MODE } from './config.js';
 
