@@ -24,7 +24,10 @@ export default function Overview({ setActiveTab }) {
         getAdminApplications()
       ]);
       setStats(statsRes?.stats || (Array.isArray(statsRes) ? statsRes : []));
-      setCharts(statsRes?.charts || { monthly: [], types: [] });
+      setCharts({
+        monthly: Array.isArray(statsRes?.charts?.monthly) ? statsRes.charts.monthly : [],
+        types: Array.isArray(statsRes?.charts?.types) ? statsRes.charts.types : [],
+      });
       const appsList = Array.isArray(appsRes) ? appsRes : (appsRes?.applications || []);
       setApplications(appsList);
     } catch (error) {
@@ -161,7 +164,7 @@ export default function Overview({ setActiveTab }) {
              <Users size={14} /> Portfolio Distribution
           </h3>
           <div className="space-y-8">
-            {charts.types.length > 0 ? charts.types.map((l, i) => (
+            {Array.isArray(charts.types) && charts.types.length > 0 ? charts.types.map((l, i) => (
               <div key={i} className="group">
                 <div className="flex justify-between text-[10px] font-black text-slate-400 mb-3 uppercase tracking-widest">
                   <span className="group-hover:text-[#c5a059] transition-colors">{l.label}</span>

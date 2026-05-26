@@ -24,6 +24,8 @@ export default function Overview({ user, data, setActiveTab }) {
   const [showWithdrawForm, setShowWithdrawForm] = useState(false);
   const [activationLoading, setActivationLoading] = useState(false);
   const [activationMsg, setActivationMsg]         = useState('');
+  const recentApplications = Array.isArray(data?.recent_applications) ? data.recent_applications : [];
+  const activeApplications = Array.isArray(data?.applications) ? data.applications : [];
   
   const stats = [
     { label: 'Total Loan Requested', value: data?.stats?.total_requested || '$0', icon: Wallet, subtitle: 'All Time' },
@@ -196,7 +198,7 @@ export default function Overview({ user, data, setActiveTab }) {
       })()}
 
       {/* Dynamic Stage 2 Funding Alert */}
-      {data?.applications?.some(app => ['approved', 'credited', 'disbursed'].includes(app.status)) && (
+      {activeApplications.some(app => ['approved', 'credited', 'disbursed'].includes(app.status)) && (
         <div className="bg-[#c5a059] rounded-3xl p-8 border border-[#c5a059]/20 flex flex-col md:flex-row md:items-center justify-between gap-8 shadow-[0_20px_50px_rgba(197,160,89,0.2)] animate-in slide-in-from-bottom duration-700 relative overflow-hidden group">
            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[100px] -mr-32 -mt-32 pointer-events-none group-hover:scale-150 transition-transform duration-1000" />
            <div className="relative z-10">
@@ -266,7 +268,7 @@ export default function Overview({ user, data, setActiveTab }) {
            </div>
            
            <div className="grid grid-cols-1 gap-6">
-              {(data?.recent_applications && data.recent_applications.length > 0) ? data.recent_applications.map((app, idx) => (
+              {recentApplications.length > 0 ? recentApplications.map((app, idx) => (
                 <div key={idx} className="bg-[var(--bg-surface)] rounded-[2rem] p-8 border border-[var(--border-color)] shadow-xl flex flex-col sm:flex-row items-center justify-between group hover:border-[#c5a059]/40 hover:shadow-[#c5a059]/5 transition-all relative overflow-hidden">
                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#c5a059]/5 blur-[60px] -mr-16 -mt-16 pointer-events-none" />
                    
