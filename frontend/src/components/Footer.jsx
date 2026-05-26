@@ -19,6 +19,11 @@ export default function Footer() {
     office_address: '759 7TH ST, SECAUCUS, NJ 07094'
   });
 
+  const supportPhone = typeof settings.support_phone === 'string' ? settings.support_phone : '';
+  const formattedPhone = supportPhone.length === 10
+    ? supportPhone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
+    : supportPhone || 'N/A';
+
   useEffect(() => {
     axios.get(`${API_URL}/settings`)
       .then(res => {
@@ -71,8 +76,8 @@ export default function Footer() {
               </div>
               <div className="space-y-4">
                 <p><strong className="text-[#c5a059] font-black uppercase tracking-widest text-xs block mb-1">EMAIL:</strong> <a href={`mailto:${settings.support_email}`} className="text-[var(--text-secondary)] hover:text-[#c5a059] transition-colors">{settings.support_email}</a></p>
-                <p><strong className="text-[#c5a059] font-black uppercase tracking-widest text-xs block mb-1">PHONE:</strong> <a href={`tel:${settings.support_phone}`} className="text-[var(--text-secondary)] hover:text-[#c5a059] transition-colors font-medium">
-                  {settings.support_phone.length === 10 ? settings.support_phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3') : settings.support_phone}
+                <p><strong className="text-[#c5a059] font-black uppercase tracking-widest text-xs block mb-1">PHONE:</strong> <a href={supportPhone ? `tel:${supportPhone}` : '#'} className="text-[var(--text-secondary)] hover:text-[#c5a059] transition-colors font-medium">
+                  {formattedPhone}
                 </a></p>
               </div>
             </div>

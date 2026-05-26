@@ -10,6 +10,11 @@ export default function TopBar() {
     support_email: 'info@blackwolvesacquisition.com'
   });
 
+  const supportPhone = typeof settings.support_phone === 'string' ? settings.support_phone : '';
+  const formattedPhone = supportPhone.length === 10
+    ? supportPhone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
+    : supportPhone || 'N/A';
+
   useEffect(() => {
     axios.get(`${API_URL}/settings`)
       .then(res => {
@@ -24,9 +29,9 @@ export default function TopBar() {
     <div className="bg-[var(--bg-secondary)] text-[var(--text-secondary)] py-2.5 px-6 lg:px-10 border-b border-[var(--border-color)] hidden lg:block transition-colors duration-300">
       <div className="mx-auto max-w-[1440px] flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.25em]">
         <div className="flex items-center gap-8">
-          <a href={`tel:${settings.support_phone}`} className="flex items-center gap-2 hover:text-[#c5a059] transition-colors">
+          <a href={supportPhone ? `tel:${supportPhone}` : '#'} className="flex items-center gap-2 hover:text-[#c5a059] transition-colors">
             <Phone size={12} className="text-[#c5a059]" />
-            {settings.support_phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')}
+            {formattedPhone}
           </a>
           <a href={`mailto:${settings.support_email}`} className="flex items-center gap-2 hover:text-[#c5a059] transition-colors lowercase tracking-wider">
             <Mail size={12} className="text-[#c5a059]" />

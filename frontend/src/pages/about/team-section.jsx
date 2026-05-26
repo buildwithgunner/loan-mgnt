@@ -42,6 +42,16 @@ const teamMembers = [
     linkedin: "#",
     twitter: "#",
     email: "#",
+  },
+  {
+    id: 5,
+    name: "Deanne Ellis",
+    role: "Mortgage Consultant",
+    image: "/deanne-ellis.jpg",
+    bio: "Deanne advises clients on mortgage strategy, qualification readiness, and deal structuring across a wide range of real estate scenarios. She is focused on clear communication and helping borrowers move confidently from application through closing.",
+    linkedin: "#",
+    twitter: "#",
+    email: "#",
   }
 ];
 

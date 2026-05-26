@@ -4,6 +4,7 @@ const ceoImg = '/ceo_anthony.jpg';
 const danielImg = '/daniel.jpg';
 const sarahImg = '/sarah_v2.jpg';
 const michaelImg = '/michael.jpg';
+const deanneImg = '/deanne-ellis.jpg';
 
 const posts = [
   {
@@ -29,6 +30,12 @@ const posts = [
     image: michaelImg,
     type: 'video',
     title: 'Michael walks you through the FEMA 50% Rule'
+  },
+  {
+    id: 5,
+    image: deanneImg,
+    type: 'image',
+    title: 'Deanne Ellis helps clients navigate mortgage strategy'
   }
 ];
 

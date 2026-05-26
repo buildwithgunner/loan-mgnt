@@ -10,12 +10,12 @@ export default function ChatWidget() {
     <div className="fixed bottom-6 right-6 z-[100] animate-in fade-in slide-in-from-bottom-5 duration-700">
       <div className="relative flex items-center gap-4 rounded-2xl bg-[var(--bg-surface)] p-4 shadow-2xl border border-[var(--border-color)] min-w-[320px]">
         
-        {/* Loan Processor (CEO) Image */}
+        {/* Team contact image */}
         <div className="relative h-14 w-14 flex-shrink-0">
           <div className="h-full w-full rounded-full border-2 border-[#c5a059] overflow-hidden">
             <img 
-              src="/daniel.jpg" 
-              alt="Zach Willams - Loan Processor" 
+              src="/deanne-ellis.jpg" 
+              alt="Deanne Ellis - Mortgage Consultant" 
               className="h-full w-full object-cover"
             />
           </div>
@@ -25,10 +25,10 @@ export default function ChatWidget() {
         {/* Message Content */}
         <div className="flex-1 pr-6">
           <p className="text-[15px] font-bold text-[var(--text-primary)] leading-tight tracking-tight">
-            Zach Willams
+            Deanne Ellis
           </p>
           <p className="text-[13px] text-[#c5a059] font-bold uppercase tracking-widest mt-0.5">
-            Loan Processor Online
+            Mortgage Consultant Online
           </p>
         </div>
 

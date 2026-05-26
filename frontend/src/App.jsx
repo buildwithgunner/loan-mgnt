@@ -105,8 +105,11 @@ function App() {
   // Fetch maintenance flag from backend on initial load
   useEffect(() => {
     fetch('https://api.blackwolvesacquisitionllc.com/api/maintenance')
-      .then((res) => res.json())
-      .then((data) => setMaintenance(!!data.maintenance))
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((data) => setMaintenance(!!data?.maintenance))
       .catch(() => setMaintenance(false));
   }, []);
 
