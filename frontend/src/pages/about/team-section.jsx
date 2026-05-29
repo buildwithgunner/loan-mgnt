@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { navigateTo } from '../../App.jsx';
 import { FaLinkedinIn, FaTwitter, FaEnvelope } from 'react-icons/fa';
+import { BASE_URL } from '../../api/client.js';
 
-const teamMembers = [
+const DEFAULT_TEAM_MEMBERS = [
   {
     id: 1,
     name: "Anthony Deceglie",
@@ -55,10 +56,42 @@ const teamMembers = [
   }
 ];
 
+const parseTeamMembers = (value) => {
+  if (!value) return DEFAULT_TEAM_MEMBERS;
+
+  try {
+    const parsed = typeof value === 'string' ? JSON.parse(value) : value;
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_TEAM_MEMBERS;
+  } catch (error) {
+    console.error('Unable to parse team members setting:', error);
+    return DEFAULT_TEAM_MEMBERS;
+  }
+};
+
 export default function TeamSection() {
+  const [teamMembers, setTeamMembers] = useState(DEFAULT_TEAM_MEMBERS);
   const title = "Meet Our Team";
   const subtitle = "The experts driving your real estate success at Black Wolves Acquisition LLC.";
   const heroImage = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1600";
+
+  useEffect(() => {
+    let mounted = true;
+
+    fetch(`${BASE_URL}/settings`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (mounted) {
+          setTeamMembers(parseTeamMembers(data?.settings?.team_members));
+        }
+      })
+      .catch((error) => {
+        console.error('Unable to fetch team settings:', error);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <div className="w-full bg-[#f8fafc] min-h-screen font-sans">
