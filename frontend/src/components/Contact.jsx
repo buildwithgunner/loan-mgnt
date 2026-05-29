@@ -1,11 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+const COMPANY_EMAIL = 'Info@blackwolvesacquistionllc.com';
+const COMPANY_PHONE_DISPLAY = '+1 563-571-0448';
+const COMPANY_PHONE_HREF = '+15635710448';
+const COMPANY_ADDRESS = '759 7TH ST, SECAUCUS, NJ 07094';
+
+const DEFAULT_CONTACT = {
+  support_phone: '5635710448',
+  support_email: COMPANY_EMAIL,
+  office_address: COMPANY_ADDRESS,
+};
+
+const validSetting = (value, fallback) => {
+  if (typeof value !== 'string') return fallback;
+  const trimmed = value.trim();
+  return trimmed && trimmed.toUpperCase() !== 'N/A' ? trimmed : fallback;
+};
+
+const formatPhone = (phone) => {
+  const digits = phone.replace(/\D/g, '');
+
+  if (digits.length === 10) {
+    return {
+      display: `+1 ${digits.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')}`,
+      href: `+1${digits}`,
+    };
+  }
+
+  return {
+    display: phone || COMPANY_PHONE_DISPLAY,
+    href: phone || COMPANY_PHONE_HREF,
+  };
+};
 
 export default function Contact() {
+  const [settings, setSettings] = useState(DEFAULT_CONTACT);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -19,6 +52,24 @@ export default function Contact() {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    axios.get(`${API_URL}/settings`)
+      .then(res => {
+        if (res.data.settings) {
+          setSettings(prev => ({
+            ...prev,
+            support_phone: validSetting(res.data.settings.support_phone, prev.support_phone),
+            support_email: validSetting(res.data.settings.support_email, prev.support_email),
+            office_address: validSetting(res.data.settings.office_address, prev.office_address),
+          }));
+        }
+      })
+      .catch(err => console.error('Error fetching contact settings:', err));
+  }, []);
+
+  const phone = useMemo(() => formatPhone(settings.support_phone), [settings.support_phone]);
+  const mapQuery = encodeURIComponent(settings.office_address);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,14 +151,14 @@ export default function Contact() {
             <div className="bg-white rounded-lg shadow-[0_2px_20px_rgba(0,0,0,0.06)] border border-slate-100 p-8 flex flex-col items-center justify-center text-center transition-transform hover:-translate-y-1">
               <Phone className="w-10 h-10 text-slate-900 mb-4" strokeWidth={2.5} />
               <h3 className="text-xl font-semibold text-[#c5a059] mb-3 tracking-wide uppercase">Phone</h3>
-              <a href="tel:+15635710448" className="text-slate-600 text-sm font-medium hover:text-slate-900 transition-colors">+1 563-571-0448</a>
+              <a href={`tel:${phone.href}`} className="text-slate-600 text-sm font-medium hover:text-slate-900 transition-colors">{phone.display}</a>
             </div>
 
             {/* Email Card */}
             <div className="bg-white rounded-lg shadow-[0_2px_20px_rgba(0,0,0,0.06)] border border-slate-100 p-8 flex flex-col items-center justify-center text-center transition-transform hover:-translate-y-1">
               <Mail className="w-10 h-10 text-slate-900 mb-4" strokeWidth={2.5} />
               <h3 className="text-xl font-semibold text-[#c5a059] mb-3 tracking-wide uppercase">Email</h3>
-              <a href="mailto:info@blackwolvesacquisition.com" className="text-slate-600 text-sm font-medium hover:text-slate-900 transition-colors">info@blackwolvesacquisition.com</a>
+              <a href={`mailto:${settings.support_email}`} className="text-slate-600 text-sm font-medium hover:text-slate-900 transition-colors">{settings.support_email}</a>
             </div>
 
             {/* Location Card */}
@@ -115,7 +166,7 @@ export default function Contact() {
               <MapPin className="w-10 h-10 text-slate-900 mb-4" strokeWidth={2.5} />
               <h3 className="text-xl font-semibold text-[#c5a059] mb-3 tracking-wide uppercase">Secaucus NJ</h3>
               <p className="text-slate-500 text-[13px] font-medium leading-relaxed max-w-[220px]">
-                759 7TH ST, SECAUCUS, NJ 07094
+                {settings.office_address}
               </p>
             </div>
 
@@ -263,7 +314,7 @@ export default function Contact() {
       <div className="w-full h-[450px] relative z-0">
         <iframe 
           title="Black Wolves Acquisition LLC Location"
-          src="https://maps.google.com/maps?q=759%207TH%20ST,%20SECAUCUS,%20NJ%2007094&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+          src={`https://maps.google.com/maps?q=${mapQuery}&t=&z=14&ie=UTF8&iwloc=&output=embed`} 
           width="100%" 
           height="100%" 
           style={{ border: 0 }} 

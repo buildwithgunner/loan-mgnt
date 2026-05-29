@@ -5,6 +5,17 @@ import Logo from './Logo.jsx';
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+const DEFAULT_CONTACT = {
+  support_phone: '5635710448',
+  support_email: 'Info@blackwolvesacquistionllc.com',
+  office_address: '759 7TH ST, SECAUCUS, NJ 07094'
+};
+
+const validSetting = (value, fallback) => {
+  if (typeof value !== 'string') return fallback;
+  const trimmed = value.trim();
+  return trimmed && trimmed.toUpperCase() !== 'N/A' ? trimmed : fallback;
+};
 
 const locations = [
   "United States", "United Kingdom", "Canada", "Australia", 
@@ -13,11 +24,7 @@ const locations = [
 ];
 
 export default function Footer() {
-  const [settings, setSettings] = useState({
-    support_phone: '5635710448',
-    support_email: 'info@blackwolvesacquisition.com',
-    office_address: '759 7TH ST, SECAUCUS, NJ 07094'
-  });
+  const [settings, setSettings] = useState(DEFAULT_CONTACT);
 
   const supportPhone = typeof settings.support_phone === 'string' ? settings.support_phone : '';
   const formattedPhone = supportPhone.length === 10
@@ -28,7 +35,12 @@ export default function Footer() {
     axios.get(`${API_URL}/settings`)
       .then(res => {
         if (res.data.settings) {
-          setSettings(prev => ({ ...prev, ...res.data.settings }));
+          setSettings(prev => ({
+            ...prev,
+            support_phone: validSetting(res.data.settings.support_phone, prev.support_phone),
+            support_email: validSetting(res.data.settings.support_email, prev.support_email),
+            office_address: validSetting(res.data.settings.office_address, prev.office_address),
+          }));
         }
       })
       .catch(err => console.error('Error fetching footer settings:', err));

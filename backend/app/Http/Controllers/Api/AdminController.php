@@ -18,9 +18,21 @@ class AdminController extends Controller
      */
     public function getSettings()
     {
-        $settings = \Illuminate\Support\Facades\Cache::remember('site_settings', 86400, function () {
-            return SiteSetting::all()->pluck('value', 'key');
+        $defaults = collect([
+            'site_name' => 'Black Wolves Acquisition LLC',
+            'support_phone' => '5635710448',
+            'support_email' => 'Info@blackwolvesacquistionllc.com',
+            'office_address' => '759 7TH ST, SECAUCUS, NJ 07094',
+        ]);
+
+        $storedSettings = SiteSetting::all()->pluck('value', 'key')->map(function ($value) {
+            return is_string($value) ? trim($value) : $value;
+        })->filter(function ($value) {
+            return $value !== null && $value !== '' && strtoupper((string) $value) !== 'N/A';
         });
+
+        $settings = $defaults->merge($storedSettings);
+
         return response()->json([
             'settings' => $settings
         ]);

@@ -15,8 +15,8 @@ class SiteSettingSeeder extends Seeder
         $settings = [
             'site_name' => 'Black Wolves Acquisition LLC',
             'support_phone' => '5635710448',
-            'support_email' => 'info@blackwolvesacquisition.com',
-            'office_address' => 'Clearwater, FL',
+            'support_email' => 'Info@blackwolvesacquistionllc.com',
+            'office_address' => '759 7TH ST, SECAUCUS, NJ 07094',
         ];
 
         foreach ($settings as $key => $value) {

@@ -3,12 +3,19 @@ import { Phone, Mail, MapPin, Facebook, Instagram } from 'lucide-react';
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+const DEFAULT_CONTACT = {
+  support_phone: '5635710448',
+  support_email: 'Info@blackwolvesacquistionllc.com'
+};
+
+const validSetting = (value, fallback) => {
+  if (typeof value !== 'string') return fallback;
+  const trimmed = value.trim();
+  return trimmed && trimmed.toUpperCase() !== 'N/A' ? trimmed : fallback;
+};
 
 export default function TopBar() {
-  const [settings, setSettings] = useState({
-    support_phone: '5635710448',
-    support_email: 'info@blackwolvesacquisition.com'
-  });
+  const [settings, setSettings] = useState(DEFAULT_CONTACT);
 
   const supportPhone = typeof settings.support_phone === 'string' ? settings.support_phone : '';
   const formattedPhone = supportPhone.length === 10
@@ -19,7 +26,11 @@ export default function TopBar() {
     axios.get(`${API_URL}/settings`)
       .then(res => {
         if (res.data.settings) {
-          setSettings(prev => ({ ...prev, ...res.data.settings }));
+          setSettings(prev => ({
+            ...prev,
+            support_phone: validSetting(res.data.settings.support_phone, prev.support_phone),
+            support_email: validSetting(res.data.settings.support_email, prev.support_email),
+          }));
         }
       })
       .catch(err => console.error('Error fetching public settings:', err));
