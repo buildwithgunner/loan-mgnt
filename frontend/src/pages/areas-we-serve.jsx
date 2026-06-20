@@ -230,11 +230,11 @@ export default function AreasWeServe() {
             Apply Now <ChevronRight size={20} />
           </button>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-white/70">
-            <a href="tel:5635710448" className="flex items-center gap-2 hover:text-white transition-colors">
+            <a href="tel:15635710448" className="flex items-center gap-2 hover:text-white transition-colors">
               <Phone size={15} /> 563-571-0448
             </a>
-            <a href="mailto:info@blackwolvesacquisition.com" className="flex items-center gap-2 hover:text-white transition-colors">
-              <Mail size={15} /> info@blackwolvesacquisition.com
+            <a href="mailto:Info@blackwolvesacquistionllc.com" className="flex items-center gap-2 hover:text-white transition-colors">
+              <Mail size={15} /> Info@blackwolvesacquistionllc.com
             </a>
           </div>
         </div>

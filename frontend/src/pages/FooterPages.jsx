@@ -8,7 +8,7 @@ export function FindUs() {
       <p className="text-lg text-slate-600 max-w-2xl mx-auto">
         Office Location: 759 7TH ST, SECAUCUS, NJ 07094
         <br/>
-        Email: info@blackwolvesacquisition.com
+        Email: Info@blackwolvesacquistionllc.com
         <br/>
         Phone: +1 563-571-0448
       </p>

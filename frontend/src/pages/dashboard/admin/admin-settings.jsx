@@ -53,6 +53,16 @@ const DEFAULT_TEAM_MEMBERS = [
     twitter: "#",
     email: "#",
   },
+  {
+    id: 6,
+    name: "Gary Brown",
+    role: "Loan Broker Officer",
+    image: "/gary_brown.png",
+    bio: "Gary leads our broker coordination and private capital networks with exceptional expertise. Leveraging deep industry connections, he matches investors with custom financing packages to ensure competitive terms and smooth funding executions.",
+    linkedin: "#",
+    twitter: "#",
+    email: "#",
+  }
 ];
 
 const parseTeamMembers = (value) => {

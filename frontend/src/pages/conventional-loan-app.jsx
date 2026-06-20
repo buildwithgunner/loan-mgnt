@@ -284,7 +284,7 @@ export default function ConventionalLoanApp() {
           </p>
           <div className="text-sm text-slate-400 space-y-1">
             <p>📞 +1 563-571-0448</p>
-            <p>✉️ info@blackwolvesacquisition.com</p>
+            <p>✉️ Info@blackwolvesacquistionllc.com</p>
           </div>
         </div>
       </div>

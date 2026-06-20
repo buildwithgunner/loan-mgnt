@@ -45,7 +45,7 @@ function LoanPage({ title, subtitle, image, bullets }) {
               <button onClick={() => navigateTo('/signup')} className="w-full bg-[#c5a059] hover:bg-[#b08d4a] text-white font-bold py-3 rounded-full transition-all mb-4">Apply Now</button>
               <div className="border-t border-white/10 pt-4 text-sm text-slate-300 space-y-2">
                 <p>📞 +1 563-571-0448</p>
-                <p>✉️ info@blackwolvesacquisition.com</p>
+                <p>✉️ Info@blackwolvesacquistionllc.com</p>
               </div>
             </div>
           </div>

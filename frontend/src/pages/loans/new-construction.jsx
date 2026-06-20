@@ -144,7 +144,7 @@ export default function NewConstruction() {
         <div className="max-w-4xl mx-auto space-y-6">
           <p className="text-slate-600 text-[15px] leading-[1.9]">
             If you have any queries about our New Construction Loans in Tampa, FL, feel free to call us at{' '}
-            <a href="tel:5635710448" className="text-[#c5a059] font-semibold hover:underline">
+            <a href="tel:15635710448" className="text-[#c5a059] font-semibold hover:underline">
               563-571-0448
             </a>{' '}
             or fill out our online funding form. We will respond within one business day. Trust Black Wolves Acquisition LLC for all your new construction loan needs globally!

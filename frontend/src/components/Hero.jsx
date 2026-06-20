@@ -4,10 +4,12 @@ import axios from 'axios';
 import { navigateTo } from '../App.jsx';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+const DEFAULT_PHONE = '563-571-0448';
 
 export default function Hero() {
   const [offsetY, setOffsetY] = useState(0);
-  const [phone, setPhone] = useState('563-571-0448');
+  const [phone, setPhone] = useState(DEFAULT_PHONE);
+  const phoneHref = `tel:${phone.replace(/\D/g, '')}`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,7 +20,7 @@ export default function Hero() {
     // Fetch dynamic phone number
     axios.get(`${API_URL}/settings`)
       .then(res => {
-        if (res.data.settings?.support_phone) {
+        if (typeof res.data.settings?.support_phone === 'string' && res.data.settings.support_phone.trim()) {
           setPhone(res.data.settings.support_phone);
         }
       })
@@ -75,11 +77,11 @@ export default function Hero() {
             <ChevronRight className="h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
           </button>
           <a 
-            href={`tel:${phone}`}
+            href={phoneHref}
             className="flex items-center gap-3 rounded-full border border-[var(--border-color)] glass-panel px-10 py-4 text-[15px] uppercase tracking-widest font-black text-[var(--text-primary)] transition-all hover:bg-[var(--text-primary)] hover:text-[var(--bg-primary)] hover:scale-105 active:scale-95 shadow-xl group"
           >
             <Phone className="h-5 w-5 transform group-hover:-rotate-12 transition-transform" />
-            {phone.length === 10 ? phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3') : phone}
+            {phone.replace(/\D/g, '').length === 10 ? phone.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3') : DEFAULT_PHONE}
           </a>
         </div>
       </div>
