@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Send, Building2, DollarSign, Calculator, Info, CheckCircle2, AlertCircle, ChevronRight, ChevronLeft } from 'lucide-react';
 import { apiClient } from '../../../api/client.js';
+const LOAN_TYPES = [
+  'Fix & Flip',
+  'New Construction',
+  'Cash-Out Refinance',
+  'Fix and Lease',
+  'Conventional Loan',
+  'Mobile Home Loan',
+  'Capital Markets Loan',
+  'Bridge Loan',
+  'Rental Loan',
+  'Personal Loan',
+  'Other Loan',
+];
 
 export default function LoanRequest({ onSuccess }) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -190,16 +203,17 @@ export default function LoanRequest({ onSuccess }) {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em] mb-4">Property Type</label>
+                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em] mb-4">Loan Type</label>
                     <select
                       className="w-full bg-white border border-gray-200 rounded-2xl px-6 py-4.5 text-sm font-black text-[#c5a059] focus:outline-none appearance-none cursor-pointer uppercase shadow-sm"
                       value={formData.propertyType}
                       onChange={(e) => handleInputChange('propertyType', e.target.value)}
                     >
-                      <option className="bg-white">Fix & Flip</option>
-                      <option className="bg-white">New Construction</option>
-                      <option className="bg-white">Bridge Loan</option>
-                      <option className="bg-white">Rental</option>
+                      {LOAN_TYPES.map((loanType) => (
+                        <option key={loanType} className="bg-white" value={loanType}>
+                          {loanType}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -353,3 +367,4 @@ export default function LoanRequest({ onSuccess }) {
     </div>
   );
 }
+
