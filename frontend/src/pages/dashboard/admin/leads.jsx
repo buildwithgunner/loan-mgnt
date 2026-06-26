@@ -270,6 +270,8 @@ export default function Leads() {
                   <option className="bg-white">Fix and Lease</option>
                   <option className="bg-white">Conventional Loan</option>
                   <option className="bg-white">Mobile Home</option>
+                  <option className="bg-white">Personal Loan</option>
+                  <option className="bg-white">Other Loans</option>
                 </select>
               </div>
 

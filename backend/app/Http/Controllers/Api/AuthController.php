@@ -278,4 +278,78 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Email verified successfully.']);
     }
+
+    /**
+     * Send OTP for Forgot Password.
+     */
+    public function sendForgotPasswordOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|max:255'
+        ]);
+
+        // Check if user already exists
+        if (!User::where('email', $request->email)->exists()) {
+            return response()->json(['message' => 'Email address not registered.'], 404);
+        }
+
+        $code = rand(100000, 999999);
+        $expiresAt = Carbon::now()->addMinutes(10);
+
+        VerificationCode::updateOrCreate(
+            ['email' => $request->email],
+            [
+                'code' => $code,
+                'expires_at' => $expiresAt,
+                'is_verified' => false
+            ]
+        );
+
+        // Send Email
+        try {
+            Mail::raw("Your password reset verification code is: {$code}. It expires in 10 minutes.", function ($message) use ($request) {
+                $message->to($request->email)
+                    ->subject('Password Reset Verification Code');
+            });
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to send OTP code. Please check your email configuration.', 'error' => $e->getMessage()], 500);
+        }
+
+        return response()->json(['message' => 'Verification code sent successfully.']);
+    }
+
+    /**
+     * Reset Password using OTP.
+     */
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'code' => 'required|string|size:6',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $verification = VerificationCode::where('email', $request->email)
+            ->where('code', $request->code)
+            ->where('expires_at', '>', Carbon::now())
+            ->first();
+
+        if (!$verification) {
+            return response()->json(['message' => 'Invalid or expired verification code.'], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(['message' => 'User account not found.'], 404);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        // Clean up the verification code
+        $verification->delete();
+
+        return response()->json(['message' => 'Password reset successfully.']);
+    }
 }

@@ -12,7 +12,12 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 */
-
+Route::get('/test-api', function () {
+    return response()->json([
+        'status' => 'working',
+        'time' => now(),
+    ]);
+});
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -23,6 +28,8 @@ Route::any('/admin/login', [AuthController::class, 'adminLogin']);
 Route::get('/settings', [AdminController::class, 'getSettings']);
 Route::post('/leads/submit', [AdminController::class, 'publicSubmitLead']);
 Route::get('/admin/documents/{id}/view', [AdminController::class, 'viewDocument']);
+Route::post('/password/forgot', [AuthController::class, 'sendForgotPasswordOtp']);
+Route::post('/password/reset', [AuthController::class, 'resetPassword']);
 
 // Protected routes
 

@@ -37,6 +37,9 @@ import Login from './pages/auth/login.jsx';
 import Signup from './pages/auth/signup.jsx';
 import AdminLogin from './pages/auth/admin-login.jsx';
 import AdminSignup from './pages/auth/admin-signup.jsx';
+import ForgotPassword from './pages/auth/forgot-password.jsx';
+import PersonalLoans from './pages/loans/personal-loans.jsx';
+import OtherLoans from './pages/loans/other-loans.jsx';
 
 export function navigateTo(url) {
   window.history.pushState({}, '', url);
@@ -48,7 +51,7 @@ const STANDALONE_ROUTES = [
   '/dashboard', '/admin', '/admin/applications', '/admin/funding', '/admin/disapproved',
   '/admin/users', '/admin/documents', '/admin/leads', '/admin/codes', '/admin/blog',
   '/admin/analytics', '/admin/messages', '/admin/notifications', '/admin/settings',
-  '/login', '/signup', '/apply', '/admin/login', '/admin/signup'
+  '/login', '/signup', '/apply', '/admin/login', '/admin/signup', '/forgot-password'
 ];
 
 const routes = {
@@ -61,6 +64,9 @@ const routes = {
   '/loans/conventional': <ConventionalLoans />,
   '/loans/mobile-home': <MobileHomeLoans />,
   '/loans/capital-markets': <CapitalMarketsLoans />,
+  '/loans/personal': <PersonalLoans />,
+  '/loans/other': <OtherLoans />,
+  '/forgot-password': <ForgotPassword />,
   '/services/loan-consulting': <LoanConsulting />,
   '/services/loan-servicing': <LoanServicing />,
   '/services/referral-program': <ReferralProgram />,

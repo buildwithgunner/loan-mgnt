@@ -206,6 +206,8 @@ export default function Apply() {
                     <option>Refinance</option>
                     <option>Cash-Out Refinance</option>
                     <option>Bridge Loan</option>
+                    <option>Personal Loan</option>
+                    <option>Other Loans</option>
                   </select>
                 </div>
                 <div className="md:col-span-2">

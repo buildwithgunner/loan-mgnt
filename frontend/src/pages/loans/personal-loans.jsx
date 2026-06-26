@@ -8,7 +8,7 @@ const GoldButton = ({ text, className = "", onClick }) => (
   </button>
 );
 
-const OtherLoans = () => {
+const PersonalLoans = () => {
   return (
     <div className="min-h-screen bg-[#fdfbf7] font-sans text-slate-900">
       
@@ -16,79 +16,79 @@ const OtherLoans = () => {
       <section className="relative h-[70vh] flex items-center px-6 md:px-24 text-white">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1600" 
+            src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&q=80&w=1600" 
             className="w-full h-full object-cover" 
-            alt="Other Loans"
+            alt="Personal Loans"
           />
           <div className="absolute inset-0 bg-slate-900/60"></div>
         </div>
         <div className="relative z-10 max-w-4xl">
           <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 leading-[1.1]">
-            Custom Credit &<br/>Specialized Capital Strategies
+            Personal Loans &<br/>Tailored Credit Solutions
           </h1>
-          <GoldButton text="Request Custom Strategy" onClick={() => navigateTo('/contact')} />
+          <GoldButton text="Contact Us Today!" onClick={() => navigateTo('/contact')} />
         </div>
       </section>
 
       {/* --- INTRO STRIP --- */}
       <div className="bg-slate-900 py-16 px-6 md:px-24">
         <p className="max-w-6xl mx-auto text-gray-300 leading-relaxed text-[17px] text-center">
-          At <span className="text-[#c5a059] font-bold">Black Wolves Acquisition LLC</span>, we recognize that not every real estate transaction or business expansion project fits into traditional lending brackets. We offer specialized and custom-tailored hard money financing structures to support non-standard scenarios and complex portfolio deals globally.
+          At <span className="text-[#c5a059] font-bold">Black Wolves Acquisition LLC</span>, we provide flexible, quick, and reliable personal loan solutions designed to help you meet your financial commitments, fund major life transitions, or consolidate higher-interest debts with complete security and peace of mind.
         </p>
       </div>
 
-      {/* --- WHAT ARE CUSTOM LOANS --- */}
+      {/* --- WHAT ARE PERSONAL LOANS --- */}
       <section className="py-24 px-6 md:px-24 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
         <div className="md:w-1/2 space-y-8">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight">Tailored Financing Solutions</h2>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight">What Are Personal Loans?</h2>
           <p className="text-slate-600 leading-relaxed text-lg">
-            Our specialized products cover unique transactions including mixed-use asset portfolios, equity/debt partnerships, bridge land loans, joint ventures, and fast-funding strategies that conventional lenders cannot underwrite.
+            Personal loans are versatile, fixed-rate financing options that can be used for a wide range of personal expenses. Unlike property-specific financing, personal loans do not require commercial or real estate collateral, focusing instead on financial capability, creditworthiness, and personal cash flow.
           </p>
           <p className="text-slate-600 leading-relaxed text-lg">
-            We focus on the underlying asset's potential, current valuation, and the overall business plan rather than rigid bank metrics. This flexibility allows us to custom-build terms to match your timeline, exit strategy, and cash flow objectives.
+            Whether you are funding home improvements, handling unexpected medical expenses, investing in personal ventures, or bridging gaps during life transitions, Black Wolves Acquisition LLC delivers tailored terms that work for your unique cash flow needs.
           </p>
         </div>
         <div className="md:w-1/2 relative">
           <div className="absolute -top-4 -left-4 w-24 h-24 bg-[#c5a059] rounded-tl-[40px]" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }} />
-          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80" className="rounded-[40px] shadow-2xl relative z-10" alt="Custom Loan Layout" />
+          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80" className="rounded-[40px] shadow-2xl relative z-10" alt="Personal Loans Explained" />
         </div>
       </section>
 
-      {/* --- STRATEGY ADVANTAGES --- */}
+      {/* --- ADVANTAGES --- */}
       <section className="bg-[#f9f7f2] py-24 px-6 md:px-24">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row-reverse items-center gap-16">
           <div className="md:w-1/2 space-y-8">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight">Flexible Funding Advantages</h2>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight">Advantages of Personal Loans</h2>
             <p className="text-slate-600 leading-relaxed text-lg">
-              Get the competitive edge in your transactions by working with a direct private lender that values speed and strategic creativity.
+              Choosing a personal loan through Black Wolves Acquisition LLC gives you access to flexible capital structures without the long approval timelines of conventional banks.
             </p>
             <ul className="space-y-6">
               <li className="flex gap-4">
                 <div className="h-2 w-2 rounded-full bg-[#c5a059] mt-2.5 flex-shrink-0" />
                 <div>
-                  <strong className="text-slate-900 block text-xl mb-1">Tailored Underwriting:</strong>
-                  <span className="text-slate-600 text-lg">Every deal is underwritten case-by-case, allowing us to factor in unique borrower situations, raw land value, and customized draw schedules.</span>
+                  <strong className="text-slate-900 block text-xl mb-1">No Asset Collateral Required:</strong>
+                  <span className="text-slate-600 text-lg">Secure the capital you need without having to pledge your primary home, vehicles, or investment properties as security.</span>
                 </div>
               </li>
               <li className="flex gap-4">
                 <div className="h-2 w-2 rounded-full bg-[#c5a059] mt-2.5 flex-shrink-0" />
                 <div>
-                  <strong className="text-slate-900 block text-xl mb-1">Fast Closings:</strong>
-                  <span className="text-slate-600 text-lg">Avoid the lengthy red tape of government or corporate loan committees. Close your complex capital transactions in as little as 5 to 7 business days.</span>
+                  <strong className="text-slate-900 block text-xl mb-1">Fixed Monthly Payments:</strong>
+                  <span className="text-slate-600 text-lg">Enjoy stable, predictable monthly payments with a fixed interest rate and set repayment term, helping you budget with confidence.</span>
                 </div>
               </li>
               <li className="flex gap-4">
                 <div className="h-2 w-2 rounded-full bg-[#c5a059] mt-2.5 flex-shrink-0" />
                 <div>
-                  <strong className="text-slate-900 block text-xl mb-1">Creative Capital Structuring:</strong>
-                  <span className="text-slate-600 text-lg">We offer interest-only options, rollup financing structures, and cross-collateralization strategies to optimize your leverage.</span>
+                  <strong className="text-slate-900 block text-xl mb-1">Rapid Disbursement:</strong>
+                  <span className="text-slate-600 text-lg">Our streamlined review process ensures that your personal loan is approved and funded quickly, helping you manage time-sensitive needs.</span>
                 </div>
               </li>
             </ul>
           </div>
           <div className="md:w-1/2 relative">
              <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#c5a059] rounded-tr-[40px]" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }} />
-             <img src="https://images.unsplash.com/photo-1521791136368-1a9b82753062?auto=format&fit=crop&q=80" className="rounded-[40px] shadow-2xl relative z-10" alt="Advantages" />
+             <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80" className="rounded-[40px] shadow-2xl relative z-10" alt="Advantages" />
           </div>
         </div>
       </section>
@@ -97,33 +97,33 @@ const OtherLoans = () => {
       <section className="bg-slate-900 py-24 px-6 md:px-24 text-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
           <div className="md:w-1/2 space-y-8">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight">Specialized Structure Highlights</h2>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight">Flexible Loan Terms</h2>
             <ul className="space-y-6">
               <li className="flex gap-4">
                 <div className="h-2 w-2 rounded-full bg-[#c5a059] mt-2.5 flex-shrink-0" />
                 <div>
-                  <strong className="text-white block text-xl mb-1">Flexible Loan-to-Value (LTV):</strong>
-                  <span className="text-gray-300 text-lg">We structure deals up to 65% to 75% LTV depending on collateral properties and global location profiles.</span>
+                  <strong className="text-white block text-xl mb-1">Loan Sizes:</strong>
+                  <span className="text-gray-300 text-lg">We offer personal financing ranging from $10,000 up to $150,000, tailored to fit your cash flow requirements.</span>
                 </div>
               </li>
               <li className="flex gap-4">
                 <div className="h-2 w-2 rounded-full bg-[#c5a059] mt-2.5 flex-shrink-0" />
                 <div>
-                  <strong className="text-white block text-xl mb-1">Custom Timelines:</strong>
-                  <span className="text-gray-300 text-lg">Choose from bridge terms starting at 6 months up to 36 months, with clear options for refinancing and extension.</span>
+                  <strong className="text-white block text-xl mb-1">Repayment Terms:</strong>
+                  <span className="text-gray-300 text-lg">Choose from flexible repayment durations starting from 12 months up to 60 months with no pre-payment penalties.</span>
                 </div>
               </li>
               <li className="flex gap-4">
                 <div className="h-2 w-2 rounded-full bg-[#c5a059] mt-2.5 flex-shrink-0" />
                 <div>
-                  <strong className="text-white block text-xl mb-1">Asset-Focused Valuation:</strong>
-                  <span className="text-gray-300 text-lg">We assess the commercial viability and future cash flows of the project, not just your personal tax filings.</span>
+                  <strong className="text-white block text-xl mb-1">Competitive Rates:</strong>
+                  <span className="text-gray-300 text-lg">Benefit from competitive interest rates based on credit history and debt-to-income metrics.</span>
                 </div>
               </li>
             </ul>
           </div>
           <div className="md:w-1/2">
-             <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80" className="rounded-[40px] shadow-2xl" alt="Loan Terms" />
+             <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80" className="rounded-[40px] shadow-2xl" alt="Loan Terms" />
           </div>
         </div>
       </section>
@@ -132,13 +132,13 @@ const OtherLoans = () => {
       <section className="py-24 px-6 md:px-24 text-center">
         <div className="max-w-4xl mx-auto space-y-10">
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight">
-            Need a custom capital structure?
+            Apply online for a Personal Loan today
           </h2>
           <p className="text-slate-600 text-xl leading-relaxed">
-            Submit your project details to our advisory desk today. We will analyze your transaction structure and offer feedback in under 24 hours.
+            Ready to secure the flexible funding you need? Contact our loan specialists or create your account to submit an application.
           </p>
           <div className="flex justify-center gap-6">
-            <GoldButton text="Apply for Custom Financing" onClick={() => navigateTo('/signup')} className="text-xl px-12 py-4" />
+            <GoldButton text="Apply Now" onClick={() => navigateTo('/signup')} className="text-xl px-12 py-4" />
           </div>
         </div>
       </section>
@@ -147,4 +147,4 @@ const OtherLoans = () => {
   );
 };
 
-export default OtherLoans;
+export default PersonalLoans;

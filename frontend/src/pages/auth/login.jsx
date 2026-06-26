@@ -99,9 +99,13 @@ export default function Login() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-semibold text-slate-700">Password</label>
-                <a href="#" className="text-xs font-bold text-[#c5a059] hover:text-[#b08d4a] transition-colors">
+                <button 
+                  type="button"
+                  onClick={() => navigateTo('/forgot-password')}
+                  className="text-xs font-bold text-[#c5a059] hover:text-[#b08d4a] transition-colors cursor-pointer"
+                >
                   Forgot Password?
-                </a>
+                </button>
               </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#c5a059] transition-colors">
