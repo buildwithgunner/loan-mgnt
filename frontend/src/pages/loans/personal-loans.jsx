@@ -16,7 +16,7 @@ const PersonalLoans = () => {
       <section className="relative h-[70vh] flex items-center px-6 md:px-24 text-white">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&q=80&w=1600" 
+            src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1600" 
             className="w-full h-full object-cover" 
             alt="Personal Loans"
           />
