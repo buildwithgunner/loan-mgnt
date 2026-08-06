@@ -25,6 +25,7 @@ import ConventionalLoans from './pages/loans/conventional-loans.jsx';
 import MobileHomeLoans from './pages/loans/mobile-home-loans.jsx';
 import CapitalMarketsLoans from "./pages/loans/capital-markets-loans.jsx";
 import FixAndLeasePage from './pages/loans/fix-and-lease.jsx';
+import BusinessGrants from './pages/loans/business-grants.jsx';
 import Apply from './pages/apply.jsx';
 import { FindUs, InvestorPortal, PrivacyPolicy, TermsAndConditions } from './pages/FooterPages.jsx';
 import AreasWeServe from './pages/areas-we-serve.jsx';
@@ -64,6 +65,7 @@ const routes = {
   '/loans/conventional': <ConventionalLoans />,
   '/loans/mobile-home': <MobileHomeLoans />,
   '/loans/capital-markets': <CapitalMarketsLoans />,
+  '/business-grants': <BusinessGrants />,
   '/loans/personal': <PersonalLoans />,
   '/loans/other': <OtherLoans />,
   '/forgot-password': <ForgotPassword />,
@@ -169,3 +171,4 @@ function App() {
 }
 
 export default App;
+

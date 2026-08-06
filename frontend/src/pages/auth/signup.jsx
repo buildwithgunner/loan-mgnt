@@ -34,6 +34,7 @@ export default function Signup() {
     referralSource: '',
     workingWithConsultant: '',
     loanIntent: '',
+    fundingInterest: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -130,6 +131,7 @@ export default function Signup() {
           referral_source: formData.referralSource,
           working_with_consultant: formData.workingWithConsultant,
           loan_intent: formData.loanIntent,
+          funding_interest: formData.fundingInterest,
         },
       });
 
@@ -522,6 +524,16 @@ export default function Signup() {
                       value={formData.loanIntent}
                       onChange={e => set('loanIntent', e.target.value)}
                     />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className={labelClass}>Interest Type</label>
+                    <select className={selectClass} value={formData.fundingInterest} onChange={e => set('fundingInterest', e.target.value)}>
+                      <option value="">-- Select --</option>
+                      <option>Real Estate Loan</option>
+                      <option>Business Grant</option>
+                      <option>Business Loan</option>
+                      <option>Both Loan and Grant Options</option>
+                    </select>
                   </div>
                 </div>
               </div>

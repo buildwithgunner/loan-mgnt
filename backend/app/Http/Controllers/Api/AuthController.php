@@ -59,7 +59,8 @@ class AuthController extends Controller
             'referral_source' => $request->referral_source,
             'working_with_consultant' => $request->working_with_consultant,
             'loan_intent' => $request->loan_intent,
-        ]);
+            'funding_interest' => $request->funding_interest,
+]);
 
         try {
             $adminEmail = 'infoblackwolvesacc@blackwolvesacquisitionllc.com';
@@ -75,6 +76,7 @@ class AuthController extends Controller
                     <div style='background: #f9f7f2; padding: 15px; border-left: 4px solid #c5a059; border-radius: 5px; color: #333;'>
                         " . nl2br(e($user->loan_intent ?? 'No strategic intent provided at genesis.')) . "
                     </div>
+                    <p style='margin: 20px 0 5px 0;'><strong>Funding Interest:</strong> " . e($user->funding_interest ?? 'N/A') . "</p>
                     <p style='font-size: 11px; color: #888; margin-top: 30px; border-top: 1px solid #eee; padding-top: 10px;'>
                         Sent from Black Wolves Acquisition LLC System Protocol.
                     </p>
@@ -353,3 +355,5 @@ class AuthController extends Controller
         return response()->json(['message' => 'Password reset successfully.']);
     }
 }
+
+

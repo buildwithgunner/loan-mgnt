@@ -133,6 +133,15 @@ export default function UserProfileDetail({ userId, onClose }) {
               </div>
            </div>
 
+           {/* Funding Preference */}
+           <div className="space-y-4">
+              <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-gray-100 pb-2">Funding Preference</h4>
+              <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200">
+                 <p className="text-slate-500 uppercase text-[9px] font-bold mb-1">Interest Type</p>
+                 <p className="text-slate-900 font-black text-lg">{user.funding_interest || 'N/A'}</p>
+              </div>
+           </div>
+
            {/* Applications List */}
            <div className="space-y-4">
               <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-gray-100 pb-2">Active Strategic Applications</h4>

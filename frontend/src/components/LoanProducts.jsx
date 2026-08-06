@@ -59,7 +59,7 @@ const products = [
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12 mb-3 text-slate-900">
         <circle cx="6" cy="5" r="3" />
         <path d="M9 5h10v2h-2V5h-2v3h-2V5" />
-        <path fill="#fff" d="M3 14l9-7 9 7v8H3v-8z" /> 
+        <path fill="#fff" d="M3 14l9-7 9 7v8H3v-8z" />
         <path d="M3 14l9-7 9 7" />
         <path d="M5 14v8h14v-8" />
         <path d="M10 22v-5h4v5" />
@@ -111,6 +111,19 @@ const products = [
     ),
   },
   {
+    title: 'Business grants',
+    href: '/business-grants',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12 mb-3 text-slate-900">
+        <path d="M4 10h16" />
+        <path d="M6 10V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4" />
+        <path d="M7 10v10h10V10" />
+        <path d="M10 14h4" />
+        <path d="M12 12v4" />
+      </svg>
+    ),
+  },
+  {
     title: 'Other loans',
     href: '/loans/other',
     icon: (
@@ -119,7 +132,7 @@ const products = [
         <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
       </svg>
     ),
-  }
+  },
 ];
 
 export default function LoanProducts() {
@@ -128,7 +141,6 @@ export default function LoanProducts() {
   return (
     <section ref={ref} className={`bg-[#fdfbf7] py-24 px-6 md:px-12 transition-opacity duration-1000 ${isVisible ? 'reveal' : 'opacity-0'}`}>
       <div className="max-w-7xl mx-auto">
-        
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">
             <span className="text-shimmer">Loan</span> Products
@@ -138,22 +150,21 @@ export default function LoanProducts() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
           {products.map((product, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               onClick={() => product.href && navigateTo(product.href)}
               className="group relative bg-white flex flex-col items-center justify-center p-6 md:p-8 aspect-square shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-2xl transition-all duration-500 cursor-pointer interactive-hover animate-fade-in opacity-0"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Top Right Navy Accent */}
-              <div 
-                className="absolute top-0 right-0 w-16 h-16 bg-slate-900 group-hover:bg-[#c5a059] transition-colors duration-300" 
+              <div
+                className="absolute top-0 right-0 w-16 h-16 bg-slate-900 group-hover:bg-[#c5a059] transition-colors duration-300"
                 style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }}
               />
-              
+
               <div className="text-slate-900 mb-6 group-hover:scale-110 group-hover:text-[#c5a059] transition-all duration-300">
                 {product.icon}
               </div>
-              
+
               <h3 className="text-slate-900 font-bold text-center text-[13px] md:text-[15px] leading-tight px-1 uppercase tracking-wider group-hover:text-[#c5a059] transition-colors duration-300">
                 {product.title}
               </h3>

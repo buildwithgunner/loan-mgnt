@@ -38,6 +38,7 @@ class User extends Authenticatable
         'referral_source',
         'working_with_consultant',
         'loan_intent',
+        'funding_interest',
         'repaid_amount',
         'available_balance',
         'withdrawn_amount',
@@ -104,3 +105,4 @@ class User extends Authenticatable
         return $this->hasMany(Referral::class, 'referrer_id');
     }
 }
+

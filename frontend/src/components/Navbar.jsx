@@ -16,6 +16,7 @@ const NAVIGATION_SCHEMA = [
       { label: 'Conventional Loans', href: '/loans/conventional' },
       { label: 'Mobile Home Loans', href: '/loans/mobile-home' },
       { label: 'Capital Markets', href: '/loans/capital-markets' },
+      { label: 'Business Grants', href: '/business-grants' },
       { label: 'Personal Loans', href: '/loans/personal' },
       { label: 'Other Loans', href: '/loans/other' },
     ]
@@ -297,3 +298,4 @@ export default function Navbar() {
     </header>
   );
 }
+

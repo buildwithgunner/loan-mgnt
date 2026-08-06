@@ -9,6 +9,7 @@ const LOAN_TYPES = [
   'Conventional Loan',
   'Mobile Home Loan',
   'Capital Markets Loan',
+  'Business Grant',
   'Bridge Loan',
   'Rental Loan',
   'Personal Loan',
@@ -52,6 +53,8 @@ export default function LoanRequest({ onSuccess }) {
     
     // Step 2: Property Info
     propertyAddress: '',
+    businessName: '',
+    grantUse: '',
     propertyType: 'Fix & Flip',
     purchasePrice: '',
     loanAmount: '',
@@ -108,7 +111,7 @@ export default function LoanRequest({ onSuccess }) {
         method: 'POST',
         body: {
           type: formData.propertyType || formData.purpose,
-          property: formData.propertyAddress || formData.address,
+          property: formData.propertyAddress || formData.businessName || formData.grantUse || formData.address,
           amount: formData.loanAmount || '$0',
           form_data: formData
         },
@@ -192,15 +195,39 @@ export default function LoanRequest({ onSuccess }) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                    <div className="md:col-span-2 text-slate-900">
-                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em] mb-4">Subject Property Address</label>
+                    <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em] mb-4">{formData.propertyType === 'Business Grant' ? 'Business Name / Operating Address' : 'Subject Property Address'}</label>
                     <input
                       type="text"
                       className="w-full bg-white border border-gray-200 rounded-2xl px-6 py-4.5 text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#c5a059] transition-all shadow-sm"
-                      placeholder="Enter the full address of the property"
+                      placeholder={formData.propertyType === 'Business Grant' ? 'Enter your business name or operating address' : 'Enter the full address of the property'}
                       value={formData.propertyAddress}
                       onChange={(e) => handleInputChange('propertyAddress', e.target.value)}
                     />
                   </div>
+
+                  {formData.propertyType === 'Business Grant' && (
+                    <>
+                      <div className="md:col-span-2 text-slate-900">
+                        <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em] mb-4">Business Name</label>
+                        <input
+                          type="text"
+                          className="w-full bg-white border border-gray-200 rounded-2xl px-6 py-4.5 text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#c5a059] transition-all shadow-sm"
+                          placeholder="Registered business or project name"
+                          value={formData.businessName}
+                          onChange={(e) => handleInputChange('businessName', e.target.value)}
+                        />
+                      </div>
+                      <div className="md:col-span-2 text-slate-900">
+                        <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em] mb-4">Grant Use</label>
+                        <textarea
+                          className="w-full bg-white border border-gray-200 rounded-2xl px-6 py-4.5 text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#c5a059] transition-all shadow-sm min-h-[120px]"
+                          placeholder="Explain how the grant funds will be used"
+                          value={formData.grantUse}
+                          onChange={(e) => handleInputChange('grantUse', e.target.value)}
+                        />
+                      </div>
+                    </>
+                  )}
 
                   <div>
                     <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em] mb-4">Loan Type</label>
